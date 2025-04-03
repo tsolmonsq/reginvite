@@ -1,4 +1,3 @@
-// components/sections/InviteTemplateSection.tsx
 import Image from "next/image";
 
 export default function InviteTemplateSection() {

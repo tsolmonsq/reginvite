@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Button from '../Button'; // your custom button
+import Button from '../Button'; 
 
 export default function HeroSection() {
   return (

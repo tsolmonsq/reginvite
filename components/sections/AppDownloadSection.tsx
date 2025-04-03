@@ -1,4 +1,3 @@
-// components/sections/AppDownloadSection.tsx
 import Image from "next/image";
 
 export default function AppDownloadSection() {
