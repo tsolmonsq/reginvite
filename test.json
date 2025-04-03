@@ -1,0 +1,2491 @@
+{
+    "infoif": {
+        "info": [
+            {
+                "direct_flg": "0",
+                "close_date": "",
+                "open_date": "205001010000",
+                "info_out_url": "https://test3.aupay.auone.jp/contents/sp/test2/prepaid/explanation.html",
+                "info_id": "VE027665",
+                "info_title": "【検証用】KTECTEST",
+                "info_text1": "【検証用】KTECTEST",
+                "info_img": "VE02766501.png",
+                "info_pattern": "2",
+                "target_os": "1",
+                "ct_url": "",
+                "textColor": "#FFFFFF",
+                "targeting_flg": "0",
+                "bgColor": "#666666",
+                "info_service": "au PAY",
+                "info_popup": "0",
+                "info_text2": "【検証用】KTECTEST プリペ有料化",
+                "info_description": "【検証用】KTECTEST プリペ有料化",
+                "imp_url": ""
+            }
+        ],
+        "results_returned": "1"
+    },
+    "contentif": {
+        "contentInfo": [
+            {
+                "contentType": "0",
+                "content": [
+                    {
+                        "gaName": "",
+                        "title": "auwallet://mylawson",
+                        "url": "auwallet://mylawson",
+                        "image": "IMG_0599.JPG",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "請求書支払い",
+                        "url": "https://aupay.auone.jp/contents/sp/aupay_app/billpayment/index.html",
+                        "image": "VE02834302.png",
+                        "text": "eL-QR対応"
+                    },
+                    {
+                        "gaName": "",
+                        "title": "クーポン",
+                        "url": "https://aupay.auone.jp/coupon/index.html",
+                        "image": "VE02613102.png",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "お金の管理",
+                        "url": "auwallet://kakeibo://https://pfm.wallet.auone.jp/asset/",
+                        "image": "VE02819902.png",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "毎日ポイント",
+                        "url": "https://wallet.auone.jp/contents/sp/aupay_app/daily_point/?corporateUserFlg=0",
+                        "image": "VE02881001.png",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "マイナポイント",
+                        "url": "https://aupay.auone.jp/mynapoint/mynapoint.html",
+                        "image": "VE02473504.png",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "ポイント運用",
+                        "url": "aupay://miniapp/open?service=am_point_prod&hide_header=1&addition_param=utm_source%3Dapp%26utm_medium%3Dicon%26utm_campaign%3Dminiapp",
+                        "image": "VE02656601.png",
+                        "text": ""
+                    },
+                    {
+                        "gaName": "",
+                        "title": "ポイント投資",
+                        "url": "aupay://miniapp/open?service=kabucom_prod&hide_header=1",
+                        "image": "VE02877901.png",
+                        "text": "キャンペーン中"
+                    },
+                    {
+                        "gaName": "",
+                        "title": "スマートパス",
+                        "url": "https://pass.auone.jp/home?medid=pay_hukidashi&srcid=none&serial=pay_hukidashi&branch=20220607",
+                        "image": "VE02686202.png",
+                        "text": "お得なクーポン"
+                    },
+                    {
+                        "gaName": "",
+                        "title": "旅行・宿泊",
+                        "url": "http://kddi-l.jp/DY1",
+                        "image": "VE02895501.png",
+                        "text": "会員限定割引"
+                    },
+                    {
+                        "gaName": "",
+                        "title": "もっと見る",
+                        "url": "auwallet://recommended_services?url=https%3A%2F%2Faupay.auone.jp%2Fcontents%2Fsp%2Faupay_app%2Frecommended_service%2Findex.html",
+                        "image": "VE02602401.png",
+                        "text": ""
+                    }
+                ]
+            },
+            {
+                "linkUrl": "https://test3.aupay.auone.jp/mynapoint/cp/municipal/index.html",
+                "title": "ピックアップ",
+                "linkTitle": "キャンペーン一覧",
+                "contentType": "1",
+                "content": [
+                    {
+                        "gaName": "初夏たぬき",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02875301.png",
+                        "imp_url": "",
+                        "url": "https://aupay.auone.jp/contents/lp/tanuki-biglottery/index.html?utm_source=aupay&utm_medium=app&utm_campaign=topbanner_20230523_20230611"
+                    },
+                    {
+                        "gaName": "twitter",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02899002.png",
+                        "imp_url": "",
+                        "url": "https://twitter.com/au_PAY_official"
+                    },
+                    {
+                        "gaName": "ポイントアップ",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02895203.png",
+                        "imp_url": "",
+                        "url": "https://kantan-cpn.auone.jp/cp/campaign/202306_pointup/index.html?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+                    },
+                    {
+                        "gaName": "松屋",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02899501.png",
+                        "imp_url": "",
+                        "url": "https://media.aupay.wallet.auone.jp/lp/campaign/202306_matsuya/?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+                    },
+                    {
+                        "gaName": "GLP",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02739204.png",
+                        "imp_url": "",
+                        "url": "https://camp.auone.jp/campaign/b6405f2d20a4e6e80a8a3e34?utm_source=aupay&utm_medium=app&utm_campaign=TopBanner_20230110_20230331"
+                    },
+                    {
+                        "gaName": "クーポン",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02899101.png",
+                        "imp_url": "",
+                        "url": "https://kantan-cpn.auone.jp/cp/campaign/202210_gpcoupon/index.html?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+                    },
+                    {
+                        "gaName": "FIDO",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02429103.png",
+                        "imp_url": "",
+                        "url": "https://id.auone.jp/id/sp/security/fido_lp.html?medid=aupayapp&serial=hp&srcid=1&branch=fido"
+                    },
+                    {
+                        "gaName": "あなたの街CP",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02890802.png",
+                        "imp_url": "",
+                        "url": "https://media.aupay.wallet.auone.jp/dominant/?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+                    },
+                    {
+                        "gaName": "使えるお店",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02454701.png",
+                        "imp_url": "",
+                        "url": "https://aupay.wallet.auone.jp/store/list/?banner2"
+                    },
+                    {
+                        "gaName": "セキュリティ",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02268701.png",
+                        "imp_url": "",
+                        "url": "https://aupay.auone.jp/contents/lp/info/aupay_safe.html"
+                    },
+                    {
+                        "gaName": "キャンペーンSTG",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02295000.png",
+                        "imp_url": "",
+                        "url": "https://aupay.auone.jp/mynapoint/cp/municipal/index.html?stg=1"
+                    },
+                    {
+                        "gaName": "第2階層STG",
+                        "adSourceFlg": "",
+                        "ct_url": "",
+                        "view_url": "",
+                        "image": "VE02295100.png",
+                        "imp_url": "",
+                        "url": "auwallet://recommended_services?url=https%3A%2F%2Ftest.aupay.auone.jp%2Fcontents%2Fsp%2Faupay_app%2Frecommended_service%2Findex.html%3Fenv%3Dstg"
+                    }
+                ]
+            },
+            {
+                "linkUrl": "https://www.reward.auone.jp/gift/mycoupons",
+                "title": "クーポン",
+                "linkTitle": "マイクーポン",
+                "contentType": "2",
+                "linkUrl2": "https://www.reward.auone.jp/gift/coupons",
+                "linkTitle2": "一覧"
+            }
+        ]
+    },
+    "userif": {
+        "wmMg3Pin": "123",
+        "birthday": "19951212",
+        "userStatus": "0",
+        "resultCd": "0",
+        "uqLink": "0",
+        "prepaidCardStatus": "4",
+        "creditAissId": "KOKYAKU00000001",
+        "shikinIdoKbn": "0",
+        "userContractElct": "0",
+        "contractType": "オープン",
+        "mvnoType": "0",
+        "userConfirmStatus": null,
+        "aliasAuId": "07021010098",
+        "wmMgPin": "1234567890123456",
+        "physicalCardStatus": "0",
+        "povoFlag": "0",
+        "ekycShosaStsKbn": "0",
+        "ekycShosaResultYmd": "",
+        "userContractBBC": "0",
+        "jibunBankLstKbn": "0",
+        "userContractAu": "0",
+        "payrollKbn": "0",
+        "creditCardStatus": "90",
+        "mvnoIdntKbn": "",
+        "creditCardContractStatus": "4",
+        "wmMgNumber": "2014040860000057",
+        "birthdayType": "2",
+        "userContractMVNO": "0"
+    },
+    "quicheif": {
+        "onetmBarCd": "2491545783732297593",
+        "httpResCd": "200",
+        "resultCd": "QCH10000",
+        "onetmQrCd": "3a874409c593711ffe579821202063b4d658e6",
+        "paySerNo": ""
+    },
+    "animationif": {
+        "animationUrl": "https://aupay.auone.jp/contents/sp/aupay_app/overlay_animation/home/greenlifepoint/index.html"
+    },
+    "jbankCardAreaif": {
+        "msgColor": "#0E0D6A",
+        "btnUrl": "auwallet://refresh-home",
+        "btnBgColor": "#FFFFFF",
+        "layoutType": "3",
+        "btnText": "更新する",
+        "msg": "現在、情報を表示できません\n時間をおいて画面を更新してください",
+        "btnBorderColor": "#EB5505",
+        "btnTextColor": "#555555"
+    },
+    "couponInfoif": {
+        "httpResCd": "200",
+        "coupons": [
+            {
+                "badgeInfo": {
+                    "targetColor": "",
+                    "targetText": "",
+                    "couponText": "NEW",
+                    "couponColor": "#FF2323"
+                },
+                "img": "https://cdn.reward.auone.jp/cdn/D00000000000000000001.jpg",
+                "displayUsePeriod": "12/15 23:59まで",
+                "displayUsePeriodColor": "#7E7E7E",
+                "discountAmount": "100",
+                "adaptationTextColor": "#7E7E7E",
+                "cname": "店舗名",
+                "adaptationText": "獲得済",
+                "discountTypeText": "円OFF",
+                "logo": "https://cdn.reward.auone.jp/cdn/L00000000000000000001.jpg",
+                "cid": "00000000000000000003"
+            },
+            {
+                "badgeInfo": {
+                    "targetColor": "",
+                    "targetText": "",
+                    "couponText": "NEW",
+                    "couponColor": "#FF2323"
+                },
+                "img": "https://cdn.reward.auone.jp/cdn/D00000000000000000001.jpg",
+                "displayUsePeriod": "12/15 23:59まで",
+                "displayUsePeriodColor": "#7E7E7E",
+                "discountAmount": "100",
+                "adaptationTextColor": "#7E7E7E",
+                "cname": "店舗名",
+                "adaptationText": "獲得済",
+                "discountTypeText": "円OFF",
+                "logo": "https://cdn.reward.auone.jp/cdn/L00000000000000000001.jpg",
+                "cid": "00000000000000000002"
+            },
+            {
+                "badgeInfo": {
+                    "targetColor": "",
+                    "targetText": "",
+                    "couponText": "NEW",
+                    "couponColor": "#FF2323"
+                },
+                "img": "https://cdn.reward.auone.jp/cdn/D00000000000000000001.jpg",
+                "displayUsePeriod": "12/15 23:59まで",
+                "displayUsePeriodColor": "#7E7E7E",
+                "discountAmount": "100",
+                "adaptationTextColor": "#7E7E7E",
+                "cname": "店舗名",
+                "adaptationText": "獲得済",
+                "discountTypeText": "円OFF",
+                "logo": "https://cdn.reward.auone.jp/cdn/L00000000000000000001.jpg",
+                "cid": "00000000000000000001"
+            }
+        ],
+        "myCouponTitle": "マイクーポン",
+        "resultCd": "00000",
+        "logicalCid": "90000000000000000000",
+        "couponBannerTitle": "クーポン",
+        "couponListUrl": "https://test3.aupay.auone.jp/coupon/index.html",
+        "couponListTitle": "一覧",
+        "myCouponUrl": "https://test3.aupay.auone.jp/coupon/index.html?view=mycoupon",
+        "couponDetailUrl": "https://test3.aupay.auone.jp/coupon/detail.html?cid="
+    },
+    "prepaidif": {
+        "cno": "2014040860000057",
+        "displayPrepaidBalance": "94800",
+        "brandPrepaidFlg": "1",
+        "prepaidCardStatus": "4",
+        "displayBalance": "99800",
+        "bankTransferStatus": "10",
+        "cashBalance": "5000",
+        "uncollectedBalance": "200",
+        "stopType": "0",
+        "unchargedBalance": "300",
+        "stopReason": "12",
+        "userStatusCode": "001401",
+        "balance": "100000",
+        "scAvailDate": "20201031",
+        "processDate": "20240201142939",
+        "qrPrepaidCardStatus": "4",
+        "ekycShosaStsKbn": "0",
+        "pinStatus": "1",
+        "prepaidBalance": "95000",
+        "displayCashBalance": "5000",
+        "masterAvailDate": "202012",
+        "fundsType": "1",
+        "usable": "1",
+        "chargeMeans": "01",
+        "chargeType": "1",
+        "upperLimit": 2000,
+        "chargePoint": 200,
+        "borderPoint": 600,
+        "remainingPoint": 2,
+        "nextMonthUseFlg": "0"
+    },
+    "pointprogramif": {
+        "stageInfoif": {
+            "csType": "1",
+            "stageInfo": "",
+            "stageInfoGetDate": ""
+        },
+        "httpResCd": "200",
+        "resultCd": "0"
+    },
+    "prepaidCardAreaif": {
+        "iconInfo": [
+            {
+                "textColor": "#555555",
+                "image": "VE02260002.png",
+                "url": "auwallet://mpm-pay",
+                "text": "コード読取"
+            },
+            {
+                "textColor": "#555555",
+                "image": "VE02264302.png",
+                "url": "auwallet://moneytransfer",
+                "text": "送る・受取る"
+            },
+            {
+                "textColor": "#555555",
+                "image": "VE02265402.png",
+                "url": "auwallet://kakeibo://https://pfm.wallet.auone.jp/asset/detail/?service=aupay&issdk=0&initdisp=2&graph=1&transfer=1",
+                "text": "取引履歴"
+            },
+            {
+                "textColor": "#555555",
+                "image": "VE02266202.png",
+                "url": "auwallet://charge",
+                "text": "チャージ"
+            }
+        ],
+        "layoutType": "0"
+    },
+    "gachaBannerif": {
+        "gacha": {
+            "url": "",
+            "img": "VE02541701.png",
+            "title": "",
+            "bannerPattern": "0",
+            "borderColor": "",
+            "text": "タップすると抽選が実施されます",
+            "bgColor": "",
+            "textColor": "",
+            "ticketCount": "0"
+        }
+    },
+    "princessif": {
+        "results_returned": "4",
+        "enable_flg": "1",
+        "enable_prepaid_flg": "1",
+        "enable_credit_flg": "1",
+        "princess": [
+            {
+                "princess_text": "Apple Payなら、iPhoneをかざすだけで\n簡単・スピーディーにお支払いできます！",
+                "princess_type": "1"
+            },
+            {
+                "princess_text": "Apple Payなら、iPhoneをかざすだけで\n簡単・スピーディーにお支払いできます！",
+                "princess_type": "2"
+            },
+            {
+                "princess_text": "iPhoneで簡単・スピーディーにお支払い！",
+                "princess_type": "4"
+            },
+            {
+                "princess_text": "iPhoneで簡単・スピーディーにお支払い！",
+                "princess_type": "6"
+            }
+        ],
+        "lottery_flg": "0"
+    },
+    "appSettingif": {
+        "imageUrl": "http://swallow-stub.cmlabs.jp/staticXmlIos/img/"
+    },
+    "pointif": {
+        "useablePontaPoint": "100",
+        "pontaLink": "1",
+        "pointStatus": "0",
+        "useableCmnPoint": "0",
+        "useableAuIdPoint": "0",
+        "useablePointTotal": "100",
+        "tempObtnPoint": "0",
+        "pointUseable": "1",
+        "toBeInvalidPointInfo": {
+            "toBeInvalidPointTotal": "25",
+            "toBeInvalidCmnPoint": "10",
+            "toBeInvalidAuIdPoint": "20",
+            "toBeInvalidPontaPoint": "15",
+            "toBeInvalidDate": "20250228"
+        }
+    },
+    "codeisyif": {
+        "httpResCd": "200",
+        "resultCd": "0"
+    },
+    "monochromeif": {
+        "blacklist": [
+            {
+                "black_url": "https://app.adjust.com/kco2w57?redirect=https%3A%2F%2Fdelishkitchen.tv%2Flp%2Fau-howto"
+            },
+            {
+                "black_url": "https://app.adjust.com/kco2w57?redirect=https%3A%2F%2Fdelishkitchen.tv%2Flp%2Fau-howto&campaign=aupay"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=p_200630"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=p_200664"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=p_200754"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=tr_20191011_2"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=WSwgvzTd&ai=k01_171413"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=y9e2GWzK&ai=a5d5655142615e"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=y9e2GWzK&ai=a5d5655143a97e"
+            },
+            {
+                "black_url": "https://account.kddi.x.moneyforward.com"
+            },
+            {
+                "black_url": "https://account.moneyforward.com"
+            },
+            {
+                "black_url": "https://amazon.co.jp"
+            },
+            {
+                "black_url": "https://ameba.jp"
+            },
+            {
+                "black_url": "https://apps.apple.com"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=santaro&srcid=santaro&serial=0011"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=walletapp&srcid=wallet&serial=0041"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=walletapp&srcid=wallet&serial=0047"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=walletapp&srcid=wallet&serial=0052"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=walletapp&srcid=wallet&serial=0053"
+            },
+            {
+                "black_url": "https://aupay.wallet.auone.jp/?medid=walletapp&srcid=wallet&serial=0054"
+            },
+            {
+                "black_url": "https://bcrw.apple.com"
+            },
+            {
+                "black_url": "https://buyma.com"
+            },
+            {
+                "black_url": "https://camp.auone.jp/campaign/55aa08e75745642e486f761f"
+            },
+            {
+                "black_url": "https://cs.kddi.com"
+            },
+            {
+                "black_url": "https://cs1.auone.jp/aus/"
+            },
+            {
+                "black_url": "https://enjoy.point.auone.jp"
+            },
+            {
+                "black_url": "https://fc2.com"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/?argument=3FYeHBQU&dmai=j_0001990"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/point/?argument=3FYeHBQU&dmai=FIAS_AP1OTaupayt4"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/finance/asset/"
+            },
+            {
+                "black_url": "https://furusato-tax.jp"
+            },
+            {
+                "black_url": "https://goo.ne.jp"
+            },
+            {
+                "black_url": "https://google.co.jp"
+            },
+            {
+                "black_url": "https://gourmetpass.auone.jp/"
+            },
+            {
+                "black_url": "https://ideco.auone.jp/"
+            },
+            {
+                "black_url": "https://itunes.apple.com/jp/app/au-wallet/id862800897"
+            },
+            {
+                "black_url": "https://jp.wowma.app//"
+            },
+            {
+                "black_url": "https://kantan-cpn.auone.jp/sp/campaign/20161202_sarutori/entry/"
+            },
+            {
+                "black_url": "https://kddi-fs.com/chat/"
+            },
+            {
+                "black_url": "https://kddi-fs.com/function/promotion/wowi.php"
+            },
+            {
+                "black_url": "https://kddi-fs.com/rd.php?aid=p_200733"
+            },
+            {
+                "black_url": "https://kddi-l.jp/g1r"
+            },
+            {
+                "black_url": "https://kddi-l.jp/oCy"
+            },
+            {
+                "black_url": "https://kddi.x.moneyforward.com"
+            },
+            {
+                "black_url": "https://kfs.test.pmalls.net"
+            },
+            {
+                "black_url": "https://loan.kddi-fs.com/contents/lp/branch/"
+            },
+            {
+                "black_url": "https://loan.kddi-fs.com/entry/"
+            },
+            {
+                "black_url": "https://loan.kddi-fs.com/lp/01/sp.html"
+            },
+            {
+                "black_url": "https://machimoni.colopl-research.jp"
+            },
+            {
+                "black_url": "https://machimoni.colopl-research.jp/web/lp/start_app.html"
+            },
+            {
+                "black_url": "https://maps.app.goo.gl/"
+            },
+            {
+                "black_url": "https://microsoft.com"
+            },
+            {
+                "black_url": "https://moneyforward.com"
+            },
+            {
+                "black_url": "https://musicstore.auone.jp/s/presents/welcome/"
+            },
+            {
+                "black_url": "https://my.au.com/aus/"
+            },
+            {
+                "black_url": "https://play.google.com"
+            },
+            {
+                "black_url": "https://point.kddi-fs.com"
+            },
+            {
+                "black_url": "https://rakuten.co.jp"
+            },
+            {
+                "black_url": "https://rakuten.net"
+            },
+            {
+                "black_url": "https://rgames.jp"
+            },
+            {
+                "black_url": "https://s.tabelog.com/smartphone/tieup/main/auPAY/"
+            },
+            {
+                "black_url": "https://touch.eznavi.auone.jp"
+            },
+            {
+                "black_url": "https://travel.willer.co.jp"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/access/live_wowma_i.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/app/enquete/banner1/banner1.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/app/gacha/gacha.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/charge/shop_charge.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/gourmet_coupon/"
+            },
+            {
+                "black_url": "https://wikipedia.org"
+            },
+            {
+                "black_url": "https://wm.auone.jp/front/?trcd=AWTO1807131&bid=wm-cb-watop001"
+            },
+            {
+                "black_url": "https://www.au.com/payment/point/?bid=we-we-gn-3854"
+            },
+            {
+                "black_url": "https://www.au.com/pr/point-cpn/?aa_oid=we-we-ow-0157"
+            },
+            {
+                "black_url": "https://www.jibunbank.co.jp"
+            },
+            {
+                "black_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3081&code=PF3CM4200024"
+            },
+            {
+                "black_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3181&code=PF3CM1300041"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/rd.php?aid=walletapp_gold"
+            },
+            {
+                "black_url": "https://yahoo.co.jp"
+            },
+            {
+                "black_url": "aunaviwalk://"
+            },
+            {
+                "black_url": "auwallet2://pay-coupon?url=https://www.reward.auone.jp/gift/coupon_detail_for_external_service?distribution_media=auPAY&cid=00000000000000000626"
+            },
+            {
+                "black_url": "auwallet2://pay-coupon?url=https://www.reward.auone.jp/gift/coupon_detail_for_external_service?distribution_media=auPAY&cid=00000000000000000626"
+            },
+            {
+                "black_url": "auwallet2://pay-coupon?url=https://www.reward.auone.jp/gift/coupon_detail_for_external_service?distribution_media=auWi-Fi&cid="
+            },
+            {
+                "black_url": "http://kddi-l.jp/1pE"
+            },
+            {
+                "black_url": "http://mobilesuica.okbiz.okwave.jp/faq/"
+            },
+            {
+                "black_url": "http://nav.cx/2RPWyNQ"
+            },
+            {
+                "black_url": "https://app.adjust.com/jsr?url=https%3A%2F%2Fuu6y.adj.st%2F%3Fp%3DMAV005002%26adj_t%3Dh1kw5g4%26adj_deep_link%3Dmyauaplcall%253A%252F%252F%253Fp%253DMAV005002%26adj_redirect%3Dhttps%253A%252F%252Fwww.au.com%252Fsupport%252Finquiry%252Fmessage%252F"
+            },
+            {
+                "black_url": "https://apps.apple.com/app/apple-store/id567663519?pt=619251&ct=aupay_01&mt=8"
+            },
+            {
+                "black_url": "https://biz.aupay.wallet.auone.jp/"
+            },
+            {
+                "black_url": "https://camp.auone.jp/campaign/337b535f74e5ca06bc1a7a27"
+            },
+            {
+                "black_url": "https://connect.auone.jp/net/vw/cca_eu_net/cca?ID=ENET0570&medid=aupayapp&serial=&srcid=2&branch=fido"
+            },
+            {
+                "black_url": "https://connect.auone.jp/net/vw/cca_eu_net/cca?ID=ENET0570&medid=aupayapp&serial=hp&srcid=1&branch=fido"
+            },
+            {
+                "black_url": "https://connect.auone.jp/net/vw/cca_eu_net/cca?ID=ENET0570&medid=aupayapp&serial=popup&srcid=1&branch=fido"
+            },
+            {
+                "black_url": "https://form.aupay.wallet.auone.jp/"
+            },
+            {
+                "black_url": "https://media.aupay.wallet.auone.jp/"
+            },
+            {
+                "black_url": "https://myna.go.jp/html/account_information.html"
+            },
+            {
+                "black_url": "https://plus.wowma.jp/user/34136806/plus/livecommerce/"
+            },
+            {
+                "black_url": "https://twitter.com/intent/tweet"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/app/launch_app.html?targetURL=aupay%2Fv2%2Fpay%3FserviceType%3D24tvdonate"
+            },
+            {
+                "black_url": "https://www.au.com/mobile/campaign/bf2021-onlineshop/?aa_pid=ols-ols-0189"
+            },
+            {
+                "black_url": "https://www.au.com/my-au/lp/information/202106/2103510/01/?aa_pid=ols-ols-0155"
+            },
+            {
+                "black_url": "https://www.au.com/support/inquiry/message/?aa_oid=we-we-ow-0221"
+            },
+            {
+                "black_url": "https://www.telasa.jp/videos/"
+            },
+            {
+                "black_url": "market://details?id=com.navitime.local.naviwalk.gl&referrer=utm_source%3daupay"
+            },
+            {
+                "black_url": "ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=p_200630"
+            },
+            {
+                "black_url": "auwallet://"
+            },
+            {
+                "black_url": "https://aupay.auone.jp/contents/sp/app/myna_search.html"
+            },
+            {
+                "black_url": "https://play.geforcenow.com/"
+            },
+            {
+                "black_url": "account.kddi.x.moneyforward.com"
+            },
+            {
+                "black_url": "account.moneyforward.com"
+            },
+            {
+                "black_url": "com.coke.cokeon://?screenName=payAppRegist&transitionUrl=https://campaign.app.cocacola.co.jp/web/pay/paymentmethods/payservice/cancel.html"
+            },
+            {
+                "black_url": "datacharge://"
+            },
+            {
+                "black_url": "finance-service.auone.jp/lp/asset/all_202004/"
+            },
+            {
+                "black_url": "finance-service.auone.jp/lp/asset/all_202004/?argument=3FYeHBQU&dmai=FIAS_AP1PTappayp1"
+            },
+            {
+                "black_url": "http://kantan-cpn.auone.jp/sp/campaign/1608newstore/c/?medid=walletapp&serial=topsokyu&srcid=1&owner=paymentA"
+            },
+            {
+                "black_url": "http://kddi-l.jp/1Lx"
+            },
+            {
+                "black_url": "http://kddi-l.jp/2o9"
+            },
+            {
+                "black_url": "http://kddi-l.jp/6m2"
+            },
+            {
+                "black_url": "http://kddi-l.jp/7if"
+            },
+            {
+                "black_url": "http://kddi-l.jp/9PQ"
+            },
+            {
+                "black_url": "http://kddi-l.jp/HYK"
+            },
+            {
+                "black_url": "http://kddi-l.jp/PIy"
+            },
+            {
+                "black_url": "http://kddi-l.jp/TMr"
+            },
+            {
+                "black_url": "http://kddi-l.jp/WrF"
+            },
+            {
+                "black_url": "http://kddi-l.jp/bLS"
+            },
+            {
+                "black_url": "http://kddi-l.jp/euB"
+            },
+            {
+                "black_url": "http://kddi-l.jp/g0A"
+            },
+            {
+                "black_url": "http://kddi-l.jp/pQN"
+            },
+            {
+                "black_url": "http://kddi-l.jp/r5z"
+            },
+            {
+                "black_url": "http://line.me/"
+            },
+            {
+                "black_url": "http://st.pass.auone.jp/st/3taro/"
+            },
+            {
+                "black_url": "http://www.au.com/electricity/customer/subs/index.html?utm_source=app_topicon&utm_medium=referral&utm_campaign=aupay_cp"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=3FYeHBQU"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=3FYeHBQU&ai=j_0002225"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=HWSEHByQ&ai=apuri3"
+            },
+            {
+                "black_url": "https://ac.ebis.ne.jp/tr_set.php?argument=WSwgvzTd&ai=k01_22"
+            },
+            {
+                "black_url": "https://app.adjust.com/p4q2itx_x79gs58?campaign=walletapp-campaign&redirect=https%3A%2F%2Fservice-top.jp%2F"
+            },
+            {
+                "black_url": "https://aprilskin.jp/smartphone/page15.html?medid=walletapp&serial=cptokuten&srcid=1&owner=aprilskins"
+            },
+            {
+                "black_url": "https://au-5g.auone.jp/lp/index.html"
+            },
+            {
+                "black_url": "https://au.lifenet-seimei.co.jp/lp/life3/?cid=15353-00022-payoth&utm_source=auPAYapp&utm_medium=service_TOP&utm_campaign=seiho_0201&argument=3FYeHBQU&dmai=a63cdda96d34d7"
+            },
+            {
+                "black_url": "https://aupay.auone.jp/contents/lp/mynapoint/information2022.pdf"
+            },
+            {
+                "black_url": "https://bookpass.auone.jp/"
+            },
+            {
+                "black_url": "https://camp.auone.jp/campaign/cfd31d5e2703abe23f9f38ed?medid=walletapp&serial=cptokuten&srcid=1&owner=1912DCBap"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/app/digital_code_brand/digital_code_brand/1?aff_id=wlt0052"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/app/digital_code_brand/digital_code_brand/2?aff_id=wlt0034"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/app/digital_code_brand/digital_code_brand/5"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/app/order/payment/"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/article/100"
+            },
+            {
+                "black_url": "https://digital.wowma.jp/front/article/article/110"
+            },
+            {
+                "black_url": "https://enjoy.point.auone.jp/campaign/matsuri2021/?utm_source=wallet_app&utm_medium=push&utm_content=tameru_fest&utm_campaign=20210901"
+            },
+            {
+                "black_url": "https://entm.auone.jp"
+            },
+            {
+                "black_url": "https://fcca.adj.st/TOP?adj_t=gqhqw3z&adj_deep_link=com.kddi_fs.card%3A%2F%2FTOP"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/?argument=3FYeHBQU&dmai=FIAS_AP1PTappayp1"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/?edid=app_pay&serial=link_A&srcid=0122&argument=3FYeHBQU&dmai=j_0001987"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/?medid=app_pay&serial=link_A&srcid=0122&trflg=1"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/all_202004/?medid=app_pay&serial=link_A&srcid=0128&argument=3FYeHBQU&dmai=FIAS_AP1OTappayt2"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/asset/point/?argument=3FYeHBQU&dmai=FIAS_AP1OTaupayt4"
+            },
+            {
+                "black_url": "https://finance-service.auone.jp/lp/nonlife/lineup/?utm_source=KDDI&utm_medium=aupayAPP_icon&utm_campaign=auPAYapp"
+            },
+            {
+                "black_url": "https://hdfm.adj.st?adj_t=ocx8b3v_eiq33d9"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/caution/index.html"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/cmp2021_12camrimgnm/index.html?utm_source=aupay&utm_medium=app&utm_campaign=2112camrimgnm&utm_content=aupay2112"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/cmp2021_camghm/index.html?utm_source=aupay&utm_medium=app&utm_campaign=camghm&utm_content=aupay2102"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/cmp2021_rimgnm/index.html?utm_source=aupay&utm_medium=app&utm_campaign=rimgnm&utm_content=aupay2103"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupay0812"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupay0812"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupay/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupay0812"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupay/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupay_p2009"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupay/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupaycmp0812"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupaycmp/index.html?"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupaycmp/index.html?utm_source=aupaycmp&utm_medium=app&utm_campaign=lifeupaupay&utm_content=aupay1007"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_aupaycmp/index.html?utm_source=aupaycmp&utm_medium=app&utm_campaign=lifeupaupay&utm_content=aupay1007"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_final/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeupfinal&utm_content=aupay0112"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_zerocmp/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeupzero&utm_content=aupay1112"
+            },
+            {
+                "black_url": "https://homeiot.kddi.com/pr/auhome/lifeup_2020_zerocmp/index.html?utm_source=aupay&utm_medium=app&utm_campaign=lifeupzero&utm_content=aupaycmp1112"
+            },
+            {
+                "black_url": "https://id.auone.jp/id/sp/legal/attention.html"
+            },
+            {
+                "black_url": "https://id.auone.jp/id/sp/legal/oidc_attention.html"
+            },
+            {
+                "black_url": "https://id.auone.jp/payment/sp/pass1/init/index.html"
+            },
+            {
+                "black_url": "https://id.auone.jp/payment/sp/pass2/init/index.html"
+            },
+            {
+                "black_url": "https://id.auone.jp/payment/sp/terms2/aupay/index.html"
+            },
+            {
+                "black_url": "https://kantan-cpn.auone.jp/sp/campaign/202012_okanenokanri_aupaymarket/index.html?medid=aupay&serial=bnr_02&srcid=0020"
+            },
+            {
+                "black_url": "https://kantan-cpn.auone.jp/sp/campaign/202012_okanenokanri_aupaymarket/index.html?medid=aupay&serial=bnr_03&srcid=0021"
+            },
+            {
+                "black_url": "https://kantan-cpn.auone.jp/sp/campaign/202012_okanenokanri_ponta/index.html?medid=aupay&serial=bnr_02&srcid=0031"
+            },
+            {
+                "black_url": "https://kantan-cpn.auone.jp/sp/campaign/202012_okanenokanri_ponta/index.html?medid=aupay&serial=bnr_03&srcid=0032"
+            },
+            {
+                "black_url": "https://lawson.e-gift.co/c/"
+            },
+            {
+                "black_url": "https://loan.kddi-fs.com/lp/02/"
+            },
+            {
+                "black_url": "https://loan.kddi-fs.com/lp/03/"
+            },
+            {
+                "black_url": "https://lottery.reward.auone.jp/gift/post_gacha?transition="
+            },
+            {
+                "black_url": "https://messagedepoint.kddi.com/"
+            },
+            {
+                "black_url": "https://messagedepoint.kddi.com/?aa_oid=we-we-ow-0776"
+            },
+            {
+                "black_url": "https://newspass.jp/campaign/omikuji"
+            },
+            {
+                "black_url": "https://onlineshop.au.com/"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/26389"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/26390"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/26391"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/28252"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/30349"
+            },
+            {
+                "black_url": "https://pass.auone.jp/coupon/30563"
+            },
+            {
+                "black_url": "https://pass.auone.jp/gate/allocate/?rid=AUMN21070002&nm=1&medid=miniapp&srcid=movie2&branch=20210712&ru=https%3A%2F%2Fpass.auone.jp%2Flp%2Ftoho%2Fthanks.html"
+            },
+            {
+                "black_url": "https://pizzahut.jp/topic/au-wallet/point-present?medid=walletapp&serial=cptokuten&srcid=1&owner=pizzahut3"
+            },
+            {
+                "black_url": "https://pontapoint.mamari.jp/"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/aupay/modern.html"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/livetv_cp/#campaign"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/livetv_cp/?aff_id=wlt0056_lvlv_001"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/livetv_cp/?aff_id=wlt0177#campaign"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/livetv_stu48/?aot0169"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/livetv_yoshimoto"
+            },
+            {
+                "black_url": "https://prcp.pass.auone.jp/ptexchg_otoshidama/"
+            },
+            {
+                "black_url": "https://rlx.jp/?trkid=ponta41&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta41"
+            },
+            {
+                "black_url": "https://rlx.jp/?trkid=ponta51&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51"
+            },
+            {
+                "black_url": "https://rlx.jp/feature/tdr/?trkid=ponta51_04&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_04"
+            },
+            {
+                "black_url": "https://rlx.jp/lp/pontapoint/?trkid=ponta41_01&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta41_01"
+            },
+            {
+                "black_url": "https://rlx.jp/lp/pontapoint/?trkid=ponta51_01&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_01"
+            },
+            {
+                "black_url": "https://rlx.jp/lp/pontapoint/?trkid=pontarelux_aa_icon&utm_source=coop&utm_medium=organic&utm_campaign=pontarelux_aa_icon"
+            },
+            {
+                "black_url": "https://rlx.jp/reluxoffer/?trkid=ponta51_05&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_05"
+            },
+            {
+                "black_url": "https://rlx.jp/special/daiyokuzyo2304/?trkid=ponta51_03&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_03"
+            },
+            {
+                "black_url": "https://rlx.jp/special/pool2305/?trkid=ponta41_02&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta41_02"
+            },
+            {
+                "black_url": "https://rlx.jp/special/pool2305/?trkid=ponta51_02&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_02"
+            },
+            {
+                "black_url": "https://rlx.jp/zenkokuryokoshien/?trkid=ponta12_01&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta12_01"
+            },
+            {
+                "black_url": "https://rlx.jp/zenkokuryokoshien/?trkid=ponta41_02&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta41_02"
+            },
+            {
+                "black_url": "https://rlx.jp/zenkokuryokoshien/?trkid=ponta51_02&utm_source=pontaportal&utm_medium=kddi&utm_campaign=ponta51_02"
+            },
+            {
+                "black_url": "https://service-top.jp/campaign/pointpresent/renewal.html"
+            },
+            {
+                "black_url": "https://smps.habits.auone.jp/page/pr/"
+            },
+            {
+                "black_url": "https://st.pass.auone.jp/st/3taro/"
+            },
+            {
+                "black_url": "https://test.wallet.auone.jp/contents/sp/app/live_wowma_a.html"
+            },
+            {
+                "black_url": "https://twitter.com/share"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/access/live_wowma_i.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/app/enquete/banner1/banner1.html"
+            },
+            {
+                "black_url": "https://wallet.auone.jp/contents/sp/app/live_wowma_a.html"
+            },
+            {
+                "black_url": "https://wl.auone.jp/fn/tossupdockabucom"
+            },
+            {
+                "black_url": "https://wm.auone.jp/front/app/digital_code_brand/digital_code_brand/1/?trcd=WACA1908314&bid=ppppp&bid=wm-cb-waca14990&bid=Wallet&utm_medium=OtherAdvertising&utm_campaign=campaign"
+            },
+            {
+                "black_url": "https://wm.auone.jp/front/app/digital_code_brand/digital_code_brand/2/?trcd=WACA1908315&bid=ppppp&bid=wm-cb-waca14991&bid=Wallet&utm_medium=OtherAdvertising&utm_campaign=campaign"
+            },
+            {
+                "black_url": "https://wm.auone.jp/front/app/digital_code_brand/digital_code_brand/2/?trcd=WACA1908316&bid=ppppp&bid=wm-cb-waca14992&bid=Wallet&utm_medium=OtherAdvertising&utm_campaign=campaign"
+            },
+            {
+                "black_url": "https://wowma-aupaymarket.jp/nogizaka46/?utm_medium=ownd_wallet&utm_source=wallet_campaign&utm_campaign=nogi46_0319"
+            },
+            {
+                "black_url": "https://wowma.jp/event/ptexchg_potal/index.html?aff_id=rlx00llXps000101e990331Xpch02Xmal&p_route=12"
+            },
+            {
+                "black_url": "https://www.appstore.com/redeem/"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/?aa_pid=we-we-ow-0448"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/cmp_welcome1/select/?bid=hm-hm-hmcp-0040"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/cmp_welcome3/select/?bid=hm-hm-hmcp-0060"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/cmp_welcome4/select/?bid=hm-hm-hmcp-0070"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/cmp_welcome5/select/?bid=hm-hm-hmcp-0090"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/cmp_welcome5/select/?bid=hm-hm-hmcp-0097"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/select/?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupaycmp0812"
+            },
+            {
+                "black_url": "https://www.au.com/auhome/select/?utm_source=aupay&utm_medium=app&utm_campaign=lifeup&utm_content=aupaypush0818"
+            },
+            {
+                "black_url": "https://www.au.com/electricity/customer/subs/"
+            },
+            {
+                "black_url": "https://www.au.com/entertainment/apple-music/?aa_pid=we-we-ow-1035"
+            },
+            {
+                "black_url": "https://www.au.com/entertainment/dazn/?aa_pid=we-we-ow-1041"
+            },
+            {
+                "black_url": "https://www.au.com/entertainment/dazn/pr/?aa_pid=we-we-ow-1041"
+            },
+            {
+                "black_url": "https://www.au.com/entertainment/youtubepremium/?aa_pid=we-we-ow-"
+            },
+            {
+                "black_url": "https://www.au.com/finance/loan/housing/?code=PF3CM4100362"
+            },
+            {
+                "black_url": "https://www.au.com/mobile/charge/smartphone/plan/5g-max-allstar/youtubepremium/?aa_pid=we-we-ow-0811"
+            },
+            {
+                "black_url": "https://www.au.com/pr/entertainment-service/b/?aa_pid=we-we-ow-0811"
+            },
+            {
+                "black_url": "https://www.au.com/support/inquiry/message/web-message/?opnwbm=1&serial=msg&medid=aupayapp&srcid=cs_webmessage"
+            },
+            {
+                "black_url": "https://www.au.com/support/inquiry/message/web-message/?opnwbm=1&serial=msg_error&medid=aupayapp&srcid=cs_webmessage"
+            },
+            {
+                "black_url": "https://www.dazn.com/ja-JP/p/kddidcb?medid=walletapp&serial=cptokuten&srcid=1&owner=dazn"
+            },
+            {
+                "black_url": "https://www.facebook.com/sharer/"
+            },
+            {
+                "black_url": "https://www.jibunbank.co.jp/"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/function/promotion/?argument=HWSEHByQ&dmai=wallet_app_obi_b"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/rd.php?aid=p_200786"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/rd.php?aid=p_201166"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/rd.php?aid=p_201439"
+            },
+            {
+                "black_url": "https://www.kddi-fs.com/rd.php?aid=walletapp_base"
+            },
+            {
+                "black_url": "https://www.kirin.co.jp/"
+            },
+            {
+                "black_url": "https://www.lawson.co.jp/lab/app/"
+            },
+            {
+                "black_url": "https://www.okomeya.net/au?medid=walletapp&serial=cptokuten&srcid=1&owner=gihey"
+            },
+            {
+                "black_url": "https://www.openrec.tv/"
+            },
+            {
+                "black_url": "https://www.point-portal.auone.jp"
+            },
+            {
+                "black_url": "https://www.tomods.jp/wp_home/wp-content/uploads/2021/03/03_09.pdf"
+            },
+            {
+                "black_url": "kddi.x.moneyforward.com"
+            },
+            {
+                "black_url": "line://"
+            },
+            {
+                "black_url": "moneyforward.com"
+            },
+            {
+                "black_url": "wallet.auone.jp/contents/sp/access/680175_index.html"
+            }
+        ],
+        "whitelist": [
+            {
+                "white_url": "https://digital.wowma.jp/front/app/digital_code_brand/digital_code_brand/5"
+            },
+            {
+                "white_url": "https://digital.wowma.jp/front/app/order/payment/"
+            },
+            {
+                "white_url": "https://finance-service.auone.jp/lp/nonlife/lineup/?utm_source=KDDI&utm_medium=aupayAPP_icon&utm_campaign=auPAYapp"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/contents/sp/app/otoku_redirect.html"
+            },
+            {
+                "white_url": "security_lock_interval_second=300"
+            },
+            {
+                "white_url": "https://rakuten.co.jp/com/ap/analytics/iFrameTracking/iframe.html"
+            },
+            {
+                "white_url": "https://rakuten.co.jp/com/rat/plugin/external/"
+            },
+            {
+                "white_url": "https://enjoy.point.auone.jp/gacha"
+            },
+            {
+                "white_url": "https://enjoy.point.auone.jp/open_gacha"
+            },
+            {
+                "white_url": "https://google.co.jp"
+            },
+            {
+                "white_url": "https://google.co.jp/ads/"
+            },
+            {
+                "white_url": "https://info.otoku.auone.jp/wallet/"
+            },
+            {
+                "white_url": "https://info.otoku.auone.jp/wallet/aupay_sumapure/sp/app/index.html"
+            },
+            {
+                "white_url": "https://info.otoku.auone.jp/wallet/available_shop/sp/app/index.html"
+            },
+            {
+                "white_url": "https://info.otoku.auone.jp/wallet/available_shop/sp/app/index2.html"
+            },
+            {
+                "white_url": "https://my.au.com/aus/hc-cs/lic/LIC0020001.hc"
+            },
+            {
+                "white_url": "https://my.au.com/aus/hc-cs/oet/OET0010001.hc"
+            },
+            {
+                "white_url": "https://my.au.com/aus/hc-cs/oir/OIR0000001.hc"
+            },
+            {
+                "white_url": "https://my.au.com/aus/hc-cs/oir/OIR0020001.hc"
+            },
+            {
+                "white_url": "https://my.au.com/aus/hc-cs/oln/OLN0010001.hc"
+            },
+            {
+                "white_url": "https://plus.wowma.jp/item/"
+            },
+            {
+                "white_url": "invoice_payment_notes=領収書や納税証明書をau PAYでは発行していません。請求書発行元にお問い合わせください。"
+            },
+            {
+                "white_url": "ipdb_need_redirect_honey_error_codes=HNYE0021|HNYE0152|HNYE0153"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/contents/sp/aupay_app/billpayment/guide.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.wallet.auone.jp/store/list/#bill"
+            },
+            {
+                "white_url": "webview_new_window=https://test.aupay.auone.jp/contents/sp/aupay_app/billpayment/guide.html"
+            },
+            {
+                "white_url": "ekyc_blur_threshold_value=100"
+            },
+            {
+                "white_url": "home_top_appeal_webview_restart_interval=1440"
+            },
+            {
+                "white_url": "https://rlx.jp/lp/pontapoint/?trkid=pontarelux_aa_icon&utm_source=coop&utm_medium=organic&utm_campaign=pontarelux_aa_icon"
+            },
+            {
+                "white_url": "movie_point_lottery"
+            },
+            {
+                "white_url": "top_animation_point_url=https://aupay.auone.jp/contents/sp/aupay_app/overlay_animation/home/index_5.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.wallet.auone.jp/store/?coupon_id="
+            },
+            {
+                "white_url": "webview_new_window=https://kantan-cpn.auone.jp/sp/campaign/202104_honeys/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://kantan-cpn.auone.jp/sp/campaign/202105_kariyushi/index.html?medid=aupayapp&serial=screen&srcid=1&owner=kariyushi"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/app/kyc/ekyc_terms1.html?window=new"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/app/kyc/ekyc_terms2.html?window=new"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/app/privacy-policy.html?window=new"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/terms/walletcard/index.html?window=new"
+            },
+            {
+                "white_url": "invoice_pay_enable"
+            },
+            {
+                "white_url": "ipdb_authentication_skip_version_ios="
+            },
+            {
+                "white_url": "in_store_review_version=9.21.5"
+            },
+            {
+                "white_url": "jbank_recommend_message1=auじぶん銀行口座と連携すると\\n送金・払出やオートチャージをご利用いただけます"
+            },
+            {
+                "white_url": "point_exchange_enabled=お買い物限定ポイントに交換でポイント<b><font color=red>1.5倍！</font></b>"
+            },
+            {
+                "white_url": "jbank_recommend_message2=さらに、円普通預金に優遇金利が適用されます"
+            },
+            {
+                "white_url": "au_pay_card_balloon_registered_enabled_au=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "au_pay_card_balloon_registered_enabled_open=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "au_pay_card_balloon_registered_enabled_uq=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "au_pay_card_balloon_unregistered_enabled_au=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "au_pay_card_balloon_unregistered_enabled_open=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "au_pay_card_balloon_unregistered_enabled_uq=チャージするだけでPontaポイント還元！"
+            },
+            {
+                "white_url": "1to1_recommend_enabled"
+            },
+            {
+                "white_url": "3dsecure_expansion"
+            },
+            {
+                "white_url": "3rd_planet_app_ver_up=9.25.6"
+            },
+            {
+                "white_url": "agreements_reset_request_control"
+            },
+            {
+                "white_url": "applewatch_vtkt_term=7"
+            },
+            {
+                "white_url": "au_pay_card_charge_enabled_au"
+            },
+            {
+                "white_url": "au_pay_card_charge_enabled_open"
+            },
+            {
+                "white_url": "au_pay_card_charge_enabled_uq"
+            },
+            {
+                "white_url": "auto_charge_control_enabled"
+            },
+            {
+                "white_url": "campaign_adgene_disable"
+            },
+            {
+                "white_url": "check_vtkt_from_cookie_enabled"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/aupaycard/auPaymentStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/auwalletChargeCreditCardStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/chargeStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/chargeStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/es/chargeStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/lb/start"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aucard.aupaycharge.com/scPortal/wmc/uq/auPaymentStart"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aupay.auone.jp/charge/bank_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aupay.auone.jp/charge/credit_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aupay.auone.jp/charge/kantan_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://aupay.auone.jp/charge/kantan_charge.html?chargeType=2"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://test.aupay.auone.jp/charge/credit_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://test.aupay.auone.jp/charge/credit_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://test.aupay.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://test.wallet.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://wallet.auone.jp/charge/bank_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://wallet.auone.jp/charge/credit_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://wallet.auone.jp/charge/kantan_charge.html"
+            },
+            {
+                "white_url": "direct_charge_show_floating_url=https://wallet.auone.jp/charge/kantan_charge.html?chargeType=2"
+            },
+            {
+                "white_url": "direct_charge_url=http://swallow-stub.cmlabs.jp/pages/test_ktec.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/aupaycard/auPaymentResultDisp"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/auwalletChargeCreditCardResultDisp"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/bp/chargeResult?result=success"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/lb/chargeResult"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/es/chargeResult"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/lb/chargeResult"
+            },
+            {
+                "white_url": "direct_charge_url=https://aucard.aupaycharge.com/scPortal/wmc/uq/auPaymentResultDisp"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/credit_regist.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/credit_regist.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/kantan_charge.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/kantan_charge.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/kantan_charge.html?chargeType=2"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://aupay.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "direct_charge_url=https://wallet.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://wallet.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://wallet.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "direct_charge_url=https://wallet.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "direct_charge_url=https://wallet.auone.jp/contents/sp/app/auPAYcard/aupay_card.html"
+            },
+            {
+                "white_url": "eLTAX_app_ver_up=9.38.9"
+            },
+            {
+                "white_url": "ekyc_ocr_info_ios_debug=yGO0HEy2FuBVObA7NiIMuDnnTUtqxWhvOlcav39lvjJfJdC8m+uzh3+1Pp+pFrqo"
+            },
+            {
+                "white_url": "ekyc_score_value=judge_score=0.93&frontbackjudge_score=abc"
+            },
+            {
+                "white_url": "ekyc_tips_display_time=front=10&back=10&thickness=10"
+            },
+            {
+                "white_url": "hogehome_top_appeal_webview_url=https://aupay.auone.jp/contents/sp/aupay_app/overlay_animation/home_kv/kv_202303/index.html?visibleHeight=60"
+            },
+            {
+                "white_url": "https://ac.ebis.ne.jp/tr_set.php?argument=WSwgvzTd&ai=k01_222477"
+            },
+            {
+                "white_url": "https://help.jibunbank.co.jp/faq_detail.html?id=17"
+            },
+            {
+                "white_url": "https://help.jibunbank.co.jp/faq_detail.html?id=1916"
+            },
+            {
+                "white_url": "https://help.jibunbank.co.jp/faq_detail.html?id=582"
+            },
+            {
+                "white_url": "https://media.aupay.wallet.auone.jp/dominant/?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+            },
+            {
+                "white_url": "https://media.aupay.wallet.auone.jp/dominant/index.html?utm_source=aupay&utm_medium=app&utm_campaign=qrbanner"
+            },
+            {
+                "white_url": "https://media.aupay.wallet.auone.jp/dominant/index.html?utm_source=aupay&utm_medium=app&utm_campaign=topbanner"
+            },
+            {
+                "white_url": "https://media.aupay.wallet.auone.jp/dominant?utm_source=aupay&utm_medium=app&utm_campaign=test"
+            },
+            {
+                "white_url": "https://media.aupay.wallet.auone.jp/lp/"
+            },
+            {
+                "white_url": "https://www.au.com/pr/tanuki-lottery/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/account/antisocial_forces_clause/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/account/pc_upload/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/agreement/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3195"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3409"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3418"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3423"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3424"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3427"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3438"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=3500"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=4033"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=4034"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=4035"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=4036"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/common/redirector.html?id=4037"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/auid/privacy/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/aupay/privacy/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/banking/crs/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/ginpay_linkage/aupay_appli/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/ginpay_service/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/kddi/privacy_wallet/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/kddi/privacy_wallet/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/landing/kinri_up_tokuten/aupay_appli/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/privacy/"
+            },
+            {
+                "white_url": "https://www.jibunbank.co.jp/program/ginpay/aupay_appli/"
+            },
+            {
+                "white_url": "https://www.post.japanpost.jp/zipcode/index.html"
+            },
+            {
+                "white_url": "interval_returned_from_background_in_home=300"
+            },
+            {
+                "white_url": "ipdb_force_rate=100"
+            },
+            {
+                "white_url": "jbank_recommend_image_url1=https://aupay.auone.jp/contents/sp/app/remittance/desc1.png"
+            },
+            {
+                "white_url": "jbank_recommend_image_url2=https://aupay.auone.jp/contents/sp/app/remittance/desc2_2109.png"
+            },
+            {
+                "white_url": "jbank_total_available_balance_enabled"
+            },
+            {
+                "white_url": "jpki_info=OFdRcg=="
+            },
+            {
+                "white_url": "jpki_wait_nfc_session_time_key=5.0"
+            },
+            {
+                "white_url": "lawson_atm_charge_enabled"
+            },
+            {
+                "white_url": "lower_limit_amount_imparting_point=200"
+            },
+            {
+                "white_url": "main_charge_info=0|1111|auwallet://charge_webview?url=https%3A%2F%2Faupay.auone.jp%2Fcontents%2Fsp%2Faupay_app%2Fredirect%2Fredirect_kantan_charge.html&ga=%E3%80%90click%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2%7C%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2_au%E3%81%8B%E3%82%93%E3%81%9F%E3%82%93%E6%B1%BA%E6%B8%88&repro=%E3%80%90%E3%82%BF%E3%83%83%E3%83%97%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%28%E3%81%8B%E3%82%93%E3%81%9F%E3%82%93%E6%B1%BA%E6%B8%88%29"
+            },
+            {
+                "white_url": "main_charge_info=3|1111|auwallet://charge_webview?url=https%3A%2F%2Ftest.wallet.auone.jp%2Fcontents%2Fsp%2Faupay_app%2Fredirect%2Fredirect.html%3Ftarget%3Dlawson-ekyc-check&ga=%E3%80%90click%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2%7C%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2_%E3%83%AD%E3%83%BC%E3%82%BD%E3%83%B3%E9%8A%80%E8%A1%8C%EF%BC%88%E3%81%9D%E3%81%AE%E4%BB%96%EF%BC%89&repro=%E3%80%90%E3%82%BF%E3%83%83%E3%83%97%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%28%E3%83%AD%E3%83%BC%E3%82%BD%E3%83%B3%E9%8A%80%E8%A1%8C%29"
+            },
+            {
+                "white_url": "main_charge_info=4|1111|auwallet://charge_webview?url=https%3A%2F%2Fwallet.auone.jp%2Fcontents%2Fsp%2Faupay_app%2Fredirect%2Fredirect.html%3Ftarget%3Djibank-ekyc-check&ga=%E3%80%90click%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2%7C%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2_au%E3%81%98%E3%81%B6%E3%82%93%E9%8A%80%E8%A1%8C&repro=%E3%80%90%E3%82%BF%E3%83%83%E3%83%97%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%28%E3%81%98%E3%81%B6%E3%82%93%E9%8A%80%E8%A1%8C%29"
+            },
+            {
+                "white_url": "main_charge_info=50|1111|auwallet://charge_webview?url=https%3A%2F%2Ftest.aupay.auone.jp%2Fcontents%2Fsp%2Faccess%2F997277_index.html&ga=%E3%80%90click%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2%7C%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%E7%94%BB%E9%9D%A2_%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89&repro=%E3%80%90%E3%82%BF%E3%83%83%E3%83%97%E3%80%91%E3%83%81%E3%83%A3%E3%83%BC%E3%82%B8%28%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89%29"
+            },
+            {
+                "white_url": "miniapp_new_window=http://auone.jp/terms/index.html"
+            },
+            {
+                "white_url": "miniapp_new_window=http://www.kddi.com/corporate/kddi/kokai/kojin/index.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://account.wowma.jp/docs/app-policy-overview"
+            },
+            {
+                "white_url": "miniapp_new_window=https://account.wowma.jp/docs/tos"
+            },
+            {
+                "white_url": "miniapp_new_window=https://aupay.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://id.auone.jp/id/contents/legal/personal_terms.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://id.auone.jp/id/sp/legal/optout.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://test.aupay.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://test.aupay.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "miniapp_new_window=https://www.au-cl.co.jp/privacy/"
+            },
+            {
+                "white_url": "miniapp_new_window=https://www.kddi.com/terms/sitepolicy/?aa_oid=we-we-ow-0129"
+            },
+            {
+                "white_url": "myna_point_credit_enabled"
+            },
+            {
+                "white_url": "myna_point_enable"
+            },
+            {
+                "white_url": "mynapoint_wait_nfc_session_time_key=5.0"
+            },
+            {
+                "white_url": "net_pay_modal_show_delay_ms=400"
+            },
+            {
+                "white_url": "paymaxvalue=300001"
+            },
+            {
+                "white_url": "payment_error_display_id_list=02|03|04|05|06|99"
+            },
+            {
+                "white_url": "pgid_info=VEVTVA=="
+            },
+            {
+                "white_url": "point_expiration_link_enable"
+            },
+            {
+                "white_url": "point_new_webview_disable=https://www.point-portal.auone.jp/point"
+            },
+            {
+                "white_url": "point_redemption_note_display=1～3週間程度かかる場合もありますことご了承ください"
+            },
+            {
+                "white_url": "point_webview_enable"
+            },
+            {
+                "white_url": "prepaid_balance_decrease_popup_lower_limit=1"
+            },
+            {
+                "white_url": "prepaid_balance_decrease_popup_range=1500|1"
+            },
+            {
+                "white_url": "prepaid_balance_decrease_popup_upper_limit=1000"
+            },
+            {
+                "white_url": "repro_zipcode_enabled"
+            },
+            {
+                "white_url": "seven_charge_enabled"
+            },
+            {
+                "white_url": "shop_new_webview_disable=auwallet://otoku"
+            },
+            {
+                "white_url": "shop_new_webview_disable=https://aupay.wallet.auone.jp/store"
+            },
+            {
+                "white_url": "shop_new_webview_disable=https://pre-prd.aupay.wallet.auone.jp/store"
+            },
+            {
+                "white_url": "shop_new_webview_disable=tel:"
+            },
+            {
+                "white_url": "skip_other_than_the_main_url_enabled"
+            },
+            {
+                "white_url": "top_animation_point_hide_balloon_duration=30"
+            },
+            {
+                "white_url": "top_animation_point_increase=1"
+            },
+            {
+                "white_url": "top_animation_point_stay=7"
+            },
+            {
+                "white_url": "url_home_update_required=http://swallow-stub.cmlabs.jp/pages/test_ktec.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/aupaycard/auPaymentResultDisp"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/auwalletChargeCreditCardResultDisp"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/bat/bp/chargeResult"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/bat/lb/chargeResult"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/es/chargeResult"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/pt/chargeResult"
+            },
+            {
+                "white_url": "url_home_update_required=https://aucard.aupaycharge.com/scPortal/wmc/uq/auPaymentResultDisp"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/charge/point_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/contents/sp/support/menu/help/redirect/charge.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/jibunbank/payout_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/jibunbank/transfer_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/menu/acharge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://aupay.auone.jp/menu/lock_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/activated.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/charge/point_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/contents/sp/charge/lawson_atm_charge_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/contents/sp/charge/seven_charge2.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/jibunbank/transfer_comp.html"
+            },
+            {
+                "white_url": "url_home_update_required=https://wallet.auone.jp/menu/acharge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/app/jibunAppChargeResultDisp|jobCode=OK"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/aupaycard/auPaymentResultDisp|extAuCode=chargeSuccess"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/auwalletChargeCreditCardResultDisp|jobCode=OK&resultCode=OK"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/auwalletChargeJibunBankResultDisp|jobCode=OK"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/bp/chargeResult|result=success"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/ca/chargeResult|result=success"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/bat/lb/chargeResult"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/es/chargeResult|extAuCode=chargeSuccess"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/pt/chargeResult"
+            },
+            {
+                "white_url": "vibration_url=https://aucard.aupaycharge.com/scPortal/wmc/uq/auPaymentResultDisp|extAuCode=chargeSuccess"
+            },
+            {
+                "white_url": "vibration_url=https://aupay.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://aupay.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://aupay.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://aupay.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "vibration_url=https://aupay.auone.jp/charge/point_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://wallet.auone.jp/charge/bank_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://wallet.auone.jp/charge/credit_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://wallet.auone.jp/charge/kantan_charge_comp.html"
+            },
+            {
+                "white_url": "vibration_url=https://wallet.auone.jp/charge/kantan_charge_comp.html?chargeType=2"
+            },
+            {
+                "white_url": "vibration_url=https://wallet.auone.jp/charge/point_charge_comp.html"
+            },
+            {
+                "white_url": "wafers_reconnect_count=5"
+            },
+            {
+                "white_url": "wafers_reconnect_interval_second=1"
+            },
+            {
+                "white_url": "webview_new_window=http://auone.jp/terms/index.html"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/0fL"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/6aF"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/7oA"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/9yp"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/BUc"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/DFc"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/E7s"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/EqW"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/Hz9"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/NOP"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/Umf"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/WJW"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/ZFL"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/ZUV"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/ckg"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/k2w"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/sJW"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/sWl"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/tQ4"
+            },
+            {
+                "white_url": "webview_new_window=http://kddi-l.jp/uCU"
+            },
+            {
+                "white_url": "webview_new_window=http://swallow-stub.cmlabs.jp/pages/test_ktec.html"
+            },
+            {
+                "white_url": "webview_new_window=http://www.kddi.com/corporate/kddi/kokai/kojin/index.html"
+            },
+            {
+                "white_url": "webview_new_window=http://www.kddi.com/site_policy/"
+            },
+            {
+                "white_url": "webview_new_window=https://app.menu.jp/pr/aupay_202109/"
+            },
+            {
+                "white_url": "webview_new_window=https://au.lifenet-seimei.co.jp/lp/life3/?cid=15350-00013&argument=3FYeHBQU&dmai=a614a868c367ca"
+            },
+            {
+                "white_url": "webview_new_window=https://au.wi2.ne.jp/aupay-web/"
+            },
+            {
+                "white_url": "webview_new_window=https://aucard.aupaycharge.com/scPortal/wmc/auwalletCreditCardRegistStart?svid=R"
+            },
+            {
+                "white_url": "webview_new_window=https://aucard.aupaycharge.com/scPortal/wmc/static/cr/3DSecure?svid=R"
+            },
+            {
+                "white_url": "webview_new_window=https://aucard.aupaycharge.com/scPortal/wmc/static/cr/brand?svid=R"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/campaign/detail.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/contents/lp/charge_spot/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/contents/lp/jichitai_mynapoint/terms2.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/general/campaign.html"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/menu/mcode_set.html?window=new"
+            },
+            {
+                "white_url": "webview_new_window=https://aupay.auone.jp/mynapoint/cp/municipal/detail.html"
+            },
+            {
+                "white_url": "webview_new_window=https://big.toto.auone.jp/?medid=&srcid=&serial=0117"
+            },
+            {
+                "white_url": "webview_new_window=https://brochure.mamari.jp/campaigns/for_all_mother?gcid=112&utm_source=auPAY_TopIcon&utm_medium=kddi&utm_campaign=mamariAffiliate"
+            },
+            {
+                "white_url": "webview_new_window=https://c.g2b2c.paymentsjapan.or.jp/lomnp_riyoukiyaku.html"
+            },
+            {
+                "white_url": "webview_new_window=https://camp.auone.jp/campaign/de19a634c11fa73eeb42da76"
+            },
+            {
+                "white_url": "webview_new_window=https://cloudgame.auone.jp/auPAY.html"
+            },
+            {
+                "white_url": "webview_new_window=https://delishkitchen.tv/?utm_source=auwallet"
+            },
+            {
+                "white_url": "webview_new_window=https://enjoy.point.auone.jp/gacha?utm_source=wallet_app&utm_medium=mainichi&utm_campaign=202208"
+            },
+            {
+                "white_url": "webview_new_window=https://faq.myna.go.jp/faq/show/4291?category_id=17&site_domain=default"
+            },
+            {
+                "white_url": "webview_new_window=https://finance-service.auone.jp/lp/ideco/aupayapp.php?utm_source=pfm&utm_medium=referral&utm_campaign=wallet"
+            },
+            {
+                "white_url": "webview_new_window=https://furusato.wowma.jp/?medid=referral&serial=wallet&srcid=all&branch=top"
+            },
+            {
+                "white_url": "webview_new_window=https://id.auone.jp/id/accountinfo/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://id.auone.jp/id/contents/legal/personal_terms.html"
+            },
+            {
+                "white_url": "webview_new_window=https://id.auone.jp/id/sp/legal/optout.html"
+            },
+            {
+                "white_url": "webview_new_window=https://id.auone.jp/id/sp/legal/personal_terms.html"
+            },
+            {
+                "white_url": "webview_new_window=https://id.auone.jp/id/userinfo/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://mfilter.ezweb.ne.jp/jsp/md/index.jsp"
+            },
+            {
+                "white_url": "webview_new_window=https://mynumbercard.point.soumu.go.jp/flow/mykey-get/howtoread/androidfaq.html"
+            },
+            {
+                "white_url": "webview_new_window=https://mynumbercard.point.soumu.go.jp/flow/mykey-get/howtoread/iphonefaq.html"
+            },
+            {
+                "white_url": "webview_new_window=https://openrecnext.amebaownd.com/posts/18361489?utm_medium=kddi&utm_source=&utm_campaign=___3"
+            },
+            {
+                "white_url": "webview_new_window=https://pass.auone.jp/home"
+            },
+            {
+                "white_url": "webview_new_window=https://pass.auone.jp/terms/"
+            },
+            {
+                "white_url": "webview_new_window=https://rlx.jp/lp/pontapoint/?trkid=pay_osusumetop_ponta&utm_source=pay&utm_medium=kddi&utm_campaign=pay_osusumetop_ponta"
+            },
+            {
+                "white_url": "webview_new_window=https://rlx.jp/lp/pontapoint/?trkid=pontarelux_aa_icon&utm_source=coop&utm_medium=organic&utm_campaign=pontarelux_aa_icon"
+            },
+            {
+                "white_url": "webview_new_window=https://st.pass.auone.jp/st/smps/lp/kidzania_tokuten/?sitemove=aupaytop"
+            },
+            {
+                "white_url": "webview_new_window=https://test.aupay.auone.jp/charge_menu.html?payType=2"
+            },
+            {
+                "white_url": "webview_new_window=https://test.wallet.auone.jp/charge_menu.html"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/pc/terms/walletcard/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/no-reward/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/contents/sp/terms/aupay/index.html"
+            },
+            {
+                "white_url": "webview_new_window=https://wallet.auone.jp/payment/limitrefer.html"
+            },
+            {
+                "white_url": "webview_new_window=https://wellness.auone.jp/?rf=aupay"
+            },
+            {
+                "white_url": "webview_new_window=https://www.au.com/entertainment/apple-music/?aa_pid=we-we-ow-1035"
+            },
+            {
+                "white_url": "webview_new_window=https://www.au.com/entertainment/smash/?aa_pid=we-we-ow-0925"
+            },
+            {
+                "white_url": "webview_new_window=https://www.au.com/mobile/onlineshop/?bid=ols-ols-owat0024"
+            },
+            {
+                "white_url": "webview_new_window=https://www.google.co.jp/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.google.com/maps/place/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.jibunbank.co.jp/landing/ginpay_linkage/aupay_appli/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.kddi.com/corporate/kddi/public/privacy/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.kddi.com/terms/sitepolicy/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.kojinbango-card.go.jp/faq_change1/"
+            },
+            {
+                "white_url": "webview_new_window=https://www.shopch.jp/sp/aflink.do?siteID=50158&afflg=1&linkurl=https%3A%2F%2Fwww.shopch.jp%2Fsp%2Fkddi%2Fau_pay.html%3Fcid%3Dau_pa_sv&BP_CODE=01"
+            },
+            {
+                "white_url": "wowmapoint_enabled"
+            }
+        ],
+        "results_returned": "590"
+    },
+    "wowPointif": {
+        "useablePointWowTotal": "0",
+        "useableWowPoint": "0",
+        "wowPointStatus": "0"
+    },
+    "textAdif": {
+        "textAd": [
+            {
+                "textAd_text": "HP障害お知らせ1",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000780",
+                "textAd_out_url": "https://disaster.kddi.com/disaster/2022/327/",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            },
+            {
+                "textAd_text": "HP障害お知らせ1重複",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000781",
+                "textAd_out_url": "https://test-news.kddi.com/important/news/important_202208311634.html",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            },
+            {
+                "textAd_text": "HP障害お知らせ3",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000783",
+                "textAd_out_url": "https://www.kddi.com/important-news/20220601/",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            },
+            {
+                "textAd_text": "HP障害お知らせ5表示開始期間確認",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000785",
+                "textAd_out_url": "https://test-news.kddi.com/important/news/important_202209161638.html",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            },
+            {
+                "textAd_text": "(title更新)HP障害お知らせ7表示開始期間確認",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000787",
+                "textAd_out_url": "https://test-news.kddi.com/important/news/important_202209211640.html",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            },
+            {
+                "textAd_text": "【障害発生】（9月14日 10時10分現在）多摩エリアにて携帯電話がご利用しづらい状況について",
+                "close_date": "",
+                "brightness_bg_blue": "228",
+                "ct_url": "",
+                "brightness_font_blue": "35",
+                "brightness_border_red": "255",
+                "brightness_border_blue": "35",
+                "priority": 1,
+                "textAd_id": "HP000793",
+                "textAd_out_url": "https://test-news.kddi.com/important/news/important_202209141642.html",
+                "brightness_border_green": "35",
+                "targeting_flg": "0",
+                "brightness_bg_red": "255",
+                "erasable_flg": "1",
+                "brightness_bg_green": "228",
+                "brightness_font_red": "255",
+                "brightness_font_green": "35",
+                "redisplay_days": "",
+                "imp_url": ""
+            }
+        ],
+        "results_returned": "6"
+    },
+    "financialBundlePlanif": null,
+    "verif": {
+        "ver": [
+            {
+                "ios_no": "3.8.0",
+                "ios_class": "1"
+            },
+            {
+                "and_no": "9.10.6",
+                "and_class": "2"
+            },
+            {
+                "kiyaku_class": "3",
+                "kiyaku_no": "2.0.0"
+            }
+        ],
+        "results_returned": "3"
+    },
+    "createDate": "20250217100502",
+    "jbankif": {
+        "jbankStatus": "1"
+    },
+    "autoChargeAreaif": {
+        "autoChargeStatus": "1",
+        "layoutType": "0",
+        "availableAmount": 5000,
+        "maintenanceText": "情報を取得できませんでした時間をおいて再度お試しください"
+    },
+    "autoChargeSettingif": {
+        "resultCd": "0",
+        "optionInfo": "optionInfo",
+        "chargeMeansInfo": [
+            {
+                "chargeMeans": "01",
+                "validStatus": "1",
+                "invalidCaseLink": "",
+                "chargeableAmount": 30000,
+                "defaultAmount": 5000,
+                "mapleErrorText": "",
+                "chargeableAmountNotice": "チャージ可能額は最大30万円/月ですが、カードのご利用枠によって制限されます。ご利用枠の確認は@@こちら@@",
+                "autoChargeLimit": {
+                    "chargeLowerLimit": 1000,
+                    "chargeUpperLimit": 30000
+                },
+                "fixedChargeLimit": {
+                    "borderLowerLimit": 1000,
+                    "borderUpperLimit": 25000,
+                    "chargeLowerLimit": 1000,
+                    "chargeUpperLimit": 100000
+                }
+            },
+            {
+                "chargeMeans": "02",
+                "validStatus": "1",
+                "invalidCaseLink": "",
+                "chargeableAmount": 30000,
+                "defaultAmount": 5000,
+                "mapleErrorText": "",
+                "chargeableAmountNotice": "チャージ可能額は最大30万円/月ですが、カードのご利用枠によって制限されます。ご利用枠の確認は@@こちら@@",
+                "autoChargeLimit": {
+                    "chargeLowerLimit": 1000,
+                    "chargeUpperLimit": 80000
+                },
+                "fixedChargeLimit": {
+                    "borderLowerLimit": 1000,
+                    "borderUpperLimit": 80000,
+                    "chargeLowerLimit": 1000,
+                    "chargeUpperLimit": 80000
+                }
+            },
+            {
+                "chargeMeans": "03",
+                "validStatus": "1",
+                "invalidCaseLink": "",
+                "chargeableAmount": 30000,
+                "defaultAmount": 5000,
+                "mapleErrorText": "",
+                "chargeableAmountNotice": "チャージ可能額は最大30万円/月ですが、カードのご利用枠によって制限されます。ご利用枠の確認は@@こちら@@",
+                "autoChargeLimit": {
+                    "chargeLowerLimit": 1,
+                    "chargeUpperLimit": 300000
+                },
+                "fixedChargeLimit": {
+                    "borderLowerLimit": 1000,
+                    "borderUpperLimit": 25000,
+                    "chargeLowerLimit": 1000,
+                    "chargeUpperLimit": 100000
+                }
+            }
+        ]
+    }
+}
