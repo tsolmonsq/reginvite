@@ -8,11 +8,11 @@ export function middleware(request: NextRequest) {
 
   // Хэрвээ public route руу орсон ба token байгаа бол → dashboard руу чиглүүлнэ
   if (token && isPublicRoute) {
-    return NextResponse.redirect(new URL('/dashboard', request.url));
+    return NextResponse.redirect(new URL('/events', request.url));
   }
 
   // Хэрвээ protected route руу орсон ба token байхгүй бол → landing руу буцаана
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/dashboard');
+  const isProtectedRoute = request.nextUrl.pathname.startsWith('/events');
   if (!token && isProtectedRoute) {
     return NextResponse.redirect(new URL('/', request.url));
   }
@@ -21,5 +21,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/dashboard/:path*'], // public + protected route-уудыг л шалгана
+  matcher: ['/', '/events/:path*'], // public + protected route-уудыг л шалгана
 };
