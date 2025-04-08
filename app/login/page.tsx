@@ -3,11 +3,29 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Button from "@/components/Button";
+import axios from "axios";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3001/auth/login",
+        { email, password },
+        { withCredentials: true } 
+      );
+
+      alert("Амжилттай нэвтэрлээ!");
+
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Нэвтрэхэд алдаа гарлаа");
+    }
+  };
 
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 p-4">
@@ -22,13 +40,14 @@ export default function LoginPage() {
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />
           <h1 className="text-2xl font-semibold mt-4">Нэвтрэх</h1>
         </div>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleLogin}>
           <input
             type="email"
             placeholder="Имэйл хаяг"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            required
           />
           <div className="relative">
             <input
@@ -37,6 +56,7 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              required
             />
             <button
               type="button"
@@ -55,10 +75,19 @@ export default function LoginPage() {
               Нууц үг сэргээх?
             </a>
           </div>
-          <Button type="submit" variant="primary" className="w-full bg-blue-400 text-white py-2 rounded-md hover:bg-blue-500">
+          <Button
+            type="submit"
+            variant="primary"
+            className="w-full bg-blue-400 text-white py-2 rounded-md hover:bg-blue-500"
+          >
             Нэвтрэх
           </Button>
-          <Button type="submit" variant="ghost" className="w-full bg-blue-400 text-primary py-2 rounded-md hover:bg-blue-500">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => (window.location.href = "/signup")}
+            className="w-full border border-blue-400 text-blue-500 py-2 rounded-md hover:bg-blue-50"
+          >
             Бүртгүүлэх
           </Button>
         </form>

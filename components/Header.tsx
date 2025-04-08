@@ -17,7 +17,7 @@ const Header = () => {
         <div className="flex items-center gap-6">
             <div className="flex items-center gap-4">
               <Button variant="ghost" onClick={() => router.push("/login")}>Нэвтрэх</Button>
-              <Button onClick={() => router.push("/login")}>Бүртгүүлэх</Button>
+              <Button onClick={() => router.push("/signup")}>Бүртгүүлэх</Button>
             </div>
         </div>
       </nav>

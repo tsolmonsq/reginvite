@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
 import Button from "@/components/Button";
 
 export default function SignUpPage() {
@@ -15,6 +16,30 @@ export default function SignUpPage() {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => setHasMounted(true), []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("Нууц үг хоорондоо таарахгүй байна!");
+      return;
+    }
+
+    try {
+      const res = await axios.post("http://localhost:3001/auth/signup", {
+        email,
+        password,
+        first_name: firstName,
+        last_name: lastName,
+        role: "user",
+      });
+
+      alert("Бүртгэл амжилттай! Та одоо нэвтэрч орно уу.");
+      // window.location.href = "/login"; // Хэрвээ redirect хиймээр байвал
+    } catch (err: any) {
+      alert(err.response?.data?.message || "Бүртгэл хийхэд алдаа гарлаа");
+    }
+  };
 
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 p-4">
@@ -33,13 +58,14 @@ export default function SignUpPage() {
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />
           <h1 className="text-2xl font-semibold mt-4">Бүртгүүлэх</h1>
         </div>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <input
             type="email"
             placeholder="Имэйл хаяг"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            required
           />
           <div className="flex gap-4">
             <input
@@ -48,6 +74,7 @@ export default function SignUpPage() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              required
             />
             <input
               type="text"
@@ -55,6 +82,7 @@ export default function SignUpPage() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              required
             />
           </div>
           <div className="relative">
@@ -64,6 +92,7 @@ export default function SignUpPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              required
             />
             <button
               type="button"
@@ -80,6 +109,7 @@ export default function SignUpPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+              required
             />
             <button
               type="button"
@@ -101,6 +131,7 @@ export default function SignUpPage() {
             type="button"
             variant="ghost"
             className="w-full border border-blue-400 text-blue-500 py-2 rounded-md hover:bg-blue-50"
+            onClick={() => window.location.href = "/login"} // эсвэл useRouter ашиглаж болно
           >
             Нэвтрэх
           </Button>
