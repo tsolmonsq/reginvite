@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation"; 
 import Button from "@/components/Button";
 import axios from "axios";
 
@@ -9,6 +10,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,6 +23,8 @@ export default function LoginPage() {
       );
 
       alert("Амжилттай нэвтэрлээ!");
+
+      router.push("/");
 
     } catch (err: any) {
       alert(err.response?.data?.message || "Нэвтрэхэд алдаа гарлаа");
