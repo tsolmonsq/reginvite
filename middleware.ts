@@ -4,16 +4,14 @@ import { NextRequest, NextResponse } from 'next/server';
 export function middleware(request: NextRequest) {
   const token = request.cookies.get('token')?.value;
 
-  const isPublicRoute = request.nextUrl.pathname === '/';
+  const isPublic = request.nextUrl.pathname === '/';
+  const isProtected = request.nextUrl.pathname.startsWith('/events');
 
-  // Хэрвээ public route руу орсон ба token байгаа бол → dashboard руу чиглүүлнэ
-  if (token && isPublicRoute) {
+  if (token && isPublic) {
     return NextResponse.redirect(new URL('/events', request.url));
   }
 
-  // Хэрвээ protected route руу орсон ба token байхгүй бол → landing руу буцаана
-  const isProtectedRoute = request.nextUrl.pathname.startsWith('/events');
-  if (!token && isProtectedRoute) {
+  if (!token && isProtected) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
@@ -21,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/events/:path*'], // public + protected route-уудыг л шалгана
+  matcher: ['/', '/events/:path*'],
 };

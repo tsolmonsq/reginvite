@@ -1,33 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation"; 
 import Button from "@/components/Button";
-import axios from "axios";
+import { useCookies } from 'react-cookie';
 
 export default function LoginPage() {
+  const [cookies, setCookie] = useCookies(['token']);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
 
-    try {
-      const res = await axios.post(
-        "http://localhost:3001/auth/login",
-        { email, password },
-        { withCredentials: true } 
-      );
+    const response = await fetch('http://localhost:3001/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    
+    const data = await response.json();
 
-      alert("Амжилттай нэвтэрлээ!");
+    if (response.ok) {
+      // ✅ Cookie хадгалах
+      setCookie('token', data.access_token, {
+        path: '/',
+        maxAge: 60 * 60 * 24, // 1 өдөр
+        sameSite: 'lax',
+      });
 
-      router.push("/");
-
-    } catch (err: any) {
-      alert(err.response?.data?.message || "Нэвтрэхэд алдаа гарлаа");
+      router.push('/events');
+    } else {
+      alert('Login failed: ' + data.message);
     }
   };
 
