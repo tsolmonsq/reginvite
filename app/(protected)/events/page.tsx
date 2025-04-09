@@ -9,7 +9,8 @@ type Event = {
   id: number;
   title: string;
   location: string;
-  date: string;
+  start_time: string;
+  end_time: string;
   imagePath: string;
 };
 
@@ -39,6 +40,16 @@ export default function EventsPage() {
     fetchEvents();
   }, []);
 
+  const formatDateTime = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return `${date.getFullYear()}/${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date
+      .getHours()
+      .toString()
+      .padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+  };
+
   return (
     <section className="max-w-7xl mx-auto px-4 pb-16">
       <div className="flex items-center justify-between mt-10 mb-6">
@@ -64,27 +75,27 @@ export default function EventsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {events.map((event) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-lg overflow-hidden shadow hover:shadow-md transition-shadow duration-200"
-            >
-              <Image
-                src={
-                  event.imagePath
-                    ? `http://localhost:3001/${event.imagePath}`
-                    : '/no_event_image.jpg' 
-                }
-                alt="Event"
-                width={400}
-                height={250}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-base font-semibold mb-1">{event.title}</h2>
-                <p className="text-sm text-gray-600 leading-tight mb-2">{event.location}</p>
-                <p className="text-xs text-gray-400">{event.date}</p>
-              </div>
+          <div
+            key={event.id}
+            className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
+          >
+            <Image
+              src={
+                event.imagePath
+                  ? `http://localhost:3001/${event.imagePath}`
+                  : '/no_event_image.jpg'
+              }
+              alt={event.title}
+              width={400}
+              height={250}
+              className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+              <h2 className="text-sm font-semibold text-gray-900 mb-2">{event.title}</h2>
+              <p className="text-sm text-gray-600 leading-snug mb-3">{event.location}</p>
+              <p className="text-xs text-gray-400">{formatDateTime(event.start_time)}</p>
             </div>
+          </div>          
           ))}
         </div>
       )}
