@@ -15,7 +15,7 @@ const Header = ({ isProtected = false }: HeaderProps) => {
   return (
     <header className="bg-white w-full px-6 py-4 shadow-sm">
       <nav className="container mx-auto flex justify-between items-center">
-        <Link href={isProtected ? "/dashboard" : "/"} className="flex items-center gap-2">
+        <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
           <img src="/logo.svg" alt="RegInvite logo" className="h-10" />
         </Link>
 
