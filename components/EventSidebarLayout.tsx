@@ -80,7 +80,7 @@ export default function EventSidebarLayout({ children }: { children: ReactNode }
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-8">{children}</main>
+      <main className="flex-1 p-8 bg-white">{children}</main>
     </div>
   );
 }
