@@ -19,5 +19,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/events/:path*'],
+  matcher: ['/', '/events/:path*', '/protected/:path*'], 
 };

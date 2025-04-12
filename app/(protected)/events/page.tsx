@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Search } from 'lucide-react';
 import Button from '@/components/Button';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { useRouter } from 'next/navigation';
 
 type Event = {
   id: number;
@@ -29,6 +30,8 @@ export default function EventsPage() {
     end_time: '',
     image: null as File | null,
   });
+
+  const router = useRouter();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -143,27 +146,24 @@ export default function EventsPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {events.map((event) => (
-          <div
-            key={event.id}
-            className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
-          >
-            <Image
-              src={
-                event.imagePath
-                  ? `http://localhost:3001/${event.imagePath}`
-                  : '/no_event_image.jpg'
-              }
-              alt={event.title}
-              width={400}
-              height={250}
-              className="w-full h-48 object-cover"
-            />
-            <div className="p-4">
-              <h2 className="text-sm font-semibold text-gray-900 mb-2">{event.title}</h2>
-              <p className="text-sm text-gray-600 leading-snug mb-3">{event.location}</p>
-              <p className="text-xs text-gray-400">{formatDateTime(event.start_time)}</p>
+            <div
+              key={event.id}
+              onClick={() => router.push(`/events/${event.id}/guests`)}
+              className="cursor-pointer bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
+            >
+              <Image
+                src={event.imagePath ? `http://localhost:3001/${event.imagePath}` : '/no_event_image.jpg'}
+                alt={event.title}
+                width={400}
+                height={250}
+                className="w-full h-48 object-cover"
+              />
+              <div className="p-4">
+                <h2 className="text-sm font-semibold text-gray-900 mb-2">{event.title}</h2>
+                <p className="text-sm text-gray-600 leading-snug mb-3">{event.location}</p>
+                <p className="text-xs text-gray-400">{formatDateTime(event.start_time)}</p>
+              </div>
             </div>
-          </div>          
           ))}
         </div>
       )}
