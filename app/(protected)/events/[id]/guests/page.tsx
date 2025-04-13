@@ -2,6 +2,18 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Chip,
+  Typography,
+  Box,
+} from '@mui/material';
 
 type Guest = {
   id: number;
@@ -75,46 +87,58 @@ export default function EventGuestsPage() {
     return () => clearTimeout(timeout);
   }, [id]);
 
-  return (
-    <section className="max-w-6xl mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold mb-6">Урьсан зочид - Эвент #{id}</h1>
+  const getStatusChipColor = (status: Guest['status']) => {
+    switch (status) {
+      case 'Sent':
+        return { label: 'Sent', color: 'success' };
+      case 'Pending':
+        return { label: 'Pending', color: 'warning' };
+      case 'Failed':
+        return { label: 'Failed', color: 'error' };
+      case 'By form':
+        return { label: 'By form', color: 'info' };
+      case 'New':
+        return { label: 'New', color: 'primary' };
+      default:
+        return { label: status, color: 'default' };
+    }
+  };
 
-      <table className="w-full table-auto border border-gray-300">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-4 py-2 text-left">Овог</th>
-            <th className="px-4 py-2 text-left">Нэр</th>
-            <th className="px-4 py-2 text-left">Имэйл</th>
-            <th className="px-4 py-2 text-left">Утас</th>
-            <th className="px-4 py-2 text-left">Төлөв</th>
-          </tr>
-        </thead>
-        <tbody>
-          {guests.map((guest) => (
-            <tr key={guest.id} className="border-t hover:bg-gray-50">
-              <td className="px-4 py-2">{guest.last_name}</td>
-              <td className="px-4 py-2">{guest.first_name}</td>
-              <td className="px-4 py-2">{guest.email}</td>
-              <td className="px-4 py-2">{guest.phone}</td>
-              <td className="px-4 py-2">
-                <span
-                  className={`px-2 py-1 text-xs rounded ${
-                    guest.status === 'Sent'
-                      ? 'bg-green-100 text-green-800'
-                      : guest.status === 'Pending'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : guest.status === 'Failed'
-                      ? 'bg-red-100 text-red-800'
-                      : 'bg-blue-100 text-blue-800'
-                  }`}
-                >
-                  {guest.status}
-                </span>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </section>
+  return (
+    <Box sx={{ maxWidth: '1000px', mx: 'auto', py: 5 }}>
+      <Typography variant="h5" fontWeight="bold" mb={3}>
+        Урьсан зочид - Эвент #{id}
+      </Typography>
+
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+            <TableRow>
+              <TableCell>Овог</TableCell>
+              <TableCell>Нэр</TableCell>
+              <TableCell>Имэйл</TableCell>
+              <TableCell>Утас</TableCell>
+              <TableCell>Төлөв</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {guests.map((guest) => {
+              const statusChip = getStatusChipColor(guest.status);
+              return (
+                <TableRow key={guest.id} hover>
+                  <TableCell>{guest.last_name}</TableCell>
+                  <TableCell>{guest.first_name}</TableCell>
+                  <TableCell>{guest.email}</TableCell>
+                  <TableCell>{guest.phone}</TableCell>
+                  <TableCell>
+                    <Chip label={statusChip.label} color={statusChip.color as any} size="small" />
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Box>
   );
 }
