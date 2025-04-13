@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
 import { ArrowLeft, Link, Settings } from 'lucide-react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
@@ -18,85 +18,12 @@ type EventData = {
 type Template = {
   id: number;
   name: string;
-  defaultColor: string;
-  render: (event: EventData, showQR: boolean, showRSVP: boolean) => string;
+  html: string;      
+  font: string;      
+  color: string;    
+  show_qr: boolean;  
+  show_rsvp: boolean; 
 };
-
-// --- Templates with {{COLOR}} placeholders ---
-const templates: Template[] = [
-  {
-    id: 1,
-    name: 'Default Elegant',
-    defaultColor: '#ec4899',
-    render: (event, showQR, showRSVP) => `
-      <div style="max-width: 600px; margin: auto; font-family: Arial, sans-serif; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); background-color: #fff;">
-        <div style="background-color: {{COLOR}}; color: white; padding: 32px 24px; text-align: center;">
-          <h2 style="margin: 0; font-size: 24px;">Урилга</h2>
-          <p style="margin: 8px 0 0 0; font-size: 16px;">${event.title}</p>
-        </div>
-        <div style="padding: 24px; color: #1f2937;">
-          <p><strong>Хаана:</strong> ${event.location}</p>
-          <p><strong>Эхлэх цаг:</strong> ${event.start_time}</p>
-          <p><strong>Дуусах цаг:</strong> ${event.end_time}</p>
-          <p style="margin-top: 16px;">${event.description}</p>
-          ${showQR ? `<div style="text-align: center; margin-top: 24px;"><img src="${event.qr_image}" alt="QR code" width="120" height="120" style="display: inline-block;" /><p style="font-size: 13px; color: #6b7280; margin-top: 8px;">Та үйл ажиллагаанд очихдоо энэхүү QR кодыг уншуулж бүртгүүлээрэй.</p></div>` : ''}
-          ${showRSVP ? `<div style="text-align: center; margin-top: 32px;"><a href="${event.rsvp_url}" style="background-color: {{COLOR}}; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-weight: bold; display: inline-block;">RSVP</a></div>` : ''}
-        </div>
-      </div>`
-  },
-  {
-    id: 2,
-    name: 'Modern Banner',
-    defaultColor: '#2563eb',
-    render: (event, showQR, showRSVP) => `
-      <div style="max-width: 600px; margin: auto; border-radius: 10px; font-family: 'Segoe UI'; overflow: hidden; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
-        <div style="background: {{COLOR}}; padding: 24px; color: white; text-align: left;">
-          <h2 style="font-size: 22px; font-weight: bold; margin: 0;">${event.title}</h2>
-          <p style="margin-top: 8px; font-size: 14px;">${event.description}</p>
-        </div>
-        <div style="background: #fff; padding: 24px; color: #111827;">
-          <p><strong>Хаана:</strong> ${event.location}</p>
-          <p><strong>Эхлэх:</strong> ${event.start_time}</p>
-          <p><strong>Дуусах:</strong> ${event.end_time}</p>
-          ${showQR ? `<div style="text-align: center; margin-top: 20px;"><img src="${event.qr_image}" width="100"/></div>` : ''}
-          ${showRSVP ? `<div style="text-align: center; margin-top: 20px;"><a href="${event.rsvp_url}" style="padding: 10px 20px; background-color: {{COLOR}}; color: white; border-radius: 6px; text-decoration: none;">RSVP</a></div>` : ''}
-        </div>
-      </div>`
-  },
-  {
-    id: 3,
-    name: 'Center Card',
-    defaultColor: '#10b981',
-    render: (event, showQR, showRSVP) => `
-      <div style="max-width: 500px; margin: auto; border: 1px solid #ddd; font-family: 'Georgia'; border-radius: 12px; background: #f9fafb; padding: 20px; text-align: center;">
-        <h2 style="font-size: 20px; margin-bottom: 12px; color: {{COLOR}};">${event.title}</h2>
-        <p>${event.description}</p>
-        <hr style="margin: 16px 0;" />
-        <p><strong>Хаана:</strong> ${event.location}</p>
-        <p><strong>Цаг:</strong> ${event.start_time} - ${event.end_time}</p>
-        ${showQR ? `<div style="margin-top: 20px;"><img src="${event.qr_image}" width="100"/></div>` : ''}
-        ${showRSVP ? `<div style="margin-top: 20px;"><a href="${event.rsvp_url}" style="background: {{COLOR}}; color: white; padding: 10px 20px; border-radius: 5px; text-decoration: none;">RSVP</a></div>` : ''}
-      </div>`
-  },
-  {
-    id: 4,
-    name: 'Left Image Split',
-    defaultColor: '#d946ef',
-    render: (event, showQR, showRSVP) => `
-      <div style="display: flex; max-width: 700px; margin: auto; border-radius: 12px; overflow: hidden; font-family: 'Verdana'; box-shadow: 0 6px 12px rgba(0,0,0,0.1);">
-        <div style="flex: 1; background-color: {{COLOR}}; color: white; padding: 20px;">
-          <h2>${event.title}</h2>
-          <p>${event.description}</p>
-        </div>
-        <div style="flex: 1; background: white; padding: 20px; color: #111827;">
-          <p><strong>Байршил:</strong> ${event.location}</p>
-          <p><strong>Эхлэх:</strong> ${event.start_time}</p>
-          <p><strong>Дуусах:</strong> ${event.end_time}</p>
-          ${showRSVP ? `<div style="margin-top: 20px;"><a href="${event.rsvp_url}" style="background: {{COLOR}}; color: white; padding: 8px 16px; border-radius: 4px; text-decoration: none;">RSVP</a></div>` : ''}
-        </div>
-      </div>`
-  }
-];
 
 // --- HTML Generator ---
 const generateInvitationHtml = (
@@ -107,20 +34,39 @@ const generateInvitationHtml = (
   font: string,
   color: string
 ): string => {
-  return template
-    .render(event, showQR, showRSVP)
+  return template.html
     .replace(/font-family:[^;]+;/, `font-family: ${font};`)
-    .replaceAll('{{COLOR}}', color);
+    .replaceAll('{{COLOR}}', color)
+    .replaceAll('{{TITLE}}', event.title)
+    .replaceAll('{{DESCRIPTION}}', event.description)
+    .replaceAll('{{LOCATION}}', event.location)
+    .replaceAll('{{START_TIME}}', event.start_time)
+    .replaceAll('{{END_TIME}}', event.end_time)
+    .replaceAll(
+      '{{QR_SECTION}}',
+      showQR
+        ? `<div style="text-align:center; margin-top: 24px;"><img src="${event.qr_image}" width="120" /></div>`
+        : ''
+    )
+    .replaceAll(
+      '{{RSVP_SECTION}}',
+      showRSVP
+        ? `<div style="text-align:center; margin-top: 24px;"><a href="${event.rsvp_url}" style="background-color:${color}; color: white; text-decoration: none; padding: 12px 32px; border-radius: 8px; font-weight: bold;">RSVP</a></div>`
+        : ''
+    );
 };
+
 
 export default function InvitationPage() {
   const [showQR, setShowQR] = useState(true);
   const [showRSVP, setShowRSVP] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<'select' | 'customize'>('select');
-  const [selectedTemplate, setSelectedTemplate] = useState<typeof templates[0] | null>(templates[0]);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [selectedTemplate, setSelectedTemplate] = useState<Template | null>(null);
+  const [color, setColor] = useState('#ec4899');
   const [font, setFont] = useState('Arial');
-  const [color, setColor] = useState(templates[0].defaultColor); // use default color from template
+
 
   const event = {
     title: 'Төгсөлтийн ёслолын арга хэмжээ',
@@ -131,6 +77,37 @@ export default function InvitationPage() {
     qr_image: '/qr_dummy.png',
     rsvp_url: 'https://example.com/rsvp',
   };
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/templates');
+        const data = await res.json();
+        setTemplates(data);
+        setSelectedTemplate(data[0]);
+        setColor(data[0]?.color || '#ec4899');
+        setFont(data[0]?.font || 'Arial');
+      } catch (err) {
+        console.error('Template fetch error:', err);
+      }
+    };
+    fetchTemplates();
+  }, []);
+
+  const handleSaveTemplate = async () => {
+    if (!selectedTemplate) return;
+    await fetch(`http://localhost:3001/templates/${selectedTemplate.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        font,
+        color,
+        show_qr: showQR,
+        show_rsvp: showRSVP
+      }),
+    });
+    alert('Загвар амжилттай хадгалагдлаа!');
+  };  
 
   const invitationHtml = selectedTemplate
     ? generateInvitationHtml(selectedTemplate, event, showQR, showRSVP, font, color)
@@ -181,7 +158,7 @@ export default function InvitationPage() {
                   >
                     <div className="aspect-[5/6] overflow-hidden rounded-md bg-white relative">
                       <iframe
-                        srcDoc={template.render(event, false, false).replaceAll('{{COLOR}}', template.defaultColor)}
+                        srcDoc={generateInvitationHtml(template, event, false, false, template.font || 'Arial', template.color)}
                         sandbox="allow-same-origin"
                         className="w-full h-full scale-75 pointer-events-none"
                       />
@@ -191,7 +168,7 @@ export default function InvitationPage() {
                         className="text-white font-semibold cursor-pointer"
                         onClick={() => {
                           setSelectedTemplate(template);
-                          setColor(template.defaultColor); // update color on select
+                          setColor(template.color); // update color on select
                           setStep('customize');
                         }}
                       >
@@ -237,7 +214,15 @@ export default function InvitationPage() {
 
                 <div className="flex justify-end gap-2 mt-4">
                   <Button variant="ghost" onClick={() => setStep('select')}>← Буцах</Button>
-                  <Button onClick={() => setIsOpen(false)}>OK</Button>
+                  <Button 
+                    className="mt-5" 
+                    onClick={async () => {
+                      await handleSaveTemplate();
+                      setIsOpen(false);
+                    }}
+                  >
+                    Хадгалах
+                  </Button>
                 </div>
               </>
             )}
