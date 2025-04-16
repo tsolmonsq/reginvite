@@ -7,6 +7,7 @@ import Button from '@/components/Button';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { useCookies } from "react-cookie";
+import apiFetch from '@/lib/api';
 
 
 type Event = {
@@ -48,30 +49,27 @@ export default function EventsPage() {
 
 
   useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const token = cookies.token;
-        const res = await fetch("https://reginvite-backend.onrender.com/events", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!res.ok) throw new Error("Failed to fetch events");
-        const data = await res.json();
-        console.log("<<<LOG events:", data);
-        setEvents(data);
-      } catch (err) {
-        setError("Арга хэмжээг ачааллаж чадсангүй.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchEvents();
   }, [cookies.token]);
+
+  const fetchEvents = async () => {
+    if (!cookies.token) return;
+
+    try {
+      const data = await apiFetch<Event[]>('/events', {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+      
+      setEvents(data);
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("Арга хэмжээг ачааллаж чадсангүй.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleSubmit = async () => {
     if (!form.image) {
@@ -88,19 +86,15 @@ export default function EventsPage() {
     formData.append('image', form.image);
   
     try {
-      const res = await fetch('http://localhost:3001/events', {
+      const newEvent = await apiFetch<Event>('/events', {
         method: 'POST',
-        credentials: 'include',
         body: formData,
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
       });
   
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || 'Арга хэмжээ үүсгэхэд алдаа гарлаа.');
-      }
-  
-      const newEvent = await res.json();
-      setEvents((prev) => [...prev, newEvent]);
+      setEvents((prev) => [...prev, newEvent]); 
       setIsModalOpen(false);
       setForm({
         title: '',
@@ -160,7 +154,7 @@ export default function EventsPage() {
               className="cursor-pointer bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
             >
               <Image
-                src={event.imagePath ? `http://localhost:3001/${event.imagePath}` : '/no_event_image.jpg'}
+                src={event.imagePath ? `https://reginvite-backend.onrender.com/${event.imagePath}` : '/no_event_image.jpg'}
                 alt={event.title}
                 width={400}
                 height={250}

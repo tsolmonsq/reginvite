@@ -13,7 +13,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { styled } from '@mui/material/styles';
 import { useCookies } from "react-cookie";
-import fetch from '@/lib/api';
+import apiFetch from '@/lib/api';
 import { InboxIcon } from 'lucide-react';
 
 const StatusChip = styled(Chip)(({ theme }) => ({
@@ -89,21 +89,27 @@ export default function EventGuestsPage() {
   const isDeleteDisabled = selectedGuest?.status === 'Sent' || selectedGuest?.status === 'Pending';
 
   useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const result = await fetch(`/events/${id}`, {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
-        });
-        setEvent(result); 
-      } catch (error) {
-        console.error("Event fetch error:", error);
-      }
-    };
-  
     if (id) fetchEvent();
   }, [id, cookies.token]);
+
+  const fetchEvent = async () => {
+    try {
+      const response = await fetch(`/events/${id}`, {
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch event");
+      }
+  
+      const data = await response.json(); 
+      setEvent(data);
+    } catch (error) {
+      console.error("Event fetch error:", error);
+    }
+  };
 
   const fetchGuests = async () => {
     try {
@@ -121,7 +127,7 @@ export default function EventGuestsPage() {
         query.append("status", statusFilter);
       }
   
-      const result = await fetch<{ data: Guest[]; meta: any }>(
+      const result = await apiFetch<{ data: Guest[]; meta: any }>(
         `/guests?${query.toString()}`,
         {
           headers: {
@@ -157,7 +163,7 @@ export default function EventGuestsPage() {
         query.append("search", confirmSearchQuery.trim());
       }
   
-      const result = await fetch<{ data: Guest[]; meta: any }>(
+      const result = await apiFetch<{ data: Guest[]; meta: any }>(
         `/guests?${query.toString()}`,
         {
           headers: {
