@@ -1,6 +1,6 @@
 import { AlertProvider } from '@/context/AlertProvider';
 import './globals.css';
-import ClientLayout from '@/components/ClientLayout';
+import ClientLayout from '@/components/layouts/ClientLayout';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

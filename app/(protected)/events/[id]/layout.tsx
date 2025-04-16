@@ -1,4 +1,4 @@
-import EventSidebarLayout from '@/components/EventSidebarLayout';
+import EventSidebarLayout from '@/components/layouts/EventSidebarLayout';
 import { ReactNode } from 'react';
 
 export default function EventLayout({ children }: { children: ReactNode }) {

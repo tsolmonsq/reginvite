@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, message } from 'antd';
-import FormFieldEditor from '@/components/FormFieldEditor';
+import FormFieldEditor from '@/components/forms/FormFieldEditor';
 import { FormField } from '@/lib/types';
 import apiFetch from '@/lib/api';
 

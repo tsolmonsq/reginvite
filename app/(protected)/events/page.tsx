@@ -8,7 +8,7 @@ import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { CircularProgress, Pagination } from '@mui/material';
 import { Search } from 'lucide-react';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import EventCard from '@/components/cards/EventCard';
 import EventForm from '@/components/forms/EventForm';
 

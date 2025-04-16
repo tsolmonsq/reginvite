@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Button from '@/components/Button';
+import Button from '@/components/ui/Button';
 import apiFetch from '@/lib/api';
 import { useAlert } from '@/app/hooks/useAlert';
 
