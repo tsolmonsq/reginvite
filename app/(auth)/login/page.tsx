@@ -3,9 +3,9 @@
 import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Button from "@/components/Button";
 import { useCookies } from "react-cookie";
-import fetch from "@/lib/api";
+import Button from "@/components/Button";
+import apiFetch from "@/lib/api";
 
 export default function LoginPage() {
   const [cookies, setCookie] = useCookies(["token"]);
@@ -17,7 +17,7 @@ export default function LoginPage() {
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
-      const data = await fetch("/auth/login", {
+      const data = await apiFetch("/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
@@ -30,7 +30,7 @@ export default function LoginPage() {
   
       router.push("/events");
     } catch (err: any) {
-      alert("Нэвтрэхэд алдаа гарлаа: " + err.message);
+      alert("Error when login: " + err.message);
     }
   };
 

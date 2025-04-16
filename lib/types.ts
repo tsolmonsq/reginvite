@@ -7,3 +7,12 @@ export interface FormField {
   required: boolean;
   options?: string[];
 }
+
+export type Event = {
+  id: number;
+  title: string;
+  location: string;
+  start_time: string;
+  end_time: string;
+  imagePath: string;
+};

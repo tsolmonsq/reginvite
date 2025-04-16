@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Button from "@/components/Button";
-import fetch from "@/lib/api"; // ✅ fetch utility
+import apiFetch from "@/lib/api"; 
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -26,7 +26,7 @@ export default function SignUpPage() {
     }
 
     try {
-      await fetch("/auth/signup", {
+      await apiFetch("/auth/signup", {
         method: "POST",
         body: JSON.stringify({
           email,

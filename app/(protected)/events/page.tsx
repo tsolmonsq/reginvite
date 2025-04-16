@@ -1,129 +1,76 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import { useCookies } from "react-cookie";
+import { useAlert } from '@/app/hooks/useAlert';
+import { Event } from '@/lib/types';
+import apiFetch from '@/lib/api';
+import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import { CircularProgress, Pagination } from '@mui/material';
 import { Search } from 'lucide-react';
 import Button from '@/components/Button';
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { useRouter } from 'next/navigation';
-import { useCookies } from "react-cookie";
-import apiFetch from '@/lib/api';
-
-
-type Event = {
-  id: number;
-  title: string;
-  location: string;
-  start_time: string;
-  end_time: string;
-  imagePath: string;
-};
+import EventCard from '@/components/cards/EventCard';
+import EventForm from '@/components/forms/EventForm';
 
 export default function EventsPage() {
+  const alert = useAlert();
   const [cookies] = useCookies(["token"]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [form, setForm] = useState({
-    title: '',
-    description: '',
-    location: '',
-    start_time: '',
-    end_time: '',
-    image: null as File | null,
+  const [searchQuery, setSearchQuery] = useState('');
+  const [meta, setMeta] = useState({
+    total: 0,
+    page: 1,
+    limit: 10,
+    hasNext: false,
+    hasPrevious: false,
+    totalPages: 1,
   });
 
-  const router = useRouter();
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setForm({ ...form, image: e.target.files[0] });
-    }
-  };
-
-
   useEffect(() => {
-    fetchEvents();
+    fetchEvents(searchQuery, 1); 
   }, [cookies.token]);
 
-  const fetchEvents = async () => {
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      fetchEvents(searchQuery, 1);
+    }, 500);
+
+    return () => clearTimeout(delayDebounce);
+  }, [searchQuery]);
+
+  const fetchEvents = async (query: string = '', page: number = 1) => {
     if (!cookies.token) return;
 
+    setLoading(true);
+    setError('');
+
     try {
-      const data = await apiFetch<Event[]>('/events', {
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      });
-      
-      setEvents(data);
+      const res = await apiFetch<{ data: Event[]; meta: typeof meta }>(
+        `/events?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+
+      setEvents(res.data);
+      setMeta(res.meta);
     } catch (err) {
       console.error("Fetch error:", err);
-      setError("Арга хэмжээг ачааллаж чадсангүй.");
+      setError("Unable to load events.");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async () => {
-    if (!form.image) {
-      alert('Зураг оруулна уу.');
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append('title', form.title);
-    formData.append('description', form.description);
-    formData.append('location', form.location);
-    formData.append('start_time', new Date(form.start_time).toISOString());
-    formData.append('end_time', new Date(form.end_time).toISOString());
-    formData.append('image', form.image);
-  
-    try {
-      const newEvent = await apiFetch<Event>('/events', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-      });
-  
-      setEvents((prev) => [...prev, newEvent]); 
-      setIsModalOpen(false);
-      setForm({
-        title: '',
-        description: '',
-        location: '',
-        start_time: '',
-        end_time: '',
-        image: null,
-      });
-    } catch (err) {
-      console.error(err);
-      alert('Арга хэмжээ үүсгэхэд алдаа гарлаа.');
-    }
-  };  
-
-  const formatDateTime = (isoDate: string) => {
-    const date = new Date(isoDate);
-    return `${date.getFullYear()}/${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')} ${date
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
-  };
-
   return (
     <section className="max-w-7xl mx-auto px-4 pb-16">
       <div className="flex items-center justify-between mt-10 mb-6">
-        <h1 className="text-xl md:text-2xl font-semibold">Бүртгэлтэй арга хэмжээнүүд</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">Арга хэмжээнүүд</h1>
         <Button
           className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm flex items-center gap-2"
           onClick={() => setIsModalOpen(true)}
@@ -136,126 +83,53 @@ export default function EventsPage() {
         <input
           type="text"
           placeholder="Хайх"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full py-2 pl-10 pr-4 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
         />
         <Search className="absolute left-3 top-2.5 w-5 h-5 text-gray-400" />
       </div>
 
       {loading ? (
-        <p>Уншиж байна...</p>
+        <div className="flex justify-center items-center min-h-[300px]">
+          <CircularProgress color="primary" size={40} thickness={5} />
+        </div>
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {events.map((event) => (
-            <div
-              key={event.id}
-              onClick={() => router.push(`/events/${event.id}/guests`)}
-              className="cursor-pointer bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
-            >
-              <Image
-                src={event.imagePath ? `https://reginvite-backend.onrender.com/${event.imagePath}` : '/no_event_image.jpg'}
-                alt={event.title}
-                width={400}
-                height={250}
-                className="w-full h-48 object-cover"
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {events.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+          {meta.totalPages > 1 && (
+            <div className="flex justify-center mt-10">
+              <Pagination
+                count={meta.totalPages}
+                page={meta.page}
+                onChange={(_, page) => fetchEvents(searchQuery, page)}
+                color="primary"
+                shape="rounded"
               />
-              <div className="p-4">
-                <h2 className="text-sm font-semibold text-gray-900 mb-2">{event.title}</h2>
-                <p className="text-sm text-gray-600 leading-snug mb-3">{event.location}</p>
-                <p className="text-xs text-gray-400">{formatDateTime(event.start_time)}</p>
-              </div>
             </div>
-          ))}
-        </div>
+          )}
+        </>
       )}
 
-      {/* MODAL */}
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center">
           <DialogPanel className="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl">
             <DialogTitle className="text-center text-xl font-semibold mb-6">Арга хэмжээ бүртгэх</DialogTitle>
-            <div className="space-y-5">
-              <div>
-                <label className="text-sm font-medium block mb-1">Арга хэмжээний нэр</label>
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Арга хэмжээний нэр"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  value={form.title}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium block mb-1">Дэлгэрэнгүй мэдээлэл</label>
-                <textarea
-                  name="description"
-                  placeholder="200 тэмдэгт хүртэл"
-                  maxLength={200}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  value={form.description}
-                  onChange={handleInputChange}
-                />
-                <p className="text-xs text-gray-400 text-right">{form.description.length}/200</p>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium block mb-1">Зураг <span className="text-red-500">*</span></label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  onChange={handleFileChange}
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium block mb-1">Эвентийн эхлэх огноо <span className="text-red-500">*</span></label>
-                  <input
-                    type="datetime-local"
-                    name="start_time"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    value={form.start_time}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium block mb-1">Эвентийн дуусах огноо <span className="text-red-500">*</span></label>
-                  <input
-                    type="datetime-local"
-                    name="end_time"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                    value={form.end_time}
-                    onChange={handleInputChange}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-sm font-medium block mb-1">Хаяг <span className="text-red-500">*</span></label>
-                <input
-                  type="text"
-                  name="location"
-                  placeholder="Байршлаа оруулна уу..."
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  value={form.location}
-                  onChange={handleInputChange}
-                />
-              </div>
-
-              <div className="flex justify-center gap-4 pt-4">
-                <Button variant="ghost" onClick={() => setIsModalOpen(false)}>
-                  Болих
-                </Button>
-                <Button variant="primary" onClick={handleSubmit}>
-                  Бүртгэх
-                </Button>
-              </div>
-            </div>
+            <EventForm
+              token={cookies.token}
+              onSuccess={() => {
+                setIsModalOpen(false);
+                fetchEvents(searchQuery, meta.page); // одоогийн хуудас руу буцааж ачаалгана
+              }}
+              onError={() => alert.error("Арга хэмжээ үүсгэхэд алдаа гарлаа.")}
+            />
           </DialogPanel>
         </div>
       </Dialog>
