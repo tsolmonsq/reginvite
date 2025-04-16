@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import Button from "@/components/ui/Button";
+import Button from "@/components/ui/buttons/Button";
 import apiFetch from "@/lib/api"; 
 
 export default function SignUpPage() {

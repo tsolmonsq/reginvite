@@ -8,8 +8,8 @@ import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { CircularProgress, Pagination } from '@mui/material';
 import { Search } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import EventCard from '@/components/cards/EventCard';
+import Button from '@/components/ui/buttons/Button';
+import EventCard from '@/components/ui/cards/EventCard';
 import EventForm from '@/components/forms/EventForm';
 
 export default function EventsPage() {

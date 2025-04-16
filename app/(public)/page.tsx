@@ -5,7 +5,7 @@ import FeatureSection from "@/components/sections/FeatureSection";
 import HeroSection from "@/components/sections/HeroSection";
 import InviteTemplateSection from "@/components/sections/InviteTemplateSection";
 import TeamFeatureIntroSection from "@/components/sections/TeamFeatureIntroSection";
-import DotDivider from "@/components/ui/DotDivider"; 
+import DotDivider from "@/components/ui/assets/DotDivider"; 
 
 export default function LandingPage() {
 

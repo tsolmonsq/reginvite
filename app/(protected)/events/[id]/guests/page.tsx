@@ -8,7 +8,7 @@ import {
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
-import Button from '@/components/ui/Button';
+import Button from '@/components/ui/buttons/Button';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { styled } from '@mui/material/styles';
