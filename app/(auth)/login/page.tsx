@@ -2,12 +2,13 @@
 
 import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import Button from "@/components/Button";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
+import fetch from "@/lib/api";
 
 export default function LoginPage() {
-  const [cookies, setCookie] = useCookies(['token']);
+  const [cookies, setCookie] = useCookies(["token"]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -15,37 +16,33 @@ export default function LoginPage() {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
-
-    const response = await fetch('http://localhost:3001/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
-    });
-    
-    const data = await response.json();
-
-    if (response.ok) {
-      // ✅ Cookie хадгалах
-      setCookie('token', data.access_token, {
-        path: '/',
-        maxAge: 60 * 60 * 24, // 1 өдөр
-        sameSite: 'lax',
+    try {
+      const data = await fetch("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
       });
-
-      router.push('/events');
-    } else {
-      alert('Login failed: ' + data.message);
+  
+      setCookie("token", data.access_token, {
+        path: "/",
+        maxAge: 60 * 60 * 24,
+        sameSite: "lax",
+      });
+  
+      router.push("/events");
+    } catch (err: any) {
+      alert("Нэвтрэхэд алдаа гарлаа: " + err.message);
     }
   };
 
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 p-4">
-      {/* Illustration */}
       <div className="hidden md:flex items-center justify-center">
-        <img src="/illustrations/login_signup_decoration.svg" alt="Illustration" className="max-w-md" />
+        <img
+          src="/illustrations/login_signup_decoration.svg"
+          alt="Illustration"
+          className="max-w-md"
+        />
       </div>
-
-      {/* Login Form */}
       <div className="flex flex-col justify-center px-4 md:px-8">
         <div className="text-center mb-8">
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />

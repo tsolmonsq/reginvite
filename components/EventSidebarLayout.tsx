@@ -11,6 +11,8 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
+import { useCookies } from 'react-cookie';
+import fetch from '@/lib/api';
 
 const tabs = [
   { slug: 'guests', label: 'Зочид', icon: Users },
@@ -25,6 +27,7 @@ const formSubTabs = [
 ];
 
 export default function EventSidebarLayout({ children }: { children: ReactNode }) {
+  const [cookies] = useCookies(["token"]);
   const pathname = usePathname();
   const { id } = useParams();
   const [eventTitle, setEventTitle] = useState<string | null>(null);
@@ -33,20 +36,20 @@ export default function EventSidebarLayout({ children }: { children: ReactNode }
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const res = await fetch(`http://localhost:3001/events/${id}`, {
-          credentials: 'include',
+        const data = await fetch<{ title: string }>(`/events/${id}`, {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
         });
-        if (!res.ok) throw new Error('Failed to fetch event title');
-        const data = await res.json();
         setEventTitle(data.title);
       } catch (error) {
-        console.error('Event fetch error:', error);
+        console.error("Event fetch error:", error);
         setEventTitle(null);
       }
     };
-
+  
     if (id) fetchEvent();
-  }, [id]);
+  }, [id, cookies.token]);
 
   return (
     <div className="flex min-h-screen bg-gray-50">

@@ -12,6 +12,9 @@ import Button from '@/components/Button';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { styled } from '@mui/material/styles';
+import { useCookies } from "react-cookie";
+import fetch from '@/lib/api';
+import { InboxIcon } from 'lucide-react';
 
 const StatusChip = styled(Chip)(({ theme }) => ({
   borderRadius: '12px',
@@ -55,6 +58,7 @@ const STATUS_TABS = [
 ];
 
 export default function EventGuestsPage() {
+  const [cookies] = useCookies(["token"]);
   const { id } = useParams();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -79,62 +83,96 @@ export default function EventGuestsPage() {
     email: '',
     phone: '',
   });
+  const [event, setEvent] = useState<any>(null);
 
   const selectedGuest = guests.find((g) => g.id === selectedGuestId);
   const isDeleteDisabled = selectedGuest?.status === 'Sent' || selectedGuest?.status === 'Pending';
 
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const result = await fetch(`/events/${id}`, {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        });
+        setEvent(result); 
+      } catch (error) {
+        console.error("Event fetch error:", error);
+      }
+    };
+  
+    if (id) fetchEvent();
+  }, [id, cookies.token]);
+
   const fetchGuests = async () => {
     try {
-      const url = new URL(`http://localhost:3001/guests`);
-      url.searchParams.append('eventId', `${id}`);
-      url.searchParams.append('page', `${page}`);
-      url.searchParams.append('limit', `${limit}`);
+      const query = new URLSearchParams({
+        eventId: `${id}`,
+        page: `${page}`,
+        limit: `${limit}`,
+      });
+  
       if (searchQuery.trim()) {
-        url.searchParams.append('search', searchQuery.trim());
+        query.append("search", searchQuery.trim());
       }
 
-      const res = await fetch(url.toString(), { credentials: 'include' });
-      const result = await res.json();
-
-      if (Array.isArray(result.data)) {
-        const data = result.data as Guest[];
-        setGuests(data);
-        setMeta(result.meta);
-
-        const filtered = statusFilter === 'all'
-          ? data
-          : data.filter((g) => g.status === statusFilter);
-
-        setFilteredGuests(filtered);
+      if (statusFilter !== 'all') {
+        query.append("status", statusFilter);
       }
+  
+      const result = await fetch<{ data: Guest[]; meta: any }>(
+        `/guests?${query.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
+  
+      setGuests(result.data);
+      setMeta(result.meta);
+  
+      const filtered =
+        statusFilter === "all"
+          ? result.data
+          : result.data.filter((g) => g.status === statusFilter);
+  
+      setFilteredGuests(filtered);
     } catch (error) {
-      console.error('Guests fetch error:', error);
+      console.error("Guests fetch error:", error);
     }
   };
-
+  
   const fetchConfirmGuests = async () => {
     try {
-      const url = new URL(`http://localhost:3001/guests`);
-      url.searchParams.append('eventId', `${id}`);
-      url.searchParams.append('page', `${confirmPage}`);
-      url.searchParams.append('limit', `${limit}`);
-      url.searchParams.append('status', confirmFilter);
+      const query = new URLSearchParams({
+        eventId: `${id}`,
+        page: `${confirmPage}`,
+        limit: `${limit}`,
+        status: confirmFilter,
+      });
   
       if (confirmSearchQuery.trim()) {
-        url.searchParams.append('search', confirmSearchQuery.trim());
+        query.append("search", confirmSearchQuery.trim());
       }
   
-      const res = await fetch(url.toString(), { credentials: 'include' });
-      const result = await res.json();
+      const result = await fetch<{ data: Guest[]; meta: any }>(
+        `/guests?${query.toString()}`,
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.token}`,
+          },
+        }
+      );
   
-      if (Array.isArray(result.data)) {
-        setConfirmGuests(result.data);
-        setConfirmMeta(result.meta);
-      }
+      setConfirmGuests(result.data);
+      setConfirmMeta(result.meta);
     } catch (error) {
-      console.error('Confirm Guests fetch error:', error);
+      console.error("Confirm Guests fetch error:", error);
     }
   };
+  
   
   useEffect(() => {
     if (id) fetchGuests();
@@ -148,20 +186,43 @@ export default function EventGuestsPage() {
   
 
   const handleAddGuest = async () => {
-    const res = await fetch('http://localhost:3001/guests', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, eventId: Number(id) }),
-    });
-
-    if (res.ok) {
+    try {
+      await fetch('/guests', {
+        method: 'POST',
+        body: JSON.stringify({ ...form, eventId: Number(id) }),
+        headers: {
+          Authorization: `Bearer ${cookies.token}`, 
+        },
+      });
+  
       setPage(1);
       setStatusFilter('all');
       setSearchQuery('');
       await fetchGuests();
       setOpenAdd(false);
       setForm({ first_name: '', last_name: '', email: '', phone: '' });
+    } catch (err) {
+      alert('Зочин нэмэхэд алдаа гарлаа.');
+      console.error(err);
+    }
+  };
+  
+  const handleDeleteGuest = async () => {
+    if (!selectedGuestId) return;
+  
+    try {
+      await fetch(`/guests/${selectedGuestId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+  
+      await fetchGuests();
+      handleMenuClose();
+    } catch (err) {
+      alert('Устгахад алдаа гарлаа.');
+      console.error(err);
     }
   };
 
@@ -174,23 +235,42 @@ export default function EventGuestsPage() {
     setAnchorEl(null);
     setSelectedGuestId(null);
   };
-  
-  const handleDeleteGuest = async () => {
-    if (!selectedGuestId) return;
-  
-    await fetch(`http://localhost:3001/guests/${selectedGuestId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-  
-    await fetchGuests(); 
-  };  
 
-  const handleSendInvites = () => {
-    const toInvite = guests.filter((g) => !['Sent', 'Pending'].includes(g.status));
-    console.log('Илгээх зочид:', toInvite);
-    setOpenConfirm(false);
-  };
+  const handleSendInvites = async () => {
+    try {
+      const guestIds = confirmGuests
+        .filter((g) => !["Sent", "Pending"].includes(g.status))
+        .map((g) => g.id);
+  
+      if (guestIds.length === 0) {
+        alert("Илгээх зочин олдсонгүй.");
+        return;
+      }
+  
+      if (!event?.template?.id) {
+        alert("Эвентийн template ID олдсонгүй.");
+        return;
+      }
+  
+      await fetch('/guests/send-invites', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+        body: JSON.stringify({
+          guestIds,
+          templateId: event.template.id,
+        }),
+      });
+  
+      alert("Урилга амжилттай илгээгдлээ.");
+      setOpenConfirm(false);
+      await fetchGuests();
+    } catch (error) {
+      console.error("Урилга илгээх алдаа:", error);
+      alert("Урилга илгээхэд алдаа гарлаа.");
+    }
+  };  
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 5 }}>
@@ -205,7 +285,10 @@ export default function EventGuestsPage() {
 
       <Tabs
         value={statusFilter}
-        onChange={(_, newValue) => { setPage(1); setStatusFilter(newValue); }}
+        onChange={(_, newValue) => { 
+          setPage(1); 
+          setStatusFilter(newValue); 
+        }}
         variant="scrollable"
         scrollButtons
         allowScrollButtonsMobile
@@ -238,22 +321,41 @@ export default function EventGuestsPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredGuests.map((guest) => (
-              <TableRow key={guest.id}>
-                <TableCell>{guest.last_name}</TableCell>
-                <TableCell>{guest.first_name}</TableCell>
-                <TableCell>{guest.email}</TableCell>
-                <TableCell>{guest.phone}</TableCell>
-                <TableCell>
-                  <StatusChip label={guest.status} size="small" className={guest.status.replace(' ', '')} />
-                </TableCell>
-                <TableCell align="right">
-                  <IconButton size="small" onClick={(e) => handleMenuOpen(e, guest.id)}>
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+              {filteredGuests.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6}>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      justifyContent="center"
+                      minHeight="300px" 
+                    >
+                      <InboxIcon size={48} color="#CCCCCC" />
+                      <Box sx={{ color: "#CCCCCC", fontSize: '1rem' }}>
+                        Хоосон байна
+                      </Box>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredGuests.map((guest) => (
+                  <TableRow key={guest.id}>
+                    <TableCell>{guest.last_name}</TableCell>
+                    <TableCell>{guest.first_name}</TableCell>
+                    <TableCell>{guest.email}</TableCell>
+                    <TableCell>{guest.phone}</TableCell>
+                    <TableCell>
+                      <StatusChip label={guest.status} size="small" className={guest.status.replace(' ', '')} />
+                    </TableCell>
+                    <TableCell align="right">
+                      <IconButton size="small" onClick={(e) => handleMenuOpen(e, guest.id)}>
+                        <MoreVertIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
           </TableBody>
         </Table>
         <TablePagination
@@ -319,22 +421,38 @@ export default function EventGuestsPage() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {confirmGuests.map((g) => (
+                {confirmGuests.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6}>
+                        <Box
+                          display="flex"
+                          flexDirection="column"
+                          alignItems="center"
+                          justifyContent="center"
+                          minHeight=" 100px" 
+                        >
+                          <InboxIcon size={48} color="#CCCCCC" />
+                          <Box sx={{ color: "#CCCCCC", fontSize: '1rem' }}>
+                            Хоосон байна
+                          </Box>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                ) : (
+                  confirmGuests.map((g) => (
                     <TableRow key={g.id}>
                       <TableCell>{g.first_name} {g.last_name}</TableCell>
                       <TableCell>{g.email}</TableCell>
                       <TableCell>
-                        <StatusChip label={g.status} size="small" className={g.status.replace(' ', '')} />
+                        <StatusChip
+                          label={g.status}
+                          size="small"
+                          className={g.status.replace(' ', '')}
+                        />
                       </TableCell>
                     </TableRow>
-                  ))}
-                  {confirmGuests.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={3} align="center" sx={{ py: 3 }}>
-                        Илгээх зочин олдсонгүй
-                      </TableCell>
-                    </TableRow>
-                  )}
+                  ))
+                )}
                 </TableBody>
               </Table>
               <TablePagination

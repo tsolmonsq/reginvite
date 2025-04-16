@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react';
 import Button from '@/components/Button';
-import { ArrowLeft, Link, Settings } from 'lucide-react';
+import { Settings } from 'lucide-react';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
+import fetch from "@/lib/api";
 
 type EventData = {
   title: string;
@@ -25,7 +26,6 @@ type Template = {
   show_rsvp: boolean; 
 };
 
-// --- HTML Generator ---
 const generateInvitationHtml = (
   template: Template,
   event: EventData,
@@ -56,7 +56,6 @@ const generateInvitationHtml = (
     );
 };
 
-
 export default function InvitationPage() {
   const [showQR, setShowQR] = useState(true);
   const [showRSVP, setShowRSVP] = useState(true);
@@ -79,35 +78,44 @@ export default function InvitationPage() {
   };
 
   useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        const res = await fetch('http://localhost:3001/templates');
-        const data = await res.json();
-        setTemplates(data);
-        setSelectedTemplate(data[0]);
-        setColor(data[0]?.color || '#ec4899');
-        setFont(data[0]?.font || 'Arial');
-      } catch (err) {
-        console.error('Template fetch error:', err);
-      }
-    };
-    fetchTemplates();
+    fetchTemplates(setTemplates, setSelectedTemplate, setColor, setFont);
   }, []);
+
+  const fetchTemplates = async (
+    setTemplates: React.Dispatch<React.SetStateAction<Template[]>>,
+    setSelectedTemplate: React.Dispatch<React.SetStateAction<Template | null>>,
+    setColor: React.Dispatch<React.SetStateAction<string>>,
+    setFont: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    try {
+      const data = await fetch<Template[]>("/templates");
+      setTemplates(data);
+      setSelectedTemplate(data[0]);
+      setColor(data[0]?.color || "#ec4899");
+      setFont(data[0]?.font || "Arial");
+    } catch (err) {
+      console.error("Template fetch error:", err);
+    }
+  };
 
   const handleSaveTemplate = async () => {
     if (!selectedTemplate) return;
-    await fetch(`http://localhost:3001/templates/${selectedTemplate.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        font,
-        color,
-        show_qr: showQR,
-        show_rsvp: showRSVP
-      }),
-    });
-    alert('Загвар амжилттай хадгалагдлаа!');
-  };  
+  
+    try {
+      await fetch(`/templates/${selectedTemplate.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({
+          font,
+          color,
+          show_qr: showQR,
+          show_rsvp: showRSVP,
+        }),
+      });
+      alert('Загвар амжилттай хадгалагдлаа!');
+    } catch (err) {
+      alert('Хадгалахад алдаа гарлаа.');
+    }
+  };
 
   const invitationHtml = selectedTemplate
     ? generateInvitationHtml(selectedTemplate, event, showQR, showRSVP, font, color)

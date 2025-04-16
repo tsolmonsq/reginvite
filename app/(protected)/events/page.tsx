@@ -6,6 +6,8 @@ import { Search } from 'lucide-react';
 import Button from '@/components/Button';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
+import { useCookies } from "react-cookie";
+
 
 type Event = {
   id: number;
@@ -17,6 +19,7 @@ type Event = {
 };
 
 export default function EventsPage() {
+  const [cookies] = useCookies(["token"]);
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -47,23 +50,28 @@ export default function EventsPage() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const res = await fetch("http://localhost:3001/events", {
-          method: 'GET',
-          credentials: 'include', 
+        const token = cookies.token;
+        const res = await fetch("https://reginvite-backend.onrender.com/events", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
         });
-        if (!res.ok) throw new Error('Failed to fetch events');
+
+        if (!res.ok) throw new Error("Failed to fetch events");
         const data = await res.json();
-        console.log("<<<LOG events:", data)
+        console.log("<<<LOG events:", data);
         setEvents(data);
       } catch (err) {
-        setError('Арга хэмжээг ачааллаж чадсангүй.');
+        setError("Арга хэмжээг ачааллаж чадсангүй.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchEvents();
-  }, []);
+  }, [cookies.token]);
 
   const handleSubmit = async () => {
     if (!form.image) {

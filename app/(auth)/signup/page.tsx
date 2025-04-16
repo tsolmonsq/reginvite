@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import axios from "axios";
 import Button from "@/components/Button";
+import fetch from "@/lib/api"; // ✅ fetch utility
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -26,24 +26,25 @@ export default function SignUpPage() {
     }
 
     try {
-      const res = await axios.post("http://localhost:3001/auth/signup", {
-        email,
-        password,
-        first_name: firstName,
-        last_name: lastName,
-        role: "user",
+      await fetch("/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+          first_name: firstName,
+          last_name: lastName,
+          role: "user",
+        }),
       });
 
-      alert("Бүртгэл амжилттай! Та одоо нэвтэрч орно уу.");
-      // window.location.href = "/login"; // Хэрвээ redirect хиймээр байвал
+      alert("Бүртгэл амжилттай! Та одоо нэвтрэх боломжтой.");
     } catch (err: any) {
-      alert(err.response?.data?.message || "Бүртгэл хийхэд алдаа гарлаа");
+      alert(err.message || "Бүртгэл хийхэд алдаа гарлаа");
     }
   };
 
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 p-4">
-      {/* Illustration */}
       <div className="hidden md:flex items-center justify-center">
         <img
           src="/illustrations/login_signup_decoration.svg"
@@ -52,7 +53,6 @@ export default function SignUpPage() {
         />
       </div>
 
-      {/* Sign Up Form */}
       <div className="flex flex-col justify-center px-4 md:px-8">
         <div className="text-center mb-8">
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />
@@ -131,7 +131,7 @@ export default function SignUpPage() {
             type="button"
             variant="ghost"
             className="w-full border border-blue-400 text-blue-500 py-2 rounded-md hover:bg-blue-50"
-            onClick={() => window.location.href = "/login"} // эсвэл useRouter ашиглаж болно
+            onClick={() => (window.location.href = "/login")}
           >
             Нэвтрэх
           </Button>
