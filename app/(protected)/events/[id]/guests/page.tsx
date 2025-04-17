@@ -89,22 +89,17 @@ export default function EventGuestsPage() {
   const isDeleteDisabled = selectedGuest?.status === 'Sent' || selectedGuest?.status === 'Pending';
 
   useEffect(() => {
-    if (id) fetchEvent();
+    if (id) fetchEvent(id as string);
   }, [id, cookies.token]);
 
-  const fetchEvent = async () => {
+  const fetchEvent = async (eventId: string) => {
     try {
-      const response = await fetch(`/events/${id}`, {
+      const data = await apiFetch(`/events/${eventId}`, {
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       });
   
-      if (!response.ok) {
-        throw new Error("Failed to fetch event");
-      }
-  
-      const data = await response.json(); 
       setEvent(data);
     } catch (error) {
       console.error("Event fetch error:", error);

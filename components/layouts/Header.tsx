@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Button from "./Button";
+import Button from "../ui/buttons/Button";
 import { UserCircle2 } from "lucide-react";
 
 interface HeaderProps {
