@@ -64,24 +64,33 @@ export default function InvitationPage() {
     }
   };
 
-  const handleSaveTemplate = async () => {
+  const handleSaveTemplate = async (silent: boolean = false) => {
     if (!event?.invitationTemplate) return;
-
+  
     try {
-      await apiFetch(`/invitation-template/${event.invitationTemplate.id}`, {
+      await apiFetch(`/invitation-templates/${event.invitationTemplate.id}`, {
         method: 'PATCH',
-        body: JSON.stringify({ font, color, show_qr: showQR, show_rsvp: showRSVP }),
+        body: JSON.stringify({
+          font,
+          color,
+          show_qr: showQR,
+          show_rsvp: showRSVP,
+          baseTemplateId: selectedTemplate?.baseTemplate?.id,
+        }),
       });
-      alert("Загвар амжилттай хадгалагдлаа!");
+  
+      if (!silent) {
+        alert("Загвар амжилттай хадгалагдлаа!");
+      }
     } catch (err) {
-      alert("Хадгалахад алдаа гарлаа.");
-      console.error(err);
+      console.error("Хадгалахад алдаа гарлаа:", err);
+      if (!silent) alert("Хадгалахад алдаа гарлаа.");
     }
-  };
+  };  
 
   const invitationHtml =
     selectedTemplate && event
-      ? generateInvitationHtml(selectedTemplate, event, showQR, showRSVP, font, color)
+      ? generateInvitationHtml(selectedTemplate.baseTemplate, event, showQR, showRSVP, font, color)
       : '';
 
   if (!event || !selectedTemplate) {
@@ -95,13 +104,18 @@ export default function InvitationPage() {
   return (
     <section className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row gap-10">
       <div className="md:w-1/4 flex flex-col items-end">
-        <InvitationControls
-          showQR={showQR}
-          setShowQR={setShowQR}
-          showRSVP={showRSVP}
-          setShowRSVP={setShowRSVP}
-          onSave={handleSaveTemplate}
-        />
+      <InvitationControls
+        showQR={showQR}
+        setShowQR={(val) => {
+          setShowQR(val);
+          handleSaveTemplate(true);
+        }}
+        showRSVP={showRSVP}
+        setShowRSVP={(val) => {
+          setShowRSVP(val);
+          handleSaveTemplate(true); 
+        }}
+      />
       </div>
 
       <div className="flex-1 flex flex-col items-center gap-4">

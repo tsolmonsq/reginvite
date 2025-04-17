@@ -126,7 +126,7 @@ export default function EventsPage() {
               token={cookies.token}
               onSuccess={() => {
                 setIsModalOpen(false);
-                fetchEvents(searchQuery, meta.page); // одоогийн хуудас руу буцааж ачаалгана
+                fetchEvents(searchQuery, meta.page); 
               }}
               onError={() => alert.error("Арга хэмжээ үүсгэхэд алдаа гарлаа.")}
             />

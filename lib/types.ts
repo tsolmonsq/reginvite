@@ -33,9 +33,7 @@ export type Template = {
   name: string;
   html: string;
   font: string;
-  color: string;
-  show_qr: boolean;
-  show_rsvp: boolean;
+  color: string
 };
 
 export interface InvitationTemplate {
