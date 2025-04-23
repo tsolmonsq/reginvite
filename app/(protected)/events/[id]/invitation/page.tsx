@@ -149,9 +149,7 @@ export default function InvitationPage() {
                         font,
                         color,
                         show_qr: showQR,
-                        show_rsvp: showRSVP,
-                        created_at: '',
-                        updated_at: ''
+                        show_rsvp: showRSVP
                       });
                       setStep('customize');
                     }}

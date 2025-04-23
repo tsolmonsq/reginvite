@@ -89,7 +89,7 @@ export default function PublicFormPage() {
 
       <div className="bg-[#f7fafa] border p-6 rounded-xl shadow-sm">
         <h2 className="text-center text-xl font-semibold text-primary mb-6">
-          Спортын буухиа тэмцээн
+          
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

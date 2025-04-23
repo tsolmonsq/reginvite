@@ -43,6 +43,4 @@ export interface InvitationTemplate {
   show_qr: boolean;
   show_rsvp: boolean;
   baseTemplate: Template;
-  created_at: string;
-  updated_at: string;
 }

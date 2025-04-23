@@ -188,7 +188,7 @@ export default function EventGuestsPage() {
 
   const handleAddGuest = async () => {
     try {
-      await fetch('/guests', {
+      await apiFetch('/guests', {
         method: 'POST',
         body: JSON.stringify({ ...form, eventId: Number(id) }),
         headers: {
