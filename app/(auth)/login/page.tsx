@@ -4,11 +4,13 @@ import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
+import { CircularProgress, Pagination } from '@mui/material';
 import Button from "@/components/ui/buttons/Button";
 import apiFetch from "@/lib/api";
 
 export default function LoginPage() {
   const [cookies, setCookie] = useCookies(["token"]);
+  const [loading, setloading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +18,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault();
+    setloading(true); 
     try {
       const data = await apiFetch("/auth/login", {
         method: "POST",
@@ -31,19 +34,27 @@ export default function LoginPage() {
       router.push("/events");
     } catch (err: any) {
       alert("Error when login: " + err.message);
+    } finally {
+      setloading(false); 
     }
   };
 
   return (
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 p-4">
-      <div className="hidden md:flex items-center justify-center">
+      {loading && (
+        <div className="absolute inset-0 z-10 bg-white/50 backdrop-blur-sm flex justify-center items-center">
+          <CircularProgress color="primary" size={40} thickness={5} />
+        </div>
+      )}
+    
+      <div className={`hidden md:flex items-center justify-center ${loading ? 'blur-sm pointer-events-none' : ''}`}>
         <img
           src="/illustrations/login_signup_decoration.svg"
           alt="Illustration"
           className="max-w-md"
         />
       </div>
-      <div className="flex flex-col justify-center px-4 md:px-8">
+      <div className={`flex flex-col justify-center px-4 md:px-8 ${loading ? 'blur-sm pointer-events-none' : ''}`}>
         <div className="text-center mb-8">
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />
           <h1 className="text-2xl font-semibold mt-4">Нэвтрэх</h1>
