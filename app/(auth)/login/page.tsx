@@ -86,7 +86,7 @@ export default function LoginPage() {
           <Button
             type="submit"
             variant="primary"
-            className="w-full bg-blue-400 text-white py-2 rounded-md hover:bg-blue-500"
+            className="w-full bg-blue-400 text-white py-2 rounded-md"
           >
             Нэвтрэх
           </Button>
@@ -94,7 +94,7 @@ export default function LoginPage() {
             type="button"
             variant="ghost"
             onClick={() => (window.location.href = "/signup")}
-            className="w-full border border-blue-400 text-blue-500 py-2 rounded-md hover:bg-blue-50"
+            className="w-full border border-blue-400 text-blue-500 py-2 rounded-md"
           >
             Бүртгүүлэх
           </Button>
