@@ -72,7 +72,7 @@ export default function EventsPage() {
       <div className="flex items-center justify-between mt-10 mb-6">
         <h1 className="text-xl md:text-2xl font-semibold">Арга хэмжээнүүд</h1>
         <Button
-          className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded text-sm flex items-center gap-2"
+          className="bg-blue-500 text-white py-2 px-4 rounded text-sm flex items-center gap-2"
           onClick={() => setIsModalOpen(true)}
         >
           Нэмэх +
