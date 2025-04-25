@@ -214,7 +214,7 @@ export default function EventGuestsPage() {
     if (!selectedGuestId) return;
   
     try {
-      await fetch(`/guests/${selectedGuestId}`, {
+      await apiFetch(`/guests/${selectedGuestId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${cookies.token}`,
@@ -281,19 +281,19 @@ export default function EventGuestsPage() {
         return;
       }
   
-      if (!event?.template?.id) {
+      if (!event?.invitationTemplate?.id) {
         alert("Эвентийн template ID олдсонгүй.");
         return;
       }
   
-      await fetch('/guests/send-invites', {
+      await apiFetch('/guests/send-invites', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
         body: JSON.stringify({
           guestIds,
-          templateId: event.template.id,
+          templateId: event.invitationTemplate.id,
         }),
       });
   

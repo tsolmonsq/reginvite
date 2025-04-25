@@ -29,14 +29,12 @@ export default function PublicFormPage() {
     const fetchFormData = async () => {
       const eventId = Number(id);
   
-      // 1. Get form config
       const formData = await apiFetch(`/event-forms/${eventId}/public`);
       setFields(formData.fields || []);
       setMaxGuests(formData.max_guests);
       setIsOpen(formData.is_open);
       setCloseAt(formData.close_at);
   
-      // 2. Get stats separately
       const stats = await apiFetch(`/event-forms/${eventId}/public/stats`);
       setGuestCount(stats.registered);
   
@@ -168,13 +166,19 @@ export default function PublicFormPage() {
         </div>
       </Modal>
 
-      {/* Dialog for adding new field */}
       <Dialog open={modalOpen} onClose={() => setModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
         <div className="flex items-center justify-center min-h-screen px-4">
-          <DialogPanel className="bg-white max-w-md w-full p-6 rounded-lg shadow-xl">
+        <DialogPanel className="bg-white max-w-md w-full p-6 rounded-lg shadow-xl">
             <DialogTitle className="text-lg font-semibold mb-4">Шинэ талбар нэмэх</DialogTitle>
-            <div className="space-y-4">
-              <Input placeholder="Талбарын нэр" value={newField.label} onChange={(e) => setNewField({ ...newField, label: e.target.value })} />
+            <div className="space-y-6">
+        
+              <Input 
+                placeholder="Талбарын нэр" 
+                value={newField.label} 
+                onChange={(e) => setNewField({ ...newField, label: e.target.value })} 
+                className="w-full"
+              />
+              
               <Select
                 value={newField.type}
                 onChange={(val) => {
@@ -184,32 +188,45 @@ export default function PublicFormPage() {
                 className="w-full"
                 options={['text', 'email', 'number', 'textarea', 'checkbox', 'radio'].map((t) => ({ label: t, value: t }))}
               />
+             
               {(newField.type === 'checkbox' || newField.type === 'radio') && (
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {optionInputs.map((opt, i) => (
                     <div key={i} className="flex gap-2">
-                      <Input value={opt} onChange={(e) => {
-                        const updated = [...optionInputs];
-                        updated[i] = e.target.value;
-                        setOptionInputs(updated);
-                      }} />
-                      <Button danger onClick={() => setOptionInputs(optionInputs.filter((_, j) => j !== i))}>Устгах</Button>
+                      <Input 
+                        value={opt} 
+                        onChange={(e) => {
+                          const updated = [...optionInputs];
+                          updated[i] = e.target.value;
+                          setOptionInputs(updated);
+                        }} 
+                        className="w-full"
+                      />
+                      <Button danger onClick={() => setOptionInputs(optionInputs.filter((_, j) => j !== i))}>
+                        Устгах
+                      </Button>
                     </div>
                   ))}
                   <Button onClick={() => setOptionInputs([...optionInputs, ''])}>Сонголт нэмэх</Button>
                 </div>
               )}
-              <div className="flex items-center gap-2">
+              
+              <div className="flex items-center gap-3">
                 <Switch checked={newField.required} onChange={(val) => setNewField({ ...newField, required: val })} />
                 <span className="text-sm">Заавал бөглөх</span>
               </div>
-              <div className="flex justify-end gap-2 pt-4">
+              
+              <div className="flex justify-end gap-4 pt-6">
                 <Button onClick={() => setModalOpen(false)}>Болих</Button>
-                <Button type="primary" className="bg-blue-600 text-white" onClick={() => {
-                  const options = ['checkbox', 'radio'].includes(newField.type) ? optionInputs.filter(opt => opt.trim()) : [];
-                  setFields([...fields, { ...newField, options }]);
-                  setModalOpen(false);
-                }}>
+                <Button 
+                  type="primary" 
+                  className="bg-blue-600 text-white" 
+                  onClick={() => {
+                    const options = ['checkbox', 'radio'].includes(newField.type) ? optionInputs.filter(opt => opt.trim()) : [];
+                    setFields([...fields, { ...newField, options }]);
+                    setModalOpen(false);
+                  }}
+                >
                   Нэмэх
                 </Button>
               </div>

@@ -1,34 +1,38 @@
 'use client';
 
 import { AttendancePie } from '@/components/AttendancePie';
-import {
-  Box,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination,
-  Paper,
-  Typography
-} from '@mui/material';
-import { useState } from 'react';
-
-const allAttendees = [
-  { id: 1, last_name: 'Батболд', first_name: 'Цолмон', email: 'tsolmonbatbold88@gmail.com', phone: '99011010' },
-  { id: 2, last_name: 'Наранболд', first_name: 'Зул', email: 'jenniesum10@gmail.com', phone: '99011010' }
-];
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, Paper, Typography } from '@mui/material';
+import { InboxIcon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export default function AttendancePage() {
   const [page, setPage] = useState(0);
   const [rowsPerPage] = useState(4);
+  const [attendees, setAttendees] = useState<any[]>([]); 
+
+  useEffect(() => {
+    const fetchAttendees = async () => {
+      try {
+        const response = await fetch(`/api/guests?eventId=1&status=Sent&page=${page + 1}&limit=${rowsPerPage}`);
+        if (response.ok) {
+          const data = await response.json();
+          setAttendees(data);
+        } else {
+          console.error('Failed to fetch attendees');
+        }
+      } catch (error) {
+        console.error('Error fetching attendees:', error);
+      }
+    };
+
+    fetchAttendees();
+  }, [page]); 
 
   const handleChangePage = (_: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const paginated = allAttendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const paginated = attendees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 5 }}>
@@ -47,20 +51,39 @@ export default function AttendancePage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginated.map((guest) => (
-              <TableRow key={guest.id}>
-                <TableCell>{guest.last_name}</TableCell>
-                <TableCell>{guest.first_name}</TableCell>
-                <TableCell>{guest.email}</TableCell>
-                <TableCell>{guest.phone}</TableCell>
+            {attendees.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={4} style={{ textAlign: 'center' }}>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    minHeight="300px"
+                  >
+                    <InboxIcon size={48} color="#CCCCCC" />
+                    <Box sx={{ color: "#CCCCCC", fontSize: '1rem' }}>
+                      Хоосон байна
+                    </Box>
+                  </Box>
+                </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              paginated.map((guest) => (
+                <TableRow key={guest.id}>
+                  <TableCell>{guest.last_name}</TableCell>
+                  <TableCell>{guest.first_name}</TableCell>
+                  <TableCell>{guest.email}</TableCell>
+                  <TableCell>{guest.phone}</TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
 
         <TablePagination
           component="div"
-          count={allAttendees.length}
+          count={attendees.length}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}
@@ -68,7 +91,8 @@ export default function AttendancePage() {
         />
       </TableContainer>
 
-      <AttendancePie total={4} checkedIn={2} />
+      <AttendancePie total={attendees.length} checkedIn={attendees.filter(g => g.checkedIn === true).length} />
+
     </Box>
   );
 }

@@ -66,6 +66,7 @@ const EventForm: React.FC<Props> = ({ token, onSuccess, onError }) => {
     formData.append('start_time', new Date(form.start_time).toISOString());
     formData.append('end_time', new Date(form.end_time).toISOString());
     formData.append('image', form.image!);
+    formData.append('templateId', "1");
 
     try {
       await apiFetch('/events', {
