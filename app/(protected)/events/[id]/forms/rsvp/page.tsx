@@ -27,7 +27,8 @@ export default function PublicFormPage() {
   const publicFormLink = `${baseUrl}/form/${id}`;
 
   useEffect(() => {
-    apiFetch(`/event-forms/${id}`)
+    const eventId = Number(id); 
+    apiFetch(`/event-forms/${eventId}/rsvp`)
       .then((data) => {
         setFields(data.fields || []);
         setLoading(false);
@@ -53,7 +54,7 @@ export default function PublicFormPage() {
   };
 
   const handleSave = async () => {
-    const res = await apiFetch(`/event-forms/${id}`, {
+    const res = await apiFetch(`/event-forms/${id}/rsvp`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(fields),

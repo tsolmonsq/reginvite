@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles';
 import { useCookies } from "react-cookie";
 import apiFetch from '@/lib/api';
 import { InboxIcon } from 'lucide-react';
+import { message } from 'antd';
 
 const StatusChip = styled(Chip)(({ theme }) => ({
   borderRadius: '12px',
@@ -76,7 +77,8 @@ export default function EventGuestsPage() {
   const [confirmFilter, setConfirmFilter] = useState<'New' | Guest['status']>('New');
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedGuestId, setSelectedGuestId] = useState<number | null>(null);
-  const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
+  const [openExcelUpload, setOpenExcelUpload] = useState(false);
+  const [excelFile, setExcelFile] = useState<File | null>(null);
   const [form, setForm] = useState({
     first_name: '',
     last_name: '',
@@ -227,6 +229,37 @@ export default function EventGuestsPage() {
     }
   };
 
+  const handleUploadExcelGuests = async () => {
+    if (!excelFile) return;
+  
+    const formData = new FormData();
+    formData.append('file', excelFile);
+    formData.append('eventId', String(id));
+  
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/guests/import-excel`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+        body: formData,
+      });
+  
+      if (res.ok) {
+        message.success('Excel-оор зочид амжилттай бүртгэгдлээ');
+        setOpenExcelUpload(false);
+        setExcelFile(null);
+        fetchGuests();
+      } else {
+        const err = await res.json();
+        message.error(err.message || 'Бүртгэл амжилтгүй');
+      }
+    } catch (e) {
+      console.error(e);
+      message.error('Файл илгээхэд алдаа гарлаа');
+    }
+  };
+
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, guestId: number) => {
     setAnchorEl(event.currentTarget);
     setSelectedGuestId(guestId);
@@ -279,9 +312,19 @@ export default function EventGuestsPage() {
         <Button variant="ghost" onClick={() => setOpenConfirm(true)}>
           Урилга илгээх
         </Button>
-        <Button onClick={() => setOpenAdd(true)}>
-          Зочин бүртгэх +
+        <div className='flex flex-row gap-4'>
+        <Button
+          variant="ghost"
+          className="border-primary text-primary flex items-center gap-2 px-4 py-2 rounded-md text-sm"
+          onClick={() => setOpenExcelUpload(true)}
+        >
+          <img src="/excel.svg" className="w-5 h-5" />
+          Олон зочин бүртгэх
         </Button>
+          <Button onClick={() => setOpenAdd(true)}>
+            Зочин бүртгэх +
+          </Button>
+        </div>
       </Box>
 
       <Tabs
@@ -488,6 +531,33 @@ export default function EventGuestsPage() {
               <TextField label="Имэйл" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
               <TextField label="Утас" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
               <Button onClick={handleAddGuest}>Хадгалах</Button>
+            </Stack>
+          </DialogPanel>
+        </div>
+      </Dialog>
+
+      <Dialog open={openExcelUpload} onClose={() => setOpenExcelUpload(false)} className="relative z-50">
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center justify-center p-4">
+          <DialogPanel className="w-full max-w-md rounded bg-white p-6 shadow-xl">
+            <DialogTitle className="text-lg font-bold mb-4">Excel-ээр зочин бүртгэх</DialogTitle>
+            <Stack spacing={4}>
+              <a
+                href="/template/guest-import-template.xlsx"
+                download
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Excel загвар татах
+              </a>
+              <input
+                type="file"
+                accept=".xlsx,.xls"
+                onChange={(e) => setExcelFile(e.target.files?.[0] || null)}
+              />
+              <Stack direction="row" justifyContent="end" spacing={2}>
+                <Button variant="ghost" onClick={() => setOpenExcelUpload(false)}>Болих</Button>
+                <Button onClick={handleUploadExcelGuests}>Бүртгэх</Button>
+              </Stack>
             </Stack>
           </DialogPanel>
         </div>
