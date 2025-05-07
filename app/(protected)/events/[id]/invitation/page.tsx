@@ -26,6 +26,7 @@ export default function InvitationPage() {
   const [color, setColor] = useState('#ec4899');
   const [font, setFont] = useState('Arial');
   const [event, setEvent] = useState<EventData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (id) {
@@ -37,42 +38,53 @@ export default function InvitationPage() {
 
   const fetchInvitation = async (eventId: string) => {
     try {
+      setLoading(true);
       const response = await apiFetch<Invitation>(`/invitations/${eventId}`, {
         headers: { Authorization: `Bearer ${cookies.token}` },
       });
-      console.log("<<<response", response)
+      console.log("Invitation Response:", response);
+
+      // Now update the state based on the response
       setFont(response.font || 'Arial');
       setColor(response.color || '#ec4899');
       setHasQR(response.has_qr ?? true);
       setHasRSVP(response.has_rsvp ?? true);
+      setSelectedInvitation(response); // Ensure you're setting the invitation data
+
     } catch (err) {
       console.error('Event fetch error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const fetchTemplates = async () => {
     try {
+      setLoading(true);
       const data = await apiFetch<Template[]>("/templates", {
-          headers: {
-            Authorization: `Bearer ${cookies.token}`,
-          },
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
       });
-      
       setTemplates(data);
     } catch (err) {
       console.error("Template fetch error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
   const fetchEvent = async (eventId: string) => {
     try {
+      setLoading(true);
       const response = await apiFetch<EventData>(`/events/${eventId}`, {
         headers: { Authorization: `Bearer ${cookies.token}` },
       });
-    
       setEvent(response); // Set event data
     } catch (err) {
       console.error('Event fetch error:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,24 +93,30 @@ export default function InvitationPage() {
       ? generateInvitationHtml(selectedInvitation.template, event, hasQR, hasRSVP, font, color)
       : '';
 
+  useEffect(() => {
+    if (selectedInvitation) {
+      console.log("Selected Invitation Updated:", selectedInvitation);
+    }
+  }, [selectedInvitation]); // Log after state updates
+
   return (
     <section className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row gap-10">
       <div className="md:w-1/4 flex flex-col items-end">
         <InvitationControls
           showQR={hasQR}
-          setShowQR={(val) => {
-            setHasQR(val);
-          }}
+          setShowQR={(val) => setHasQR(val)}
           showRSVP={hasRSVP}
-          setShowRSVP={(val) => {
-            setHasRSVP(val); 
-          }}
+          setShowRSVP={(val) => setHasRSVP(val)} 
         />
       </div>
 
       <div className="flex-1 flex flex-col items-center gap-4">
         <div className="flex-1 flex flex-col items-end gap-8">
-          <div className="w-full max-w-md bg-gray-100 p-4 shadow-md rounded" dangerouslySetInnerHTML={{ __html: invitationHtml }} />
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <div className="w-full max-w-md bg-gray-100 p-4 shadow-md rounded" dangerouslySetInnerHTML={{ __html: invitationHtml }} />
+          )}
           <Button variant="ghost" className="flex" onClick={() => setIsOpen(true)}>
             <Settings className="w-5 h-5 mr-2" /> Урилгын загвар
           </Button>
@@ -117,25 +135,21 @@ export default function InvitationPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {event && templates.map((template) => (
                   <TemplatePreviewCard
-                  key={template.id}
-                  template={template}
-                  event={event}
-                  onSelect={() => {
-                    if (selectedInvitation) {
+                    key={template.id}
+                    template={template}
+                    event={event}
+                    onSelect={() => {
                       setSelectedInvitation({
-                        ...selectedInvitation,
+                        ...selectedInvitation!,
                         template,
                         event: {
-                          ...event, 
+                          ...event,
                           imagePath: event.image_path,
                         },
                       });
                       setStep('customize');
-                    } else {
-                      console.error("No selectedInvitation ID");
-                    }
-                  }}
-                />
+                    }}
+                  />
                 ))}
               </div>
             )}
