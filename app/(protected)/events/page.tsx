@@ -10,6 +10,7 @@ import { CircularProgress, Pagination, TextField } from '@mui/material';
 import { Search } from 'lucide-react';
 import Button from '@/components/ui/buttons/Button';
 import EventCard from '@/components/ui/cards/EventCard'
+import { Pagination as NextUIPagination } from '@nextui-org/react';
 
 export default function EventsPage() {
   const alert = useAlert();
@@ -22,10 +23,10 @@ export default function EventsPage() {
   const [meta, setMeta] = useState({
     total: 0,
     page: 1,
-    limit: 10,
+    limit: 9,
     hasNext: false,
     hasPrevious: false,
-    totalPages: 1,
+    totalPages: 1
   });
 
   const [newEvent, setNewEvent] = useState({
@@ -58,7 +59,7 @@ export default function EventsPage() {
     setError('');
 
     try {
-      const res = await apiFetch<{ items: Event[]}>(
+      const res = await apiFetch<{ total: number, totalPages: number, items: Event[]}>(
         `/events/private/?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
         {
           headers: {
@@ -68,6 +69,12 @@ export default function EventsPage() {
       );
 
       setEvents(res.items);
+      setMeta((prev) => ({
+        ...prev,
+        total: res.total,
+        totalPages: res.totalPages,
+        page,
+      }));
     } catch (err) {
       console.error("Fetch error:", err);
       setError("Unable to load events.");
@@ -81,7 +88,7 @@ export default function EventsPage() {
   
     setNewEvent((prev) => ({
       ...prev,
-      [name]: value, // ISO хөрвүүлэлт хожуу handleSubmit-д хийгдэнэ
+      [name]: value
     }));
   };
   
@@ -157,7 +164,7 @@ export default function EventsPage() {
         <p className="text-red-500">{error}</p>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
@@ -175,60 +182,127 @@ export default function EventsPage() {
           )}
         </>
       )}
-
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div className="fixed inset-0 flex items-center justify-center px-4">
           <DialogPanel className="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl">
-            <DialogTitle className="text-center text-xl font-semibold mb-6">Арга хэмжээ бүртгэх</DialogTitle>
-            <form onSubmit={handleSubmit}>
-              <div className="space-y-4">
-                <TextField
-                  label="Нэр"
-                  name="name"
-                  value={newEvent.name}
-                  onChange={handleInputChange}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  label="Тайлбар"
+            <DialogTitle className="text-center text-2xl font-semibold mb-8">
+              Эвент үүсгэх
+            </DialogTitle>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Эвентийн нэр */}
+              <TextField
+                label="Эвентийн нэр"
+                name="name"
+                value={newEvent.name}
+                onChange={handleInputChange}
+                fullWidth
+                required
+              />
+
+              {/* Дэлгэрэнгүй мэдээлэл */}
+              <div className="flex flex-col">
+                <label className="text-sm font-medium mb-1 mt-2">
+                  Дэлгэрэнгүй мэдээлэл
+                </label>
+                <textarea
                   name="description"
                   value={newEvent.description}
+                  onChange={(e) =>
+                    setNewEvent((prev) => ({ ...prev, description: e.target.value }))
+                  }
+                  rows={5}
+                  maxLength={1000}
+                  placeholder="Эвентийн дэлгэрэнгүй мэдээллийг оруулна уу."
+                  className="w-full border rounded-md px-4 py-2 text-sm resize-none"
+                />
+                <p className="text-right text-xs text-gray-400 mt-1">
+                  {newEvent.description.length}/1000
+                </p>
+              </div>
+
+              {/* Зураг ба Ангилал */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium mb-2">
+                    Зураг <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    className="border border-gray-300 rounded px-3 py-2 text-sm"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setNewEvent((prev) => ({
+                          ...prev,
+                          image_path: file.name,
+                        }));
+                      }
+                    }}
+                  />
+                </div>
+
+                <div className="flex flex-col">
+                  <label className="text-sm font-medium mb-2">Ангилал</label>
+                  <select
+                    name="category"
+                    value={newEvent.category}
+                    onChange={(e) =>
+                      setNewEvent((prev) => ({ ...prev, category: e.target.value }))
+                    }
+                    className="border border-gray-300 rounded px-3 py-2 text-sm"
+                  >
+                    <option value="Фестиваль">Фестиваль</option>
+                    <option value="Семинар">Семинар</option>
+                    <option value="Танилцуулга">Танилцуулга</option>
+                    <option value="Бусад">Бусад</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Эхлэх болон Дуусах огноо */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <TextField
+                  label="Эхлэх огноо"
+                  name="start_date"
+                  type="datetime-local"
+                  value={newEvent.start_date}
                   onChange={handleInputChange}
                   fullWidth
-                  multiline
-                  rows={4}
+                  InputLabelProps={{ shrink: true }}
+                  required
                 />
+
                 <TextField
-                  label="Байршил"
-                  name="location"
-                  value={newEvent.location}
+                  label="Дуусах огноо"
+                  name="end_date"
+                  type="datetime-local"
+                  value={newEvent.end_date}
                   onChange={handleInputChange}
                   fullWidth
+                  InputLabelProps={{ shrink: true }}
+                  required
                 />
-                <TextField
-                    label="Эхлэх огноо"
-                    name="start_date"
-                    type="datetime-local"
-                    value={newEvent.start_date}
-                    onChange={handleInputChange}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                  />
+              </div>
 
-                  <TextField
-                    label="Төгсөх огноо"
-                    name="end_date"
-                    type="datetime-local"
-                    value={newEvent.end_date}
-                    onChange={handleInputChange}
-                    fullWidth
-                    InputLabelProps={{ shrink: true }}
-                  />
+              {/* Байршил */}
+              <TextField
+                label="Хаяг"
+                name="location"
+                value={newEvent.location}
+                onChange={handleInputChange}
+                fullWidth
+              />
 
-                <Button variant="primary" onClick={handleSubmit}>
-                  Бүртгэх
+              {/* Үүсгэх товч */}
+              <div className="pt-4 flex justify-center">
+                <Button
+                  type="submit"
+                  className="bg-[#74aebf] hover:bg-[#5f9daa] text-white px-8 py-2 rounded-md text-base font-medium"
+                >
+                  Үүсгэх
                 </Button>
               </div>
             </form>
