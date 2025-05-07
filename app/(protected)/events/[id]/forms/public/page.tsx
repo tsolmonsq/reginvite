@@ -1,10 +1,9 @@
-// Enhanced Public Form Management with UX dialogs for max guests and form state
 'use client';
 
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormField } from '@/lib/types';
-import { Button, Input, Select, Switch, DatePicker, message, Modal } from 'antd';
+import { Button, Input, Select, Switch, DatePicker, message, Modal, Table } from 'antd';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import apiFetch from '@/lib/api';
 import dayjs from 'dayjs';
@@ -12,9 +11,10 @@ import dayjs from 'dayjs';
 export default function PublicFormPage() {
   const { id } = useParams();
   const [fields, setFields] = useState<FormField[]>([]);
+  const [guests, setGuests] = useState<any[]>([]); // Store guest list
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
-  const [newField, setNewField] = useState<FormField>({ label: '', type: 'text', required: false, options: [] });
+  const [newField, setNewField] = useState<FormField>({ label: '', type: 'text', is_required: false, options: [], id: 0 });
   const [optionInputs, setOptionInputs] = useState<string[]>([]);
   const [maxGuests, setMaxGuests] = useState<number | undefined>(undefined);
   const [guestCount, setGuestCount] = useState<number>(0);
@@ -28,16 +28,13 @@ export default function PublicFormPage() {
   useEffect(() => {
     const fetchFormData = async () => {
       const eventId = Number(id);
-  
-      const formData = await apiFetch(`/event-forms/${eventId}/public`);
-      setFields(formData.fields || []);
+    
+      const formData = await apiFetch(`/forms/public/${eventId}`);
+      setFields(formData.formFields || []); 
       setMaxGuests(formData.max_guests);
       setIsOpen(formData.is_open);
       setCloseAt(formData.close_at);
-  
-      const stats = await apiFetch(`/event-forms/${eventId}/public/stats`);
-      setGuestCount(stats.registered);
-  
+      setGuestCount(formData.total_registrations); 
       setLoading(false);
     };
   
@@ -57,24 +54,31 @@ export default function PublicFormPage() {
     if (maxGuests !== undefined && maxGuests < guestCount) {
       return message.error(`Одоогийн бүртгэлтэй ${guestCount} зочин байгаа тул ${maxGuests} болгож болохгүй`);
     }
-
-    const res = await apiFetch(`/event-forms/${id}/public/settings`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        max_guests: maxGuests,
-        close_at: closeAt ? new Date(closeAt).toISOString() : undefined,
-        is_open: isOpen,
-      }),
-    });
-
-    if (res.ok) {
-      message.success('Тохиргоо хадгалагдлаа');
-      setShowSettingsModal(false);
-    } else {
-      message.error('Алдаа гарлаа');
-    }
   };
+
+
+  const columns = [
+    {
+      title: 'Овог',
+      dataIndex: 'lastName',
+      key: 'lastName',
+    },
+    {
+      title: 'Нэр',
+      dataIndex: 'firstName',
+      key: 'firstName',
+    },
+    {
+      title: 'Имэйл хаяг',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Утасны дугаар',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
+    },
+  ];
 
   return (
     <section className="max-w-4xl mx-auto px-4 py-12">
@@ -88,10 +92,6 @@ export default function PublicFormPage() {
           </div>
         </div>
         <Button onClick={() => setShowSettingsModal(true)} className="border-primary text-primary">Тохиргоо</Button>
-      </div>
-
-      <div className="mb-4 text-sm text-gray-600">
-        Бүртгэгдсэн зочид: <span className="font-semibold">{guestCount}</span>
       </div>
 
       <div className="bg-[#f7fafa] border p-6 rounded-xl shadow-sm">
@@ -118,12 +118,12 @@ export default function PublicFormPage() {
                   ))}
                 </div>
               ) : field.type === 'textarea' ? (
-                <textarea placeholder={field.label} required={field.required} className="w-full px-3 py-2 border rounded-md text-sm border-gray-300" />
+                <textarea placeholder={field.label} required={field.is_required} className="w-full px-3 py-2 border rounded-md text-sm border-gray-300" />
               ) : (
                 <input
                   type={field.type === 'email' ? 'email' : field.type === 'number' ? 'number' : 'text'}
                   placeholder={field.label}
-                  required={field.required}
+                  required={field.is_required}
                   className="w-full px-3 py-2 border rounded-md text-sm border-gray-300"
                 />
               )}
@@ -166,74 +166,104 @@ export default function PublicFormPage() {
         </div>
       </Modal>
 
+      <div className="mb-4 text-sm text-gray-600">
+        Бүртгэгдсэн зочид: <span className="font-semibold">{guestCount}</span>
+      </div>
+
+      <div className="mt-8">
+        <Table
+          columns={columns}
+          dataSource={guests}
+          rowKey="email" // or use another unique field
+          pagination={{ pageSize: 5 }}
+        />
+      </div>
+
+
       <Dialog open={modalOpen} onClose={() => setModalOpen(false)} className="fixed z-50 inset-0 overflow-y-auto">
-        <div className="flex items-center justify-center min-h-screen px-4">
-        <DialogPanel className="bg-white max-w-md w-full p-6 rounded-lg shadow-xl">
-            <DialogTitle className="text-lg font-semibold mb-4">Шинэ талбар нэмэх</DialogTitle>
-            <div className="space-y-6">
-        
-              <Input 
-                placeholder="Талбарын нэр" 
-                value={newField.label} 
-                onChange={(e) => setNewField({ ...newField, label: e.target.value })} 
-                className="w-full"
-              />
-              
-              <Select
-                value={newField.type}
-                onChange={(val) => {
-                  setNewField({ ...newField, type: val });
-                  if (val === 'checkbox' || val === 'radio') setOptionInputs(['']);
-                }}
-                className="w-full"
-                options={['text', 'email', 'number', 'textarea', 'checkbox', 'radio'].map((t) => ({ label: t, value: t }))}
-              />
-             
-              {(newField.type === 'checkbox' || newField.type === 'radio') && (
-                <div className="space-y-3">
-                  {optionInputs.map((opt, i) => (
-                    <div key={i} className="flex gap-2">
-                      <Input 
-                        value={opt} 
-                        onChange={(e) => {
-                          const updated = [...optionInputs];
-                          updated[i] = e.target.value;
-                          setOptionInputs(updated);
-                        }} 
-                        className="w-full"
-                      />
-                      <Button danger onClick={() => setOptionInputs(optionInputs.filter((_, j) => j !== i))}>
-                        Устгах
-                      </Button>
-                    </div>
-                  ))}
-                  <Button onClick={() => setOptionInputs([...optionInputs, ''])}>Сонголт нэмэх</Button>
-                </div>
-              )}
-              
-              <div className="flex items-center gap-3">
-                <Switch checked={newField.required} onChange={(val) => setNewField({ ...newField, required: val })} />
-                <span className="text-sm">Заавал бөглөх</span>
-              </div>
-              
-              <div className="flex justify-end gap-4 pt-6">
-                <Button onClick={() => setModalOpen(false)}>Болих</Button>
-                <Button 
-                  type="primary" 
-                  className="bg-blue-600 text-white" 
-                  onClick={() => {
-                    const options = ['checkbox', 'radio'].includes(newField.type) ? optionInputs.filter(opt => opt.trim()) : [];
-                    setFields([...fields, { ...newField, options }]);
-                    setModalOpen(false);
+  <div className="flex items-center justify-center min-h-screen px-4">
+    <DialogPanel className="bg-white max-w-md w-full p-8 rounded-lg shadow-xl">
+      <DialogTitle className="text-lg font-semibold mb-6">Шинэ талбар нэмэх</DialogTitle>
+      <div className="space-y-6">
+        {/* Field Name */}
+        <div>
+          <label className="block text-sm font-medium text-gray-800 mb-2">Талбарын нэр</label>
+          <Input
+            placeholder="Талбарын нэр"
+            value={newField.label}
+            onChange={(e) => setNewField({ ...newField, label: e.target.value })}
+            className="w-full"
+          />
+        </div>
+
+        {/* Field Type Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-800 mb-2">Талбарын төрөл</label>
+          <Select
+            value={newField.type}
+            onChange={(val) => {
+              setNewField({ ...newField, type: val });
+              if (val === 'checkbox' || val === 'radio') setOptionInputs(['']);
+            }}
+            className="w-full"
+            options={['text', 'email', 'number', 'textarea', 'checkbox', 'radio'].map((t) => ({
+              label: t,
+              value: t,
+            }))}
+          />
+        </div>
+
+        {/* Options for Checkbox/Radio */}
+        {(newField.type === 'checkbox' || newField.type === 'radio') && (
+          <div className="space-y-3">
+            {optionInputs.map((opt, i) => (
+              <div key={i} className="flex gap-3 items-center">
+                <Input
+                  value={opt}
+                  onChange={(e) => {
+                    const updated = [...optionInputs];
+                    updated[i] = e.target.value;
+                    setOptionInputs(updated);
                   }}
-                >
-                  Нэмэх
+                  className="w-full"
+                />
+                <Button danger onClick={() => setOptionInputs(optionInputs.filter((_, j) => j !== i))}>
+                  Устгах
                 </Button>
               </div>
-            </div>
-          </DialogPanel>
+            ))}
+            <Button onClick={() => setOptionInputs([...optionInputs, ''])}>Сонголт нэмэх</Button>
+          </div>
+        )}
+
+        {/* Required Field Switch */}
+        <div className="flex items-center gap-3">
+          <Switch checked={newField.is_required} onChange={(val) => setNewField({ ...newField, is_required: val })} />
+          <span className="text-sm">Заавал бөглөх</span>
         </div>
-      </Dialog>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex justify-end gap-4 pt-6">
+        <Button onClick={() => setModalOpen(false)} className="bg-gray-300 text-gray-800 hover:bg-gray-400">
+          Болих
+        </Button>
+        <Button
+          type="primary"
+          className="bg-blue-600 text-white hover:bg-blue-700"
+          onClick={() => {
+            const options = ['checkbox', 'radio'].includes(newField.type) ? optionInputs.filter((opt) => opt.trim()) : [];
+            setFields([...fields, { ...newField, options }]);
+            setModalOpen(false);
+          }}
+        >
+          Нэмэх
+        </Button>
+      </div>
+    </DialogPanel>
+  </div>
+</Dialog>
+
     </section>
   );
 }

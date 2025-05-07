@@ -8,7 +8,7 @@ import apiFetch from "@/lib/api";
 import InvitationControls from '@/components/InvitationControls';
 import TemplatePreviewCard from '@/components/ui/cards/TemplatePreviewCard';
 import TemplateCustomizationPanel from '@/components/TemplateCustomizationPanel';
-import { Template, EventData, InvitationTemplate } from '@/lib/types';
+import { Template, EventData, Invitation } from '@/lib/types';
 import { generateInvitationHtml } from '@/utils/generateInvitationHtml';
 import { useParams } from 'next/navigation';
 import { CircularProgress } from '@mui/material';
@@ -17,34 +17,34 @@ import { useCookies } from 'react-cookie';
 export default function InvitationPage() {
   const [cookies] = useCookies(["token"]);
   const { id } = useParams();
-  const [showQR, setShowQR] = useState(true);
-  const [showRSVP, setShowRSVP] = useState(true);
+  const [hasQR, setHasQR] = useState(true);
+  const [hasRSVP, setHasRSVP] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
   const [step, setStep] = useState<'select' | 'customize'>('select');
   const [templates, setTemplates] = useState<Template[]>([]);
-  const [selectedTemplate, setSelectedTemplate] = useState<InvitationTemplate | null>(null);
+  const [selectedInvitation, setSelectedInvitation] = useState<Invitation | null>(null);
   const [color, setColor] = useState('#ec4899');
   const [font, setFont] = useState('Arial');
   const [event, setEvent] = useState<EventData | null>(null);
 
   useEffect(() => {
     if (id) {
-      fetchEvent(id as string);
-      fetchTemplates();
+      fetchEvent(id as string); // Fetch event data
+      fetchInvitation(id as string); // Fetch invitation data
+      fetchTemplates(); // Fetch templates
     }
   }, [id, cookies.token]);
 
-  const fetchEvent = async (eventId: string) => {
+  const fetchInvitation = async (eventId: string) => {
     try {
-      const response = await apiFetch<EventData>(`/events/${eventId}`, {
+      const response = await apiFetch<Invitation>(`/invitations/${eventId}`, {
         headers: { Authorization: `Bearer ${cookies.token}` },
       });
-      setEvent(response);
-      setSelectedTemplate(response.invitationTemplate);
-      setFont(response.invitationTemplate?.font || 'Arial');
-      setColor(response.invitationTemplate?.color || '#ec4899');
-      setShowQR(response.invitationTemplate?.show_qr ?? true);
-      setShowRSVP(response.invitationTemplate?.show_rsvp ?? true);
+      console.log("<<<response", response)
+      setFont(response.font || 'Arial');
+      setColor(response.color || '#ec4899');
+      setHasQR(response.has_qr ?? true);
+      setHasRSVP(response.has_rsvp ?? true);
     } catch (err) {
       console.error('Event fetch error:', err);
     }
@@ -52,7 +52,7 @@ export default function InvitationPage() {
 
   const fetchTemplates = async () => {
     try {
-      const data = await apiFetch<Template[]>("/base-templates", {
+      const data = await apiFetch<Template[]>("/templates", {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
           },
@@ -64,58 +64,36 @@ export default function InvitationPage() {
     }
   };
 
-  const handleSaveTemplate = async (silent: boolean = false) => {
-    if (!event?.invitationTemplate) return;
-  
+  const fetchEvent = async (eventId: string) => {
     try {
-      await apiFetch(`/invitation-templates/${event.invitationTemplate.id}`, {
-        method: 'PATCH',
-        body: JSON.stringify({
-          font,
-          color,
-          show_qr: showQR,
-          show_rsvp: showRSVP,
-          baseTemplateId: selectedTemplate?.baseTemplate?.id,
-        }),
+      const response = await apiFetch<EventData>(`/events/${eventId}`, {
+        headers: { Authorization: `Bearer ${cookies.token}` },
       });
-  
-      if (!silent) {
-        alert("Загвар амжилттай хадгалагдлаа!");
-      }
+    
+      setEvent(response); // Set event data
     } catch (err) {
-      console.error("Хадгалахад алдаа гарлаа:", err);
-      if (!silent) alert("Хадгалахад алдаа гарлаа.");
+      console.error('Event fetch error:', err);
     }
-  };  
+  };
 
   const invitationHtml =
-    selectedTemplate && event
-      ? generateInvitationHtml(selectedTemplate.baseTemplate, event, showQR, showRSVP, font, color)
+    selectedInvitation && event
+      ? generateInvitationHtml(selectedInvitation.template, event, hasQR, hasRSVP, font, color)
       : '';
-
-  if (!event || !selectedTemplate) {
-    return (
-      <div className="flex justify-center items-center min-h-[300px]">
-        <CircularProgress color="primary" size={40} thickness={5} />
-      </div>
-    );
-  }
 
   return (
     <section className="max-w-4xl mx-auto px-4 flex flex-col md:flex-row gap-10">
       <div className="md:w-1/4 flex flex-col items-end">
-      <InvitationControls
-        showQR={showQR}
-        setShowQR={(val) => {
-          setShowQR(val);
-          handleSaveTemplate(true);
-        }}
-        showRSVP={showRSVP}
-        setShowRSVP={(val) => {
-          setShowRSVP(val);
-          handleSaveTemplate(true); 
-        }}
-      />
+        <InvitationControls
+          showQR={hasQR}
+          setShowQR={(val) => {
+            setHasQR(val);
+          }}
+          showRSVP={hasRSVP}
+          setShowRSVP={(val) => {
+            setHasRSVP(val); 
+          }}
+        />
       </div>
 
       <div className="flex-1 flex flex-col items-center gap-4">
@@ -139,34 +117,37 @@ export default function InvitationPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {event && templates.map((template) => (
                   <TemplatePreviewCard
-                    key={template.id}
-                    template={template}
-                    event={event}
-                    onSelect={() => {
-                      setSelectedTemplate({
-                        id: event.invitationTemplate.id,
-                        baseTemplate: template,
-                        font,
-                        color,
-                        show_qr: showQR,
-                        show_rsvp: showRSVP
+                  key={template.id}
+                  template={template}
+                  event={event}
+                  onSelect={() => {
+                    if (selectedInvitation) {
+                      setSelectedInvitation({
+                        ...selectedInvitation,
+                        template,
+                        event: {
+                          ...event, 
+                          imagePath: event.image_path,
+                        },
                       });
                       setStep('customize');
-                    }}
-                  />
+                    } else {
+                      console.error("No selectedInvitation ID");
+                    }
+                  }}
+                />
                 ))}
               </div>
             )}
 
-            {step === 'customize' && selectedTemplate && (
+            {step === 'customize' && selectedInvitation && (
               <TemplateCustomizationPanel
                 font={font}
                 setFont={setFont}
                 color={color}
                 setColor={setColor}
-                invitationHtml={invitationHtml}
+                invitationHtml={selectedInvitation.template.html}
                 onSave={async () => {
-                  await handleSaveTemplate();
                   setIsOpen(false);
                 }}
                 onBack={() => setStep('select')}

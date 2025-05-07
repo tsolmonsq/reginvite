@@ -45,19 +45,15 @@ type Guest = {
   last_name: string;
   first_name: string;
   email: string;
-  phone: string;
-  status: 'Sent' | 'Pending' | 'Failed' | 'By form' | 'New';
+  phone_number: string;
+  status: 'Sent' | 'By form' | 'New';
 };
-
-
 
 const STATUS_TABS = [
   { label: 'Бүгд', value: 'all' },
   { label: 'Шинээр бүртгэсэн', value: 'New' },
   { label: 'Маягаар бүртгүүлсэн', value: 'By form' },
-  { label: 'Урилга илгээгдсэн', value: 'Sent' },
-  { label: 'Хүлээгдэж байгаа', value: 'Pending' },
-  { label: 'Амжилтгүй болсон', value: 'Failed' }
+  { label: 'Урилга илгээгдсэн', value: 'Sent' }
 ];
 
 export default function EventGuestsPage() {
@@ -85,12 +81,12 @@ export default function EventGuestsPage() {
     first_name: '',
     last_name: '',
     email: '',
-    phone: '',
+    phone_number: '',
   });
   const [event, setEvent] = useState<any>(null);
 
   const selectedGuest = guests.find((g) => g.id === selectedGuestId);
-  const isDeleteDisabled = selectedGuest?.status === 'Sent' || selectedGuest?.status === 'Pending';
+  const isDeleteDisabled = selectedGuest?.status === 'Sent'
 
   useEffect(() => {
     if (id) fetchEvent(id as string);
@@ -127,6 +123,7 @@ export default function EventGuestsPage() {
         }
       );
   
+      console.log("Guests fetched:", result.items);
       setGuests(result.items);
       setMeta({
         total: result.total,
@@ -188,16 +185,11 @@ export default function EventGuestsPage() {
 
   const handleAddGuest = async () => {
     try {
-      // Ensure phone number is a string
-      const phone = String(form.phone);
-  
-      // Ensure eventId is a number
+      const phone = String(form.phone_number);
       const eventId = Number(id);
-  
-      // Make the request with corrected values
       await apiFetch('/guests', {
         method: 'POST',
-        body: JSON.stringify({ ...form, phone_number: phone, event_id: eventId }),  // Ensure eventId is passed as a number
+        body: JSON.stringify({ ...form, phone_number: phone, event_id: eventId }),
         headers: {
           Authorization: `Bearer ${cookies.token}`, 
         },
@@ -208,7 +200,7 @@ export default function EventGuestsPage() {
       setSearchQuery('');
       await fetchGuests();
       setOpenAdd(false);
-      setForm({ first_name: '', last_name: '', email: '', phone: '' });
+      setForm({ first_name: '', last_name: '', email: '', phone_number: '' });
     } catch (err) {
       alert('Зочин нэмэхэд алдаа гарлаа.');
       console.error(err);
@@ -274,42 +266,6 @@ export default function EventGuestsPage() {
     setAnchorEl(null);
     setSelectedGuestId(null);
   };
-
-  const handleSendInvites = async () => {
-    try {
-      const guestIds = confirmGuests
-        .filter((g) => !["Sent", "Pending"].includes(g.status))
-        .map((g) => g.id);
-  
-      if (guestIds.length === 0) {
-        alert("Илгээх зочин олдсонгүй.");
-        return;
-      }
-  
-      if (!event?.invitationTemplate?.id) {
-        alert("Эвентийн template ID олдсонгүй.");
-        return;
-      }
-  
-      await apiFetch('/guests/send-invites', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${cookies.token}`,
-        },
-        body: JSON.stringify({
-          guestIds,
-          templateId: event.invitationTemplate.id,
-        }),
-      });
-  
-      alert("Урилга амжилттай илгээгдлээ.");
-      setOpenConfirm(false);
-      await fetchGuests();
-    } catch (error) {
-      console.error("Урилга илгээх алдаа:", error);
-      alert("Урилга илгээхэд алдаа гарлаа.");
-    }
-  };  
 
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 5 }}>
@@ -393,7 +349,7 @@ export default function EventGuestsPage() {
                   <TableCell>{guest.last_name}</TableCell>
                   <TableCell>{guest.first_name}</TableCell>
                   <TableCell>{guest.email}</TableCell>
-                  <TableCell>{guest.phone}</TableCell>
+                  <TableCell>{guest.phone_number}</TableCell>
                   <TableCell>
                     <StatusChip label={guest.status} size="small" className={guest.status.replace(' ', '')} />
                   </TableCell>
@@ -435,22 +391,6 @@ export default function EventGuestsPage() {
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <DialogPanel className="w-full max-w-2xl rounded bg-white p-6 shadow-xl">
             <DialogTitle className="text-lg font-bold mb-4">Урилга илгээх зочдын жагсаалт</DialogTitle>
-
-            <FormControl fullWidth sx={{ mb: 2 }} size="small">
-              <InputLabel>Зочдын төлөв</InputLabel>
-              <Select
-                value={confirmFilter}
-                label="Зочдын төлөв"
-                onChange={(e) => {
-                  setConfirmFilter(e.target.value as any);
-                }}
-              >
-                <MenuItem value="New">Шинээр бүртгэсэн</MenuItem>
-                <MenuItem value="By form">Маягтаар бүртгүүлсэн</MenuItem>
-                <MenuItem value="Failed">Алдаа гарсан</MenuItem>
-              </Select>
-            </FormControl>
-
             <Box sx={{ mb: 2 }}>
               <TextField
                 size="small"
@@ -517,7 +457,7 @@ export default function EventGuestsPage() {
 
             <Stack direction="row" spacing={2} justifyContent="end" mt={3}>
               <Button variant="ghost" onClick={() => setOpenConfirm(false)}>Болих</Button>
-              <Button onClick={handleSendInvites}>
+              <Button>
                 Илгээх
               </Button>
             </Stack>
@@ -534,7 +474,7 @@ export default function EventGuestsPage() {
               <TextField label="Овог" value={form.last_name} onChange={(e) => setForm({ ...form, last_name: e.target.value })} />
               <TextField label="Нэр" value={form.first_name} onChange={(e) => setForm({ ...form, first_name: e.target.value })} />
               <TextField label="Имэйл" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
-              <TextField label="Утас" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+              <TextField label="Утас" value={form.phone_number} onChange={(e) => setForm({ ...form, phone_number: e.target.value })} />
               <Button onClick={handleAddGuest}>Хадгалах</Button>
             </Stack>
           </DialogPanel>

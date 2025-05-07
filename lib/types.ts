@@ -23,6 +23,7 @@ export type Event = {
 };
 
 export type EventData = {
+  id: number;
   title: string;
   location: string;
   start_date: string;
@@ -30,6 +31,7 @@ export type EventData = {
   description: string;
   qr_image: string;
   rsvp_url: string;
+  image_path: string;
 };
 
 export type Template = {
@@ -38,11 +40,12 @@ export type Template = {
   html: string;
 };
 
-export interface InvitationTemplate {
+export interface Invitation {
   id: number;
   font: string;
   color: string;
-  show_qr: boolean;
-  show_rsvp: boolean;
-  baseTemplate: Template;
+  has_qr: boolean;
+  has_rsvp: boolean;
+  event: Event;
+  template: Template;
 }

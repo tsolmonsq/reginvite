@@ -36,12 +36,12 @@ export default function EventSidebarLayout({ children }: { children: ReactNode }
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const data = await fetch<{ title: string }>(`/events/${id}`, {
+        const data = await fetch<{ name: string }>(`/events/${id}`, {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
           },
         });
-        setEventTitle(data.title);
+        setEventTitle(data.name);
       } catch (error) {
         console.error("Event fetch error:", error);
         setEventTitle(null);
