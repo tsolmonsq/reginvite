@@ -10,7 +10,7 @@ export interface FormField {
   label: string;
   type: string;
   is_required: boolean;
-  options?: string[] | null;
+  options: string | string[];
 }
 
 export type Event = {
