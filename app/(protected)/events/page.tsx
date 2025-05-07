@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
@@ -6,11 +6,10 @@ import { useAlert } from '@/app/hooks/useAlert';
 import { Event } from '@/lib/types';
 import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { CircularProgress, Pagination } from '@mui/material';
+import { CircularProgress, Pagination, TextField } from '@mui/material';
 import { Search } from 'lucide-react';
 import Button from '@/components/ui/buttons/Button';
-import EventCard from '@/components/ui/cards/EventCard';
-import EventForm from '@/components/forms/EventForm';
+import EventCard from '@/components/ui/cards/EventCard'
 
 export default function EventsPage() {
   const alert = useAlert();
@@ -27,6 +26,17 @@ export default function EventsPage() {
     hasNext: false,
     hasPrevious: false,
     totalPages: 1,
+  });
+
+  const [newEvent, setNewEvent] = useState({
+    name: '',
+    description: '',
+    location: '',
+    start_date: '',
+    end_date: '',
+    is_public: true,
+    category: 'Бусад',
+    image_path: ''
   });
 
   useEffect(() => {
@@ -48,8 +58,8 @@ export default function EventsPage() {
     setError('');
 
     try {
-      const res = await apiFetch<{ data: Event[]; meta: typeof meta }>(
-        `/events?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
+      const res = await apiFetch<{ items: Event[]}>(
+        `/events/private/?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
         {
           headers: {
             Authorization: `Bearer ${cookies.token}`,
@@ -57,8 +67,7 @@ export default function EventsPage() {
         }
       );
 
-      setEvents(res.data);
-      setMeta(res.meta);
+      setEvents(res.items);
     } catch (err) {
       console.error("Fetch error:", err);
       setError("Unable to load events.");
@@ -66,6 +75,56 @@ export default function EventsPage() {
       setLoading(false);
     }
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+  
+    setNewEvent((prev) => ({
+      ...prev,
+      [name]: value, // ISO хөрвүүлэлт хожуу handleSubmit-д хийгдэнэ
+    }));
+  };
+  
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    if (!newEvent.name || !newEvent.start_date || !newEvent.end_date) {
+      alert.error("Нэр болон огнооны талбаруудыг бүрэн бөглөнө үү.");
+      return;
+    }
+  
+    try {
+      const payload = {
+        ...newEvent,
+        start_date: new Date(newEvent.start_date).toISOString(),
+        end_date: new Date(newEvent.end_date).toISOString(),
+        is_public: newEvent.is_public ?? false,
+        category: newEvent.category ?? 'Бусад',
+        image_path: newEvent.image_path ?? '',
+      };
+  
+      const res = await apiFetch('/events', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${cookies.token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error.message || 'Event creation failed');
+      }
+  
+      setIsModalOpen(false);
+      fetchEvents(searchQuery, meta.page);
+      alert.success("Амжилттай бүртгэгдлээ");
+    } catch (err) {
+      console.error('Error creating event:', err);
+      alert.error("Бүртгэхэд алдаа гарлаа");
+    }
+  };  
 
   return (
     <section className="max-w-7xl mx-auto px-4 pb-16">
@@ -122,14 +181,57 @@ export default function EventsPage() {
         <div className="fixed inset-0 flex items-center justify-center">
           <DialogPanel className="bg-white rounded-2xl p-8 w-full max-w-2xl shadow-xl">
             <DialogTitle className="text-center text-xl font-semibold mb-6">Арга хэмжээ бүртгэх</DialogTitle>
-            <EventForm
-              token={cookies.token}
-              onSuccess={() => {
-                setIsModalOpen(false);
-                fetchEvents(searchQuery, meta.page); 
-              }}
-              onError={() => alert.error("Арга хэмжээ үүсгэхэд алдаа гарлаа.")}
-            />
+            <form onSubmit={handleSubmit}>
+              <div className="space-y-4">
+                <TextField
+                  label="Нэр"
+                  name="name"
+                  value={newEvent.name}
+                  onChange={handleInputChange}
+                  fullWidth
+                  required
+                />
+                <TextField
+                  label="Тайлбар"
+                  name="description"
+                  value={newEvent.description}
+                  onChange={handleInputChange}
+                  fullWidth
+                  multiline
+                  rows={4}
+                />
+                <TextField
+                  label="Байршил"
+                  name="location"
+                  value={newEvent.location}
+                  onChange={handleInputChange}
+                  fullWidth
+                />
+                <TextField
+                    label="Эхлэх огноо"
+                    name="start_date"
+                    type="datetime-local"
+                    value={newEvent.start_date}
+                    onChange={handleInputChange}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                  />
+
+                  <TextField
+                    label="Төгсөх огноо"
+                    name="end_date"
+                    type="datetime-local"
+                    value={newEvent.end_date}
+                    onChange={handleInputChange}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                  />
+
+                <Button variant="primary" onClick={handleSubmit}>
+                  Бүртгэх
+                </Button>
+              </div>
+            </form>
           </DialogPanel>
         </div>
       </Dialog>

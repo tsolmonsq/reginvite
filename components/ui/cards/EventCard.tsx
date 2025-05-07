@@ -29,7 +29,7 @@ const EventCard: React.FC<Props> = ({ event }) => {
       <div className="p-4">
         <h2 className="text-sm font-semibold text-gray-900 mb-2">{event.title}</h2>
         <p className="text-sm text-gray-600 leading-snug mb-3">{event.location}</p>
-        <p className="text-xs text-gray-400">{formatDateTime(event.start_time)}</p>
+        <p className="text-xs text-gray-400">{event.start_date}</p>
       </div>
     </div>
   );

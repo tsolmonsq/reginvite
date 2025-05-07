@@ -49,6 +49,8 @@ type Guest = {
   status: 'Sent' | 'Pending' | 'Failed' | 'By form' | 'New';
 };
 
+
+
 const STATUS_TABS = [
   { label: 'Бүгд', value: 'all' },
   { label: 'Шинээр бүртгэсэн', value: 'New' },
@@ -116,15 +118,7 @@ export default function EventGuestsPage() {
         limit: `${limit}`,
       });
   
-      if (searchQuery.trim()) {
-        query.append("search", searchQuery.trim());
-      }
-
-      if (statusFilter !== 'all') {
-        query.append("status", statusFilter);
-      }
-  
-      const result = await apiFetch<{ data: Guest[]; meta: any }>(
+      const result = await apiFetch<{ total: number, page: number, totalPages: number, items: Guest[] }>(
         `/guests?${query.toString()}`,
         {
           headers: {
@@ -133,15 +127,12 @@ export default function EventGuestsPage() {
         }
       );
   
-      setGuests(result.data);
-      setMeta(result.meta);
-  
-      const filtered =
-        statusFilter === "all"
-          ? result.data
-          : result.data.filter((g) => g.status === statusFilter);
-  
-      setFilteredGuests(filtered);
+      setGuests(result.items);
+      setMeta({
+        total: result.total,
+        page: page,
+        totalPages: result.totalPages,
+      });
     } catch (error) {
       console.error("Guests fetch error:", error);
     }
@@ -160,7 +151,7 @@ export default function EventGuestsPage() {
         query.append("search", confirmSearchQuery.trim());
       }
   
-      const result = await apiFetch<{ data: Guest[]; meta: any }>(
+      const result = await apiFetch<{items: Guest[]}>(
         `/guests?${query.toString()}`,
         {
           headers: {
@@ -169,12 +160,19 @@ export default function EventGuestsPage() {
         }
       );
   
-      setConfirmGuests(result.data);
-      setConfirmMeta(result.meta);
+      setConfirmGuests(result.items);
     } catch (error) {
       console.error("Confirm Guests fetch error:", error);
     }
   };
+
+  useEffect(() => {
+    const filteredGuests = guests.filter((guest) => {
+      if (statusFilter === 'all') return true;
+      return guest.status === statusFilter;
+    });
+    setFilteredGuests(filteredGuests);
+  }, [guests, statusFilter]);
   
   
   useEffect(() => {
@@ -190,9 +188,16 @@ export default function EventGuestsPage() {
 
   const handleAddGuest = async () => {
     try {
+      // Ensure phone number is a string
+      const phone = String(form.phone);
+  
+      // Ensure eventId is a number
+      const eventId = Number(id);
+  
+      // Make the request with corrected values
       await apiFetch('/guests', {
         method: 'POST',
-        body: JSON.stringify({ ...form, eventId: Number(id) }),
+        body: JSON.stringify({ ...form, phone_number: phone, event_id: eventId }),  // Ensure eventId is passed as a number
         headers: {
           Authorization: `Bearer ${cookies.token}`, 
         },
@@ -208,7 +213,7 @@ export default function EventGuestsPage() {
       alert('Зочин нэмэхэд алдаа гарлаа.');
       console.error(err);
     }
-  };
+  };  
   
   const handleDeleteGuest = async () => {
     if (!selectedGuestId) return;
@@ -365,41 +370,41 @@ export default function EventGuestsPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-              {filteredGuests.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={6}>
-                    <Box
-                      display="flex"
-                      flexDirection="column"
-                      alignItems="center"
-                      justifyContent="center"
-                      minHeight="300px" 
-                    >
-                      <InboxIcon size={48} color="#CCCCCC" />
-                      <Box sx={{ color: "#CCCCCC", fontSize: '1rem' }}>
-                        Хоосон байна
-                      </Box>
+            {filteredGuests.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6}>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    justifyContent="center"
+                    minHeight="300px"
+                  >
+                    <InboxIcon size={48} color="#CCCCCC" />
+                    <Box sx={{ color: "#CCCCCC", fontSize: '1rem' }}>
+                      Хоосон байна
                     </Box>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ) : (
+              filteredGuests.map((guest) => (
+                <TableRow key={guest.id}>
+                  <TableCell>{guest.last_name}</TableCell>
+                  <TableCell>{guest.first_name}</TableCell>
+                  <TableCell>{guest.email}</TableCell>
+                  <TableCell>{guest.phone}</TableCell>
+                  <TableCell>
+                    <StatusChip label={guest.status} size="small" className={guest.status.replace(' ', '')} />
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton size="small" onClick={(e) => handleMenuOpen(e, guest.id)}>
+                      <MoreVertIcon />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
-              ) : (
-                filteredGuests.map((guest) => (
-                  <TableRow key={guest.id}>
-                    <TableCell>{guest.last_name}</TableCell>
-                    <TableCell>{guest.first_name}</TableCell>
-                    <TableCell>{guest.email}</TableCell>
-                    <TableCell>{guest.phone}</TableCell>
-                    <TableCell>
-                      <StatusChip label={guest.status} size="small" className={guest.status.replace(' ', '')} />
-                    </TableCell>
-                    <TableCell align="right">
-                      <IconButton size="small" onClick={(e) => handleMenuOpen(e, guest.id)}>
-                        <MoreVertIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+              ))
+            )}
           </TableBody>
         </Table>
         <TablePagination

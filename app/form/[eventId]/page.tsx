@@ -7,29 +7,45 @@ import { FormField } from '@/lib/types';
 import DotDivider from '@/components/ui/assets/DotDivider';
 import Image from 'next/image';
 import Button from '@/components/ui/buttons/Button';
+import apiFetch from '@/lib/api';
+
+interface Form {
+  id: number;
+  formFields: FormField[];
+  type: string;
+  is_open: boolean;
+  max_guests: number;
+  close_at: string;
+  total_registrations: number;
+  total_submissions: number;
+}
 
 export default function PublicEventForm() {
   const { eventId } = useParams();
+  const [form, setForm] = useState<Form | undefined>();
   const [fields, setFields] = useState<FormField[]>([]);
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [eventMeta, setEventMeta] = useState<any>(null);
+
+  const handleChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     if (!eventId) return;
 
     const fetchFormAndEvent = async () => {
       try {
-        const formRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-forms/${eventId}/public`);
-        const formData = await formRes.json();
-        setFields(formData.fields || []);
+        const formRes = await apiFetch<Form>(`/forms/public/${eventId}`);
+        setForm(formRes); // бүх form объект хадгалах
+        setFields(formRes.formFields || []);
 
-        const eventRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${eventId}/public`);
-        const event = await eventRes.json();
-        setEventMeta(event);
+        const eventRes = await apiFetch<any>(`/events/${eventId}`);
+        setEventMeta(eventRes);
       } catch (err) {
-        console.error('Алдаа:', err);
-        message.error('Өгөгдөл ачаалахад алдаа гарлаа');
+        console.error("Алдаа:", err);
+        message.error("Өгөгдөл ачаалахад алдаа гарлаа");
       } finally {
         setLoading(false);
       }
@@ -37,10 +53,6 @@ export default function PublicEventForm() {
 
     fetchFormAndEvent();
   }, [eventId]);
-
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-  };
 
   const handleSubmit = async () => {
     const payload = {
@@ -52,22 +64,15 @@ export default function PublicEventForm() {
     };
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event-forms/${eventId}/public-response`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      await apiFetch(`/forms/${eventId}/register`, {
+        method: "POST",
         body: JSON.stringify(payload),
       });
-
-      if (res.ok) {
-        message.success('Амжилттай бүртгэгдлээ');
-        setFormData({});
-      } else {
-        const error = await res.json();
-        message.error(`Алдаа: ${error.message || 'Бүртгэл амжилтгүй'}`);
-      }
-    } catch (err) {
+      message.success("Амжилттай бүртгэгдлээ");
+      setFormData({});
+    } catch (err: any) {
       console.error(err);
-      message.error('Сервертэй холбогдож чадсангүй');
+      message.error(`Алдаа: ${err.message || "Бүртгэл амжилтгүй"}`);
     }
   };
 
@@ -79,19 +84,17 @@ export default function PublicEventForm() {
           <Skeleton active paragraph={{ rows: 2 }} title className="max-w-md mx-auto" />
         ) : eventMeta ? (
           <div className="bg-white p-6 rounded-xl shadow-sm max-w-2xl mx-auto">
-            <h1 className="text-3xl font-bold text-gray-900 mb-5">{eventMeta.title}</h1>
-            
+            <h1 className="text-3xl font-bold text-gray-900 mb-5">{eventMeta.name}</h1>
+
             {eventMeta.description && (
               <p className="text-base text-gray-600 mb-4">{eventMeta.description}</p>
             )}
 
             <div className="text-sm text-gray-500 flex flex-wrap items-center justify-center gap-x-4">
-              <span className="flex items-center gap-1">
-                <span className="font-medium">{eventMeta.location}</span>
-              </span>
+              <span className="font-medium">{eventMeta.location}</span>
               <span className="hidden sm:inline">|</span>
-              <span className="flex items-center gap-1">
-                {new Date(eventMeta.start_time).toLocaleString('mn-MN', {
+              <span>
+                {new Date(eventMeta.start_date).toLocaleString('mn-MN', {
                   year: 'numeric',
                   month: 'short',
                   day: 'numeric',
@@ -142,7 +145,9 @@ export default function PublicEventForm() {
                           type="checkbox"
                           name={field.label}
                           value={opt}
-                          onChange={(e) => handleChange(field.label, e.target.checked ? opt : '')}
+                          onChange={(e) =>
+                            handleChange(field.label, e.target.checked ? opt : '')
+                          }
                           className="accent-primary"
                         />
                         {opt}
@@ -152,7 +157,7 @@ export default function PublicEventForm() {
                 ) : field.type === 'textarea' ? (
                   <textarea
                     placeholder={field.label}
-                    required={field.required}
+                    required={field.is_required}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md text-sm"
                     value={formData[field.label] || ''}
                     onChange={(e) => handleChange(field.label, e.target.value)}
@@ -162,7 +167,7 @@ export default function PublicEventForm() {
                     name={field.label}
                     type={field.type === 'email' ? 'email' : field.type === 'number' ? 'number' : 'text'}
                     placeholder={field.label}
-                    required={field.required}
+                    required={field.is_required}
                     value={formData[field.label] || ''}
                     onChange={(e) => handleChange(field.label, e.target.value)}
                     className="text-sm"
@@ -172,11 +177,7 @@ export default function PublicEventForm() {
             ))}
 
             <div className="text-center pt-6">
-              <Button
-                onClick={handleSubmit}
-              >
-                Илгээх
-              </Button>
+              <Button onClick={handleSubmit}>Илгээх</Button>
             </div>
           </form>
         )}
