@@ -1,8 +1,6 @@
-'use client';
-
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Input, message, Skeleton } from 'antd';
+import { Table, Skeleton, message, Input } from 'antd';
 import { FormField } from '@/lib/types';
 import DotDivider from '@/components/ui/assets/DotDivider';
 import Image from 'next/image';
@@ -24,25 +22,42 @@ export default function PublicEventForm() {
   const { eventId } = useParams();
   const [form, setForm] = useState<Form | undefined>();
   const [fields, setFields] = useState<FormField[]>([]);
-  const [formData, setFormData] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [eventMeta, setEventMeta] = useState<any>(null);
+  const [responses, setResponses] = useState<any[]>([]);
 
-  const handleChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+  // handleChange function definition
+  const handleChange = (field: string, value: any) => {
+    setFormData((prev) => {
+      const currentValue = prev[field];
+      if (Array.isArray(currentValue)) {
+        // Handle checkbox array for multiple selections
+        if (currentValue.includes(value)) {
+          return { ...prev, [field]: currentValue.filter((v: any) => v !== value) };
+        } else {
+          return { ...prev, [field]: [...currentValue, value] };
+        }
+      } else {
+        return { ...prev, [field]: value };
+      }
+    });
   };
 
   useEffect(() => {
-    if (!eventId) return;
-
     const fetchFormAndEvent = async () => {
       try {
         const formRes = await apiFetch<Form>(`/forms/public/${eventId}`);
-        setForm(formRes); // бүх form объект хадгалах
+        setForm(formRes);
         setFields(formRes.formFields || []);
 
         const eventRes = await apiFetch<any>(`/events/${eventId}`);
         setEventMeta(eventRes);
+
+        // Fetch responses from the API
+        const responsesRes = await apiFetch<any>(`/forms/public/${eventId}/responses`);
+        console.log('Responses:', responsesRes);
+        setResponses(responsesRes.items || []); // Set the 'items' array to responses
       } catch (err) {
         console.error("Алдаа:", err);
         message.error("Өгөгдөл ачаалахад алдаа гарлаа");
@@ -55,12 +70,25 @@ export default function PublicEventForm() {
   }, [eventId]);
 
   const handleSubmit = async () => {
+    if (!eventId) {
+      message.error("Event ID is missing");
+      return; 
+    }
+
     const payload = {
-      first_name: formData['Нэр'] || '',
-      last_name: formData['Овог'] || '',
-      email: formData['Имэйл хаяг'] || '',
-      phone: formData['Утасны дугаар'] || '',
-      eventId: eventId,
+      responses: Object.keys(formData).map((key) => {
+        const fieldValue = formData[key];
+        const fieldId = fields.find((f) => f.label === key)?.id;
+
+        if (fieldId) {
+          return {
+            fieldId,
+            value: Array.isArray(fieldValue) ? fieldValue.join(",") : fieldValue,
+          };
+        }
+        return null;
+      }).filter((r) => r !== null),
+      eventId: eventId.toString(),
     };
 
     try {
@@ -75,6 +103,38 @@ export default function PublicEventForm() {
       message.error(`Алдаа: ${err.message || "Бүртгэл амжилтгүй"}`);
     }
   };
+
+  const columns = [
+    {
+      title: 'Овог',
+      dataIndex: 'last_name',
+      key: 'last_name',
+    },
+    {
+      title: 'Нэр',
+      dataIndex: 'first_name',
+      key: 'first_name',
+    },
+    {
+      title: 'Имэйл хаяг',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Утасны дугаар',
+      dataIndex: 'phone_number',
+      key: 'phone_number',
+    },
+  ];
+
+  // Map responses to dataSource for Table
+  const dataSource = responses.map((response, index) => ({
+    key: index,
+    last_name: response.last_name,
+    first_name: response.first_name,
+    email: response.email,
+    phone_number: response.phone_number,
+  }));
 
   return (
     <div className="bg-white min-h-screen px-6 py-10 font-sans">
@@ -103,12 +163,6 @@ export default function PublicEventForm() {
                 })}
               </span>
             </div>
-
-            <div className="mt-5 bg-[#fefce8] border border-yellow-300 px-4 py-3 rounded-md">
-              <p className="text-sm text-yellow-800 font-medium">
-                Та уг арга хэмжээнд оролцохыг хүсвэл доорх бүртгэлийн формд мэдээллээ бөглөн бүртгүүлээрэй.
-              </p>
-            </div>
           </div>
         ) : null}
       </div>
@@ -124,35 +178,43 @@ export default function PublicEventForm() {
                 <label className="block text-sm font-medium text-gray-800 mb-1">{field.label}</label>
                 {field.type === 'radio' && field.options ? (
                   <div className="flex flex-wrap gap-4">
-                    {field.options.map((opt, i) => (
-                      <label key={i} className="flex items-center gap-2 text-sm">
-                        <input
-                          type="radio"
-                          name={field.label}
-                          value={opt}
-                          onChange={(e) => handleChange(field.label, e.target.value)}
-                          className="accent-primary"
-                        />
-                        {opt}
-                      </label>
-                    ))}
+                    {Array.isArray(field.options) ? (
+                      field.options.map((opt, i) => (
+                        <label key={i} className="flex items-center gap-2 text-sm">
+                          <input
+                            type="radio"
+                            name={field.label}
+                            value={opt}
+                            onChange={(e) => handleChange(field.label, e.target.value)}
+                            className="accent-primary"
+                          />
+                          {opt}
+                        </label>
+                      ))
+                    ) : (
+                      <span>No options available</span>
+                    )}
                   </div>
                 ) : field.type === 'checkbox' && field.options ? (
                   <div className="flex flex-wrap gap-4">
-                    {field.options.map((opt, i) => (
-                      <label key={i} className="flex items-center gap-2 text-sm">
-                        <input
-                          type="checkbox"
-                          name={field.label}
-                          value={opt}
-                          onChange={(e) =>
-                            handleChange(field.label, e.target.checked ? opt : '')
-                          }
-                          className="accent-primary"
-                        />
-                        {opt}
-                      </label>
-                    ))}
+                    {Array.isArray(field.options) ? (
+                      field.options.map((opt, i) => (
+                        <label key={i} className="flex items-center gap-2 text-sm">
+                          <input
+                            type="checkbox"
+                            name={field.label}
+                            value={opt}
+                            onChange={(e) =>
+                              handleChange(field.label, e.target.checked ? opt : '')
+                            }
+                            className="accent-primary"
+                          />
+                          {opt}
+                        </label>
+                      ))
+                    ) : (
+                      <span>No options available</span>
+                    )}
                   </div>
                 ) : field.type === 'textarea' ? (
                   <textarea
@@ -185,6 +247,8 @@ export default function PublicEventForm() {
 
       <div className="pt-12">
         <DotDivider />
+        <h2 className="text-2xl text-center font-semibold mt-8 mb-4">Бүртгэлийн Хариултууд</h2>
+        <Table dataSource={dataSource} columns={columns} />
       </div>
     </div>
   );

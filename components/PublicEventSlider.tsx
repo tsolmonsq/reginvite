@@ -56,7 +56,6 @@ export default function PublicEventSlider() {
     exit: (dir: number) => ({ x: dir > 0 ? -300 : 300, opacity: 0 }),
   };
 
-  // Энэ нь үргэлж 4 ширхэг эвентийг дараалж харуулах болно (дахин эхэлж эхэлдэг)
   const getVisibleEvents = () => {
     const result: Event[] = [];
     for (let i = 0; i < Math.min(maxVisible, events.length); i++) {
@@ -103,11 +102,11 @@ export default function PublicEventSlider() {
             >
               {visibleEvents.map((event, idx) => (
                 <PublicEventCard
-                  key={`${event.id}-${idx}`} // 👈 давхардахаас сэргийлнэ
+                  key={`${event.id}-${idx}`}
                   {...event}
                   startDate={event.start_date}
                   endDate={event.end_date}
-                  imageUrl={"https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"}
+                  imageUrl={`http://localhost:3002/uploads/${event.image_path}`}
                 />
               ))}
             </motion.div>

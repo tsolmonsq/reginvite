@@ -40,34 +40,42 @@ export default function GuestEventForm() {
               <label className="block text-sm font-medium mb-1">{field.label}</label>
 
               {field.type === 'radio' && field.options ? (
-                <div className="flex gap-4">
-                  {field.options.map((opt, i) => (
-                    <label key={i} className="flex items-center gap-2">
-                      <input type="radio" name={field.label} />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
+                Array.isArray(field.options) ? (
+                  <div className="flex gap-4">
+                    {field.options.map((opt, i) => (
+                      <label key={i} className="flex items-center gap-2">
+                        <input type="radio" name={field.label} />
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <div>No options available</div>
+                )
               ) : field.type === 'checkbox' && field.options ? (
-                <div className="flex gap-4">
-                  {field.options.map((opt, i) => (
-                    <label key={i} className="flex items-center gap-2">
-                      <input type="checkbox" name={field.label} />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
+                Array.isArray(field.options) ? (
+                  <div className="flex gap-4">
+                    {field.options.map((opt, i) => (
+                      <label key={i} className="flex items-center gap-2">
+                        <input type="checkbox" name={field.label} />
+                        {opt}
+                      </label>
+                    ))}
+                  </div>
+                ) : (
+                  <div>No options available</div>
+                )
               ) : field.type === 'textarea' ? (
                 <textarea
                   placeholder={field.label}
-                  required={field.required}
+                  required={field.is_required}
                   className="w-full px-3 py-2 border rounded-md"
                 />
               ) : (
                 <Input
                   type={field.type === 'email' ? 'email' : field.type === 'number' ? 'number' : 'text'}
                   placeholder={field.label}
-                  required={field.required}
+                  required={field.is_required}
                   className="w-full"
                 />
               )}

@@ -5,66 +5,76 @@ import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "./ui/buttons/Button";
+import apiFetch from "@/lib/api";
 
-interface ImageData {
-  src: string;
+interface Event {
+  id: number;
+  name: string;
+  location: string;
+  start_date: string;
+  end_date?: string;
+  image_path: string | null;
 }
 
-const images: ImageData[] = [
-  {
-    src: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg",
-  },
-  {
-    src: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg",
-  },
-  {
-    src: "https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg",
-  },
-];
-
-interface Props {
-  eventName?: string;
-  eventLocation?: string;
-  eventStartDate?: Date;
-  eventEndDate?: Date
-}
-
-export default function ImageSlider({eventName, eventLocation, eventStartDate, eventEndDate}:Props): JSX.Element {
+export default function ImageSlider(): JSX.Element {
+  const [events, setEvents] = useState<Event[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [direction, setDirection] = useState<number>(0);
   const [isHovered, setIsHovered] = useState<boolean>(false);
 
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await apiFetch<{ items: Event[] }>("/events/public");
+        const sorted = response.items.sort(
+          (a, b) =>
+            new Date(b.start_date).getTime() - new Date(a.start_date).getTime()
+        );
+        setEvents(sorted.slice(0, 3));
+      } catch (err) {
+        console.error("Failed to load events", err);
+      }
+    };
+    fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    if (!isHovered) {
+      const interval = setInterval(() => {
+        setDirection(1);
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % events.length);
+      }, 4000);
+      return () => clearInterval(interval);
+    }
+  }, [isHovered, events]);
+
   const variants = {
-    initial: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
+    initial: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
       opacity: 0,
     }),
     animate: { x: 0, opacity: 1 },
-    exit: (direction: number) => ({
-      x: direction > 0 ? -300 : 300,
+    exit: (dir: number) => ({
+      x: dir > 0 ? -300 : 300,
       opacity: 0,
     }),
   };
 
   const prevSlide = (): void => {
     setDirection(-1);
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + events.length) % events.length);
   };
 
   const nextSlide = (): void => {
     setDirection(1);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % events.length);
   };
 
-  useEffect(() => {
-    if (!isHovered) {
-      const interval = setInterval(() => {
-        nextSlide();
-      }, 3000);
+  const currentEvent = events[currentIndex];
 
-      return () => clearInterval(interval);
-    }
-  }, [isHovered]);
+  const imageUrl = currentEvent?.image_path
+    ? `http://localhost:3002/uploads/${currentEvent.image_path}`
+    : "/default-image.jpg"; // fallback image
 
   return (
     <div
@@ -74,62 +84,55 @@ export default function ImageSlider({eventName, eventLocation, eventStartDate, e
     >
       <div className="relative h-[700px] mx-12 group">
         <AnimatePresence custom={direction} mode="wait">
-          <motion.div
-            key={currentIndex}
-            custom={direction}
-            variants={variants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0"
-          >
-            <Image
-              src={images[currentIndex].src}
-              alt={`Slider Image ${currentIndex + 1}`}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-xl cursor-pointer"
-            />
-
-            {/* Overlay text + button */}
-            <div className="absolute inset-0 flex flex-col items-center justify-end text-center text-white bg-black/40 rounded-xl p-20">
-              <h2 className="text-4xl font-bold mb-4">
-                {eventName}
-              </h2>
-              <p className="text-xl mb-2">{eventStartDate?.toDateString()}</p>
-              <p className="text-lg mb-4">{eventLocation}</p>
-              <Button>
-                Оролцох
-              </Button>
-            </div>
-          </motion.div>
+          {currentEvent && (
+            <motion.div
+              key={currentIndex}
+              custom={direction}
+              variants={variants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              transition={{ duration: 0.5 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={imageUrl}
+                alt={`Event ${currentEvent.name}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-xl"
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-end text-center text-white bg-black/40 rounded-xl p-20">
+                <h2 className="text-4xl font-bold mb-4">{currentEvent.name}</h2>
+                <p className="text-xl mb-2">{new Date(currentEvent.start_date).toDateString()}</p>
+                <p className="text-lg mb-4">{currentEvent.location}</p>
+                <Button>Оролцох</Button>
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
 
       <button
-        className="absolute left-0 top-1/2 transform h-10 rounded-xl mx-1 -mt-[10px] -translate-y-1/2 p-2 group cursor-pointer"
+        className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2"
         onClick={prevSlide}
       >
-        <ChevronLeft className="text-primary-black" />
+        <ChevronLeft className="text-white w-8 h-8" />
       </button>
-
       <button
-        className="absolute right-0 top-1/2 transform h-10 rounded-xl mx-1 -mt-[10px] -translate-y-1/2 p-2 group cursor-pointer"
+        className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2"
         onClick={nextSlide}
       >
-        <ChevronRight className="text-primary-black" />
+        <ChevronRight className="text-white w-8 h-8" />
       </button>
 
       <div className="flex justify-center mt-4">
-        {images.map((_, index) => (
+        {events.map((_, index) => (
           <div
             key={index}
             className={`h-4 w-4 mx-1 ${
-              index === currentIndex
-                ? "bg-[#A3A3A3] rounded-xl"
-                : "bg-[#D9D9D9] rounded-xl"
-            } transition-all duration-500 ease-in-out`}
+              index === currentIndex ? "bg-[#A3A3A3]" : "bg-[#D9D9D9]"
+            } rounded-xl transition-all duration-500`}
           ></div>
         ))}
       </div>

@@ -4,8 +4,6 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Calendar, Clock, Mail, Phone, MapPin, ArrowLeft } from "lucide-react";
 import apiFetch from "@/lib/api";
-import Image from "next/image";
-import Link from "next/link";
 import Button from "@/components/ui/buttons/Button";
 import { useRouter } from "next/navigation";
 
@@ -23,6 +21,7 @@ interface Event {
 export default function EventDetailPage() {
   const { id } = useParams();
   const [event, setEvent] = useState<Event | null>(null);
+  const [registrationsCount, setRegistrationsCount] = useState<number>(0); 
   const [countdown, setCountdown] = useState("");
   const router = useRouter();
 
@@ -32,6 +31,15 @@ export default function EventDetailPage() {
       setEvent(res);
     };
     fetchEvent();
+  }, [id]);
+
+  // Fetch registrations count
+  useEffect(() => {
+    const fetchRegistrationsCount = async () => {
+      const res = await apiFetch<{ registrationsCount: number }>(`/forms/public/${id}/registrations-count`);
+      setRegistrationsCount(res.registrationsCount);
+    };
+    if (id) fetchRegistrationsCount();
   }, [id]);
 
   useEffect(() => {
@@ -57,23 +65,17 @@ export default function EventDetailPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      {/* Banner */}
-      <div className="w-full h-[300px] mt-4 relative">
+      <div className="w-full h-[400px] mt-4 relative">
         <img
-          src={event.image_path ?? "https://via.placeholder.com/1200x400?text=Event+Banner"}
+          src={`http://localhost:3002/uploads/${event.image_path}`}
           alt={event.name}
           className="object-cover w-full h-full"
         />
       </div>
-
-      {/* Title */}
       <div className="text-center mt-6">
         <h1 className="text-3xl font-bold">{event.name}</h1>
       </div>
-
-      {/* Event info */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 px-6">
-        {/* Огноо + цаг */}
         <div className="flex flex-col items-center border rounded-xl py-4 px-6">
           <div className="flex items-center gap-2 text-primary">
             <Calendar className="w-5 h-5" />
@@ -84,8 +86,6 @@ export default function EventDetailPage() {
             <span>09:00 - 18:00</span>
           </div>
         </div>
-
-        {/* Зохион байгуулагч + Хаана */}
         <div className="flex flex-col gap-4">
           <div className="border rounded-xl p-4">
             <h3 className="text-primary font-bold text-base mb-1">Зохион байгуулагч</h3>
@@ -107,20 +107,24 @@ export default function EventDetailPage() {
             </div>
           </div>
         </div>
-
-        {/* Countdown */}
-        <div className="border rounded-xl p-4 flex flex-col items-center justify-center">
-          <h3 className="text-primary font-bold text-base mb-2">Эвент эхлэхэд</h3>
-          <div className="border border-primary rounded-md px-6 py-2 text-primary text-lg font-semibold bg-white">
-            {countdown}
+        <div className="flex">
+          <div className="border rounded-xl p-4 flex flex-col items-center justify-center">
+            <h3 className="text-primary font-bold text-base mb-2">Эвент эхлэхэд</h3>
+            <div className="border border-primary rounded-md px-6 py-2 text-primary text-lg font-semibold bg-white">
+              {countdown}
+            </div>
+            <Button onClick={() => router.push(`/form/${event.id}`)} className="mt-2">
+              Оролцох
+            </Button>
           </div>
-          <Button onClick={() => router.push(`/form/${event.id}`)}className="mt-2">
-             Оролцох
-          </Button>
+          <div className="flex justify-center mx-10">
+            <div className="border p-6 rounded-lg text-center w-full">
+              <h3 className="text-lg font-bold text-primary mb-2">Бүртгүүлсэн хүмүүсийн тоо</h3>
+              <div className="text-3xl font-bold text-primary">{registrationsCount}</div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Дэлгэрэнгүй тайлбар */}
       <div className="px-6 mt-10">
         <div className="border rounded-xl p-6">
           <h2 className="text-primary font-bold text-lg mb-2">Дэлгэрэнгүй мэдээлэл</h2>
