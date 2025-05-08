@@ -24,11 +24,11 @@ export type Event = {
 
 export type EventData = {
   id: number;
-  title: string;
+  name: string;
+  description: string;
   location: string;
   start_date: string;
   end_date: string;
-  description: string;
   qr_image: string;
   rsvp_url: string;
   image_path: string;
@@ -46,6 +46,6 @@ export interface Invitation {
   color: string;
   has_qr: boolean;
   has_rsvp: boolean;
-  event: Event;
+  event: EventData;
   template: Template;
 }

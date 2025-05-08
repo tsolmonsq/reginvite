@@ -8,10 +8,12 @@ interface TemplatePreviewCardProps {
   template: Template;
   event: EventData;
   onSelect: () => void;
+  font: string, 
+  color: string
 }
 
-export default function TemplatePreviewCard({ template, event, onSelect }: TemplatePreviewCardProps) {
-  const previewHtml = generateInvitationHtml(template, event, false, false, template.font, template.color);
+export default function TemplatePreviewCard({ template, event, onSelect, font, color }: TemplatePreviewCardProps) {
+  const previewHtml = generateInvitationHtml(template, event, false, false, font, color);
 
   return (
     <div className="border border-gray-200 rounded-lg p-2 group hover:shadow-md relative overflow-hidden">

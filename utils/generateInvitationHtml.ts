@@ -18,14 +18,14 @@ export function generateInvitationHtml(
     ? `<div style="margin-top: 16px;"><a href="#" style="display: inline-block; background: ${color}; color: white; padding: 8px 16px; text-decoration: none; border-radius: 6px; font-weight: 500;">RSVP</a></div>`
     : '';
 
-  return template.html
-    .replaceAll('{{TITLE}}', event.title)
+    return template.html
+    .replaceAll('{{TITLE}}', event.name)
     .replaceAll('{{DESCRIPTION}}', event.description ?? '')
     .replaceAll('{{LOCATION}}', event.location)
-    .replaceAll('{{START_TIME}}', new Date(event.start_date).toLocaleString())
-    .replaceAll('{{END_TIME}}', new Date(event.end_date).toLocaleString())
+    .replaceAll('{{START_DATE}}', event.start_date ? new Date(event.start_date).toLocaleString() : '')
+    .replaceAll('{{END_DATE}}', event.end_date ? new Date(event.end_date).toLocaleString() : '')
     .replaceAll('{{COLOR}}', color)
     .replaceAll('{{FONT}}', font)
     .replaceAll('{{QR_SECTION}}', QR_SECTION)
-    .replaceAll('{{RSVP_SECTION}}', RSVP_SECTION);
+    .replaceAll('{{RSVP_SECTION}}', RSVP_SECTION);  
 }
