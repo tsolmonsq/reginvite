@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Table, Skeleton, message, Input } from 'antd';
 import { FormField } from '@/lib/types';
-import DotDivider from '@/components/ui/assets/DotDivider';
 import Image from 'next/image';
 import Button from '@/components/ui/buttons/Button';
 import apiFetch from '@/lib/api';
@@ -54,87 +53,50 @@ export default function PublicEventForm() {
         const eventRes = await apiFetch<any>(`/events/${eventId}`);
         setEventMeta(eventRes);
 
-        // Fetch responses from the API
         const responsesRes = await apiFetch<any>(`/forms/public/${eventId}/responses`);
-        console.log('Responses:', responsesRes);
-        setResponses(responsesRes.items || []); // Set the 'items' array to responses
+        setResponses(responsesRes.items || []);
       } catch (err) {
-        console.error("Алдаа:", err);
-        message.error("Өгөгдөл ачаалахад алдаа гарлаа");
+        console.error('Алдаа:', err);
+        message.error('Өгөгдөл ачаалахад алдаа гарлаа');
       } finally {
         setLoading(false);
       }
     };
-
     fetchFormAndEvent();
   }, [eventId]);
 
   const handleSubmit = async () => {
-    if (!eventId) {
-      message.error("Event ID is missing");
-      return; 
-    }
+    if (!eventId) return message.error('Event ID is missing');
 
     const payload = {
-      responses: Object.keys(formData).map((key) => {
-        const fieldValue = formData[key];
-        const fieldId = fields.find((f) => f.label === key)?.id;
-
-        if (fieldId) {
-          return {
-            fieldId,
-            value: Array.isArray(fieldValue) ? fieldValue.join(",") : fieldValue,
-          };
-        }
-        return null;
-      }).filter((r) => r !== null),
+      responses: Object.keys(formData)
+        .map((key) => {
+          const fieldValue = formData[key];
+          const fieldId = fields.find((f) => f.label === key)?.id;
+          if (fieldId) {
+            return {
+              fieldId,
+              value: Array.isArray(fieldValue) ? fieldValue.join(',') : fieldValue,
+            };
+          }
+          return null;
+        })
+        .filter((r) => r !== null),
       eventId: eventId.toString(),
     };
 
     try {
       await apiFetch(`/forms/${eventId}/register`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify(payload),
       });
-      message.success("Амжилттай бүртгэгдлээ");
+      message.success('Амжилттай бүртгэгдлээ');
       setFormData({});
     } catch (err: any) {
       console.error(err);
-      message.error(`Алдаа: ${err.message || "Бүртгэл амжилтгүй"}`);
+      message.error(`Алдаа: ${err.message || 'Бүртгэл амжилтгүй'}`);
     }
   };
-
-  const columns = [
-    {
-      title: 'Овог',
-      dataIndex: 'last_name',
-      key: 'last_name',
-    },
-    {
-      title: 'Нэр',
-      dataIndex: 'first_name',
-      key: 'first_name',
-    },
-    {
-      title: 'Имэйл хаяг',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Утасны дугаар',
-      dataIndex: 'phone_number',
-      key: 'phone_number',
-    },
-  ];
-
-  // Map responses to dataSource for Table
-  const dataSource = responses.map((response, index) => ({
-    key: index,
-    last_name: response.last_name,
-    first_name: response.first_name,
-    email: response.email,
-    phone_number: response.phone_number,
-  }));
 
   return (
     <div className="bg-white min-h-screen px-6 py-10 font-sans">
@@ -145,21 +107,13 @@ export default function PublicEventForm() {
         ) : eventMeta ? (
           <div className="bg-white p-6 rounded-xl shadow-sm max-w-2xl mx-auto">
             <h1 className="text-3xl font-bold text-gray-900 mb-5">{eventMeta.name}</h1>
-
-            {eventMeta.description && (
-              <p className="text-base text-gray-600 mb-4">{eventMeta.description}</p>
-            )}
-
+            {eventMeta.description && <p className="text-base text-gray-600 mb-4">{eventMeta.description}</p>}
             <div className="text-sm text-gray-500 flex flex-wrap items-center justify-center gap-x-4">
               <span className="font-medium">{eventMeta.location}</span>
               <span className="hidden sm:inline">|</span>
               <span>
                 {new Date(eventMeta.start_date).toLocaleString('mn-MN', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
+                  year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit',
                 })}
               </span>
             </div>
@@ -176,44 +130,45 @@ export default function PublicEventForm() {
             {fields.map((field, index) => (
               <div key={field.id || index}>
                 <label className="block text-sm font-medium text-gray-800 mb-1">{field.label}</label>
+
                 {field.type === 'radio' && field.options ? (
                   <div className="flex flex-wrap gap-4">
-                    {Array.isArray(field.options) ? (
-                      field.options.map((opt, i) => (
+                    {typeof field.options === 'string' && field.options.trim() !== '' ? (
+                      field.options.split(',').map((opt, i) => (
                         <label key={i} className="flex items-center gap-2 text-sm">
                           <input
                             type="radio"
                             name={field.label}
-                            value={opt}
+                            value={opt.trim()}
                             onChange={(e) => handleChange(field.label, e.target.value)}
                             className="accent-primary"
                           />
-                          {opt}
+                          {opt.trim()}
                         </label>
                       ))
                     ) : (
-                      <span>No options available</span>
+                      <span className="text-sm text-gray-500">No options available</span>
                     )}
                   </div>
                 ) : field.type === 'checkbox' && field.options ? (
                   <div className="flex flex-wrap gap-4">
-                    {Array.isArray(field.options) ? (
-                      field.options.map((opt, i) => (
+                    {typeof field.options === 'string' && field.options.trim() !== '' ? (
+                      field.options.split(',').map((opt, i) => (
                         <label key={i} className="flex items-center gap-2 text-sm">
                           <input
                             type="checkbox"
                             name={field.label}
-                            value={opt}
+                            value={opt.trim()}
                             onChange={(e) =>
-                              handleChange(field.label, e.target.checked ? opt : '')
+                              handleChange(field.label, e.target.checked ? opt.trim() : '')
                             }
                             className="accent-primary"
                           />
-                          {opt}
+                          {opt.trim()}
                         </label>
                       ))
                     ) : (
-                      <span>No options available</span>
+                      <span className="text-sm text-gray-500">No options available</span>
                     )}
                   </div>
                 ) : field.type === 'textarea' ? (
