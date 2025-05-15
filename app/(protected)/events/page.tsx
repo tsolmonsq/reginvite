@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
 import { useAlert } from '@/app/hooks/useAlert';
-import { Event, EventData } from '@/lib/types';
+import { EventData } from '@/lib/types';
 import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { CircularProgress, Pagination} from '@mui/material';
@@ -12,16 +12,18 @@ import Button from '@/components/ui/buttons/Button';
 import EventCard from '@/components/ui/cards/EventCard'
 import EventForm from '@/components/forms/EventForm';
 import { RotateCcw } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 
 export default function EventsPage() {
   const alert = useAlert();
+  const router = useRouter();
   const [cookies] = useCookies(["token"]);
   const [events, setEvents] = useState<EventData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [newEvent, setNewEvent] = useState({
+  const [formData, setFormData] = useState({
     name: '',
     description: '',
     location: '',
@@ -85,7 +87,7 @@ export default function EventsPage() {
   };
   
   // Эвент үүсгэх
-  const handleSubmit = async (formData: any) => {
+  const handleSubmit = async () => {
     try {
       const payload = {
         ...formData,
@@ -100,38 +102,48 @@ export default function EventsPage() {
         },
         body: JSON.stringify(payload),
       });
-  
-      setIsModalOpen(false);
-      fetchEvents(searchQuery, meta.page);
+
+      const createdEvent = res
       alert.success("Амжилттай бүртгэгдлээ");
+
+      setIsModalOpen(false);
+      setFormData({
+        name: '',
+        description: '',
+        location: '',
+        start_date: '',
+        end_date: '',
+        is_public: true,
+        category: 'Бусад',
+        image_path: ''
+      });
+
+      fetchEvents(searchQuery, 1);
+      router.push(`/events/${createdEvent.id}/guests`);
     } catch (err) {
       console.error('Error creating event:', err);
       alert.error("Бүртгэхэд алдаа гарлаа");
     }
-  };  
+  };
 
   // Эвентийн зураг upload хийх. 
   const handleImageUpload = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file); 
-  
+    const formDataUpload = new FormData();
+    formDataUpload.append('file', file);
+
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/uploads/event-image`, {
         method: 'POST',
-        body: formData,
+        body: formDataUpload,
         headers: {
           Authorization: `Bearer ${cookies.token}`,
         },
       });
-  
+
       if (!res.ok) throw new Error('Image upload failed');
-  
       const data = await res.json();
-  
-      setNewEvent(prev => ({
-        ...prev,
-        image_path: data.image_path,
-      }));
+
+      setFormData(prev => ({ ...prev, image_path: data.image_path }));
     } catch (err) {
       console.error('Image upload error:', err);
     }
@@ -201,9 +213,10 @@ export default function EventsPage() {
               Эвент үүсгэх
             </DialogTitle>
             <EventForm
+              formData={formData}
+              setFormData={setFormData}
               onSubmit={handleSubmit}
               onImageUpload={handleImageUpload}
-              initialData={newEvent}
             />
           </DialogPanel>
         </div>

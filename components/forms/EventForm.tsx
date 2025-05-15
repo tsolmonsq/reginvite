@@ -6,45 +6,30 @@ import { EventCategory } from '@/lib/enums';
 import Button from '../ui/buttons/Button';
 
 interface EventFormProps {
-  onSubmit: (formData: any) => void;
+  formData: any;
+  setFormData: (value: any) => void;
+  onSubmit: () => void;
   onImageUpload: (file: File) => void;
-  initialData?: any;
 }
 
 export default function EventForm({
+  formData,
+  setFormData,
   onSubmit,
   onImageUpload,
-  initialData,
 }: EventFormProps) {
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    location: '',
-    start_date: '',
-    end_date: '',
-    is_public: true,
-    category: EventCategory.Festival,
-    image_path: '',
-  });
-
-  // initialData-г формд bind хийх useEffect
-  useEffect(() => {
-    if (initialData) {
-      setFormData(initialData);
-    }
-  }, [initialData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
   };
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData((prev) => ({ ...prev, description: e.target.value }));
+    setFormData((prev: any) => ({ ...prev, description: e.target.value }));
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev) => ({
+    setFormData((prev: any) => ({
       ...prev,
       category: e.target.value as EventCategory,
     }));
@@ -59,8 +44,7 @@ export default function EventForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('<<<LOG Submitting formData:', formData); 
-    onSubmit(formData);
+    onSubmit();
   };
 
   return (

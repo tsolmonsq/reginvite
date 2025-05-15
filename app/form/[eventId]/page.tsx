@@ -1,3 +1,5 @@
+'use client'
+
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Table, Skeleton, message, Input } from 'antd';
@@ -241,12 +243,6 @@ export default function PublicEventForm() {
             </div>
           </form>
         )}
-      </div>
-
-      <div className="pt-12">
-        <DotDivider />
-        <h2 className="text-2xl text-center font-semibold mt-8 mb-4">Бүртгэлийн Хариултууд</h2>
-        <Table dataSource={dataSource} columns={columns} />
       </div>
     </div>
   );
