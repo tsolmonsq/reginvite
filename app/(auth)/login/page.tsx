@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useCookies } from "react-cookie";
-import { CircularProgress, Pagination } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 import Button from "@/components/ui/buttons/Button";
 import apiFetch from "@/lib/api";
 

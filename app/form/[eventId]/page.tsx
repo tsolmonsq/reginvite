@@ -27,12 +27,10 @@ export default function PublicEventForm() {
   const [eventMeta, setEventMeta] = useState<any>(null);
   const [responses, setResponses] = useState<any[]>([]);
 
-  // handleChange function definition
   const handleChange = (field: string, value: any) => {
     setFormData((prev) => {
       const currentValue = prev[field];
       if (Array.isArray(currentValue)) {
-        // Handle checkbox array for multiple selections
         if (currentValue.includes(value)) {
           return { ...prev, [field]: currentValue.filter((v: any) => v !== value) };
         } else {

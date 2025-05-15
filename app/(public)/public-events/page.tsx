@@ -1,4 +1,3 @@
-// app/events/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -41,7 +40,7 @@ export default function PublicEventsPage() {
             location={event.location}
             startDate={event.start_date}
             endDate={event.end_date}
-            imageUrl="https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg"
+            imageUrl={event.image_path}
           />
         ))}
       </div>

@@ -6,11 +6,11 @@ import { useAlert } from '@/app/hooks/useAlert';
 import { Event } from '@/lib/types';
 import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
-import { CircularProgress, Pagination, TextField } from '@mui/material';
+import { CircularProgress, Pagination} from '@mui/material';
 import { Search } from 'lucide-react';
 import Button from '@/components/ui/buttons/Button';
 import EventCard from '@/components/ui/cards/EventCard'
-import { Pagination as NextUIPagination } from '@nextui-org/react';
+import EventForm from '@/components/forms/EventForm';
 
 export default function EventsPage() {
   const alert = useAlert();
@@ -20,15 +20,6 @@ export default function EventsPage() {
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [meta, setMeta] = useState({
-    total: 0,
-    page: 1,
-    limit: 9,
-    hasNext: false,
-    hasPrevious: false,
-    totalPages: 1
-  });
-
   const [newEvent, setNewEvent] = useState({
     name: '',
     description: '',
@@ -38,6 +29,14 @@ export default function EventsPage() {
     is_public: true,
     category: 'Бусад',
     image_path: ''
+  });
+  const [meta, setMeta] = useState({
+    total: 0,
+    page: 1,
+    limit: 9,
+    hasNext: false,
+    hasPrevious: false,
+    totalPages: 1
   });
 
   useEffect(() => {
@@ -52,6 +51,7 @@ export default function EventsPage() {
     return () => clearTimeout(delayDebounce);
   }, [searchQuery]);
 
+  // Эвентүүдийн жагсаалт авах
   const fetchEvents = async (query: string = '', page: number = 1) => {
     if (!cookies.token) return;
 
@@ -82,24 +82,11 @@ export default function EventsPage() {
       setLoading(false);
     }
   };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
   
-    setNewEvent((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  
+  // Эвент үүсгэх
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
-    if (!newEvent.name || !newEvent.start_date || !newEvent.end_date) {
-      alert.error("Нэр болон огнооны талбаруудыг бүрэн бөглөнө үү.");
-      return;
-    }
-  
+
     try {
       const payload = {
         ...newEvent,
@@ -109,7 +96,7 @@ export default function EventsPage() {
         category: newEvent.category ?? 'Бусад',
         image_path: newEvent.image_path ?? '',
       };
-  
+
       const res = await apiFetch('/events', {
         method: 'POST',
         headers: {
@@ -132,6 +119,28 @@ export default function EventsPage() {
       alert.error("Бүртгэхэд алдаа гарлаа");
     }
   };  
+
+  // Эвентийн зураг upload хийх. 
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+  
+    try {
+      const res = await apiFetch('/uploads/event-image', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+        },
+      });
+  
+      const data = await res.json();
+      setNewEvent(prev => ({ ...prev, image_path: data.image_path }));
+    } catch (err) {
+      alert.error("Зураг upload хийхэд алдаа гарлаа");
+      console.error(err);
+    }
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 pb-16">
@@ -182,6 +191,7 @@ export default function EventsPage() {
           )}
         </>
       )}
+
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)} className="relative z-50">
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center px-4">
@@ -189,123 +199,11 @@ export default function EventsPage() {
             <DialogTitle className="text-center text-2xl font-semibold mb-8">
               Эвент үүсгэх
             </DialogTitle>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Эвентийн нэр */}
-              <TextField
-                label="Эвентийн нэр"
-                name="name"
-                value={newEvent.name}
-                onChange={handleInputChange}
-                fullWidth
-                required
-              />
-
-              {/* Дэлгэрэнгүй мэдээлэл */}
-              <div className="flex flex-col">
-                <label className="text-sm font-medium mb-1 mt-2">
-                  Дэлгэрэнгүй мэдээлэл
-                </label>
-                <textarea
-                  name="description"
-                  value={newEvent.description}
-                  onChange={(e) =>
-                    setNewEvent((prev) => ({ ...prev, description: e.target.value }))
-                  }
-                  rows={5}
-                  maxLength={1000}
-                  placeholder="Эвентийн дэлгэрэнгүй мэдээллийг оруулна уу."
-                  className="w-full border rounded-md px-4 py-2 text-sm resize-none"
-                />
-                <p className="text-right text-xs text-gray-400 mt-1">
-                  {newEvent.description.length}/1000
-                </p>
-              </div>
-
-              {/* Зураг ба Ангилал */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium mb-2">
-                    Зураг <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="file"
-                    name="image"
-                    accept="image/*"
-                    className="border border-gray-300 rounded px-3 py-2 text-sm"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setNewEvent((prev) => ({
-                          ...prev,
-                          image_path: file.name,
-                        }));
-                      }
-                    }}
-                  />
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-sm font-medium mb-2">Ангилал</label>
-                  <select
-                    name="category"
-                    value={newEvent.category}
-                    onChange={(e) =>
-                      setNewEvent((prev) => ({ ...prev, category: e.target.value }))
-                    }
-                    className="border border-gray-300 rounded px-3 py-2 text-sm"
-                  >
-                    <option value="Фестиваль">Фестиваль</option>
-                    <option value="Семинар">Семинар</option>
-                    <option value="Танилцуулга">Танилцуулга</option>
-                    <option value="Бусад">Бусад</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Эхлэх болон Дуусах огноо */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <TextField
-                  label="Эхлэх огноо"
-                  name="start_date"
-                  type="datetime-local"
-                  value={newEvent.start_date}
-                  onChange={handleInputChange}
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  required
-                />
-
-                <TextField
-                  label="Дуусах огноо"
-                  name="end_date"
-                  type="datetime-local"
-                  value={newEvent.end_date}
-                  onChange={handleInputChange}
-                  fullWidth
-                  InputLabelProps={{ shrink: true }}
-                  required
-                />
-              </div>
-
-              {/* Байршил */}
-              <TextField
-                label="Хаяг"
-                name="location"
-                value={newEvent.location}
-                onChange={handleInputChange}
-                fullWidth
-              />
-
-              {/* Үүсгэх товч */}
-              <div className="pt-4 flex justify-center">
-                <Button
-                  type="submit"
-                  className="bg-[#74aebf] hover:bg-[#5f9daa] text-white px-8 py-2 rounded-md text-base font-medium"
-                >
-                  Үүсгэх
-                </Button>
-              </div>
-            </form>
+            <EventForm
+              onSubmit={handleSubmit}
+              onImageUpload={handleImageUpload}
+              initialData={newEvent}
+            />
           </DialogPanel>
         </div>
       </Dialog>

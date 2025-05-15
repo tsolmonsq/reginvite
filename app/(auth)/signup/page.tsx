@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import Button from "@/components/ui/buttons/Button";
-import apiFetch from "@/lib/api"; 
+import apiFetch from "@/lib/api";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -14,6 +14,8 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const [tab, setTab] = useState("Individual"); 
+  const [organizationName, setOrganizationName] = useState(""); 
 
   useEffect(() => setHasMounted(true), []);
 
@@ -33,11 +35,12 @@ export default function SignUpPage() {
           password,
           first_name: firstName,
           last_name: lastName,
-          role: "user",
+          organization_name: tab === "Organization" ? organizationName : undefined, 
+          is_organization: tab === "Organization", 
         }),
       });
 
-      alert("Бүртгэл амжилттай! Та одоо нэвтрэх боломжтой.");
+      alert("Бүртгэл амжилттай!");
     } catch (err: any) {
       alert(err.message || "Бүртгэл хийхэд алдаа гарлаа");
     }
@@ -58,33 +61,79 @@ export default function SignUpPage() {
           <img src="/logo.svg" alt="RegInvite" className="mx-auto h-12" />
           <h1 className="text-2xl font-semibold mt-4">Бүртгүүлэх</h1>
         </div>
+
+        {/* Tab Navigation with Rounded Borders and Active Tab Style */}
+        <div className="mb-6 flex justify-center space-x-4">
+          <button
+            className={`px-6 py-2 text-lg font-medium rounded-full transition duration-300 ${
+              tab === "Individual" ? "bg-primary0 text-white" : "bg-white text-primary"
+            } border-2 border-primary`}
+            onClick={() => setTab("Individual")}
+          >
+            Хувь хүн
+          </button>
+          <button
+            className={`px-6 py-2 text-lg font-medium rounded-full transition duration-300 ${
+              tab === "Organization" ? "bg-primary text-white" : "bg-white text-primary"
+            } border-2 border-primary`}
+            onClick={() => setTab("Organization")}
+          >
+            Байгууллага
+          </button>
+        </div>
+
         <form className="space-y-4" onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Имэйл хаяг"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-            required
-          />
-          <div className="flex gap-4">
-            <input
-              type="text"
-              placeholder="Овог"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              required
-            />
-            <input
-              type="text"
-              placeholder="Нэр"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
-              required
-            />
-          </div>
+          {/* Conditional Rendering Based on Tab */}
+          {tab === "Individual" ? (
+            <>
+              <input
+                type="email"
+                placeholder="Имэйл хаяг"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                required
+              />
+              <div className="flex gap-4">
+                <input
+                  type="text"
+                  placeholder="Овог"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Нэр"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                  required
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <input
+                type="text"
+                placeholder="Байгууллагын нэр"
+                value={organizationName}
+                onChange={(e) => setOrganizationName(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Имэйл хаяг"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+                required
+              />
+            </>
+          )}
+
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
