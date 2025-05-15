@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useCookies } from "react-cookie";
 import { useAlert } from '@/app/hooks/useAlert';
-import { Event } from '@/lib/types';
+import { Event, EventData } from '@/lib/types';
 import apiFetch from '@/lib/api';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import { CircularProgress, Pagination} from '@mui/material';
@@ -16,7 +16,7 @@ import { RotateCcw } from 'lucide-react'
 export default function EventsPage() {
   const alert = useAlert();
   const [cookies] = useCookies(["token"]);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<EventData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,10 +59,8 @@ export default function EventsPage() {
     setLoading(true);
     setError('');
 
-    console.log("Token in cookie >>>", cookies.token);
-    
     try {
-      const res = await apiFetch<{ total: number, totalPages: number, items: Event[]}>(
+      const res = await apiFetch<{ total: number, totalPages: number, items: EventData[]}>(
         `/events/private/?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
         {
           headers: {
@@ -70,8 +68,6 @@ export default function EventsPage() {
           },
         }
       );
-
-      console.log("<<<LOG Events: ", res);
 
       setEvents(res.items);
       setMeta((prev) => ({
@@ -89,32 +85,21 @@ export default function EventsPage() {
   };
   
   // Эвент үүсгэх
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleSubmit = async (formData: any) => {
     try {
       const payload = {
-        ...newEvent,
-        start_date: new Date(newEvent.start_date).toISOString(),
-        end_date: new Date(newEvent.end_date).toISOString(),
-        is_public: newEvent.is_public ?? false,
-        category: newEvent.category ?? 'Бусад',
-        image_path: newEvent.image_path ?? '',
+        ...formData,
+        start_date: new Date(formData.start_date).toISOString(),
+        end_date: new Date(formData.end_date).toISOString(),
       };
 
       const res = await apiFetch('/events', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
           Authorization: `Bearer ${cookies.token}`,
         },
         body: JSON.stringify(payload),
       });
-  
-      if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error.message || 'Event creation failed');
-      }
   
       setIsModalOpen(false);
       fetchEvents(searchQuery, meta.page);
@@ -128,10 +113,10 @@ export default function EventsPage() {
   // Эвентийн зураг upload хийх. 
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', file); 
   
     try {
-      const res = await apiFetch('/uploads/event-image', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/uploads/event-image`, {
         method: 'POST',
         body: formData,
         headers: {
@@ -139,11 +124,16 @@ export default function EventsPage() {
         },
       });
   
+      if (!res.ok) throw new Error('Image upload failed');
+  
       const data = await res.json();
-      setNewEvent(prev => ({ ...prev, image_path: data.image_path }));
+  
+      setNewEvent(prev => ({
+        ...prev,
+        image_path: data.image_path,
+      }));
     } catch (err) {
-      alert.error("Зураг upload хийхэд алдаа гарлаа");
-      console.error(err);
+      console.error('Image upload error:', err);
     }
   };
 
@@ -185,9 +175,9 @@ export default function EventsPage() {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} />
+          ))}
           </div>
           {meta.totalPages > 1 && (
             <div className="flex justify-center mt-10">

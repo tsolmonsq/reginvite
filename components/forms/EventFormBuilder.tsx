@@ -54,7 +54,7 @@ export default function EventFormBuilder({ eventId }: Props) {
 
       <Button
         onClick={() =>
-          setFields([...fields, { label: '', type: 'text', required: false }])
+          setFields([...fields, { label: '', type: 'text', is_required: false}])
         }
       >
         ➕ Талбар нэмэх

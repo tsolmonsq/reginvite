@@ -1,8 +1,9 @@
 'use client';
 
-import { TextField } from '@mui/material';
-import Button from '@/components/ui/buttons/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { MapPinIcon } from '@heroicons/react/24/solid';
+import { EventCategory } from '@/lib/enums';
+import Button from '../ui/buttons/Button';
 
 interface EventFormProps {
   onSubmit: (formData: any) => void;
@@ -15,30 +16,38 @@ export default function EventForm({
   onImageUpload,
   initialData,
 }: EventFormProps) {
-  const [formData, setFormData] = useState(
-    initialData || {
-      name: '',
-      description: '',
-      location: '',
-      start_date: '',
-      end_date: '',
-      is_public: true,
-      category: 'Бусад',
-      image_path: '',
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    location: '',
+    start_date: '',
+    end_date: '',
+    is_public: true,
+    category: EventCategory.Festival,
+    image_path: '',
+  });
+
+  // initialData-г формд bind хийх useEffect
+  useEffect(() => {
+    if (initialData) {
+      setFormData(initialData);
     }
-  );
+  }, [initialData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev: any) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setFormData((prev: any) => ({ ...prev, description: e.target.value }));
+    setFormData((prev) => ({ ...prev, description: e.target.value }));
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData((prev: any) => ({ ...prev, category: e.target.value }));
+    setFormData((prev) => ({
+      ...prev,
+      category: e.target.value as EventCategory,
+    }));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,98 +59,135 @@ export default function EventForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('<<<LOG Submitting formData:', formData); 
     onSubmit(formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <TextField
-        label="Эвентийн нэр"
-        name="name"
-        value={formData.name}
-        onChange={handleInputChange}
-        fullWidth
-        required
-      />
-
+      {/* Эвентийн нэр */}
       <div className="flex flex-col">
-        <label className="text-sm font-medium mb-1 mt-2">Дэлгэрэнгүй мэдээлэл</label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleDescriptionChange}
-          rows={5}
-          maxLength={1000}
-          className="w-full border rounded-md px-4 py-2 text-sm resize-none"
+        <label htmlFor="name" className="text-sm mb-1 font-medium">
+          Эвентийн нэр
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          placeholder="Эвентийн нэр"
+          value={formData.name}
+          onChange={handleInputChange}
+          required
+          className="border border-gray-300 rounded-md px-4 py-2 text-sm"
         />
-        <p className="text-right text-xs text-gray-400 mt-1">
-          {formData.description.length}/1000
-        </p>
       </div>
 
+      {/* Дэлгэрэнгүй мэдээлэл */}
+      <div className="flex flex-col">
+        <label htmlFor="description" className="text-sm mb-1 font-medium">
+          Дэлгэрэнгүй мэдээлэл
+        </label>
+        <textarea
+          id="description"
+          name="description"
+          placeholder="Эвентийн дэлгэрэнгүй мэдээллийг оруулна уу."
+          value={formData.description}
+          onChange={handleDescriptionChange}
+          maxLength={1000}
+          rows={5}
+          className="border border-gray-300 rounded-md px-4 py-2 text-sm resize-none"
+        />
+        <div className="text-xs text-gray-500 mt-1 text-right">
+          {formData.description.length}/1000
+        </div>
+      </div>
+
+      {/* Зураг ба Ангилал */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col">
-          <label className="text-sm font-medium mb-2">Зураг</label>
+          <label className="text-sm mb-1 font-medium">
+            Зураг <span className="text-red-500">*</span>
+          </label>
           <input
             type="file"
-            name="image"
             accept="image/*"
-            className="border border-gray-300 rounded px-3 py-2 text-sm"
             onChange={handleImageChange}
+            className="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-black file:text-white
+              hover:file:bg-gray-800"
           />
         </div>
 
         <div className="flex flex-col">
-          <label className="text-sm font-medium mb-2">Ангилал</label>
+          <label htmlFor="category" className="text-sm mb-1 font-medium">
+            Ангилал сонгох
+          </label>
           <select
             name="category"
             value={formData.category}
             onChange={handleCategoryChange}
-            className="border border-gray-300 rounded px-3 py-2 text-sm"
+            className="border border-gray-300 rounded-md px-3 py-2 text-sm"
           >
-            <option value="Фестиваль">Фестиваль</option>
-            <option value="Бусад">Бусад</option>
+            {Object.entries(EventCategory).map(([key, label]) => (
+              <option key={key} value={label}>
+                {label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
+      {/* Огноо */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <TextField
-          label="Эхлэх огноо"
-          name="start_date"
-          type="datetime-local"
-          value={formData.start_date}
-          onChange={handleInputChange}
-          fullWidth
-          required
-        />
-        <TextField
-          label="Дуусах огноо"
-          name="end_date"
-          type="datetime-local"
-          value={formData.end_date}
-          onChange={handleInputChange}
-          fullWidth
-          required
-        />
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">Эхлэх огноо</label>
+          <input
+            type="datetime-local"
+            name="start_date"
+            value={formData.start_date}
+            onChange={handleInputChange}
+            required
+            className="border border-gray-300 rounded-md px-4 py-2 text-sm"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label className="text-sm font-medium mb-1">Дуусах огноо</label>
+          <input
+            type="datetime-local"
+            name="end_date"
+            value={formData.end_date}
+            onChange={handleInputChange}
+            required
+            className="border border-gray-300 rounded-md px-4 py-2 text-sm"
+          />
+        </div>
       </div>
 
-      <TextField
-        label="Хаяг"
-        name="location"
-        value={formData.location}
-        onChange={handleInputChange}
-        fullWidth
-      />
-
-      <div className="pt-4 flex justify-center">
-        <Button
-          type="submit"
-          className="bg-[#74aebf] hover:bg-[#5f9daa] text-white px-8 py-2 rounded-md text-base font-medium"
-        >
-          Үүсгэх
-        </Button>
+      {/* Хаяг */}
+      <div className="flex flex-col">
+        <label htmlFor="location" className="text-sm font-medium mb-1">Хаяг</label>
+        <div className="relative">
+          <input
+            type="text"
+            id="location"
+            name="location"
+            placeholder="Байршил оруулна уу."
+            value={formData.location}
+            onChange={handleInputChange}
+            className="w-full border border-gray-300 rounded-md px-4 py-2 text-sm pr-10"
+          />
+          <MapPinIcon className="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none" />
+        </div>
       </div>
+
+      {/* Товч */}
+      <Button type="submit" className="w-full">
+        Үүсгэх
+      </Button>
     </form>
   );
 }
