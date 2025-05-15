@@ -11,6 +11,7 @@ import { Search } from 'lucide-react';
 import Button from '@/components/ui/buttons/Button';
 import EventCard from '@/components/ui/cards/EventCard'
 import EventForm from '@/components/forms/EventForm';
+import { RotateCcw } from 'lucide-react'
 
 export default function EventsPage() {
   const alert = useAlert();
@@ -58,6 +59,8 @@ export default function EventsPage() {
     setLoading(true);
     setError('');
 
+    console.log("Token in cookie >>>", cookies.token);
+    
     try {
       const res = await apiFetch<{ total: number, totalPages: number, items: Event[]}>(
         `/events/private/?search=${encodeURIComponent(query)}&page=${page}&limit=${meta.limit}`,
@@ -67,6 +70,8 @@ export default function EventsPage() {
           },
         }
       );
+
+      console.log("<<<LOG Events: ", res);
 
       setEvents(res.items);
       setMeta((prev) => ({
@@ -145,7 +150,7 @@ export default function EventsPage() {
   return (
     <section className="max-w-7xl mx-auto px-4 pb-16">
       <div className="flex items-center justify-between mt-10 mb-6">
-        <h1 className="text-xl md:text-2xl font-semibold">Арга хэмжээнүүд</h1>
+        <h1 className="text-xl md:text-2xl font-semibold">Таны эвентүүд</h1>
         <Button
           className="bg-blue-500 text-white py-2 px-4 rounded text-sm flex items-center gap-2"
           onClick={() => setIsModalOpen(true)}
@@ -170,7 +175,13 @@ export default function EventsPage() {
           <CircularProgress color="primary" size={40} thickness={5} />
         </div>
       ) : error ? (
-        <p className="text-red-500">{error}</p>
+        <div className="flex flex-col items-center justify-center min-h-[300px] text-center space-y-4">
+          <p className="text-gray-600">Эвентүүд ачааллах явцад алдаа гарлаа.</p>
+          <Button variant="ghost" className='flex gap-2' onClick={() => fetchEvents(searchQuery, meta.page)}>
+            <RotateCcw size={18} />
+            Дахин ачаалах
+          </Button>
+        </div>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
