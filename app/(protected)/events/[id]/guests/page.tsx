@@ -84,6 +84,7 @@ export default function EventGuestsPage() {
     phone_number: '',
   });
   const [event, setEvent] = useState<any>(null);
+  const [sending, setSending] = useState(false);
 
   const selectedGuest = guests.find((g) => g.id === selectedGuestId);
   const isDeleteDisabled = selectedGuest?.status === 'Sent'
@@ -267,6 +268,39 @@ export default function EventGuestsPage() {
     setSelectedGuestId(null);
   };
 
+  const sendInvites = async () => {
+    setSending(true);
+    try {
+      const guestIds = confirmGuests.map((g) => g.id);
+      if (!guestIds.length) {
+        message.warning('Илгээх зочин байхгүй байна.');
+        setSending(false);
+        return;
+      }
+  
+      const response = await apiFetch('/guests/send-invites', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${cookies.token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          guestIds,
+          invitationId: 3,
+        }),
+      });
+  
+      message.success('Урилга амжилттай илгээгдлээ');
+      setOpenConfirm(false);
+      fetchGuests(); 
+    } catch (error) {
+      console.error('Илгээх үед алдаа:', error);
+      message.error('Урилга илгээхэд алдаа гарлаа');
+    } finally {
+      setSending(false);
+    }
+  };
+  
   return (
     <Box sx={{ maxWidth: 1000, mx: 'auto', py: 5 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
@@ -456,9 +490,18 @@ export default function EventGuestsPage() {
             </TableContainer>
 
             <Stack direction="row" spacing={2} justifyContent="end" mt={3}>
-              <Button variant="ghost" onClick={() => setOpenConfirm(false)}>Болих</Button>
-              <Button>
-                Илгээх
+              <Button onClick={sendInvites} disabled={sending}>
+                {sending ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4 text-white" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                    Илгээж байна...
+                  </span>
+                ) : (
+                  "Илгээх"
+                )}
               </Button>
             </Stack>
           </DialogPanel>
