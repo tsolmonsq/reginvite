@@ -3,24 +3,39 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Button from "../ui/buttons/Button";
-import { UserCircle2, LogOut } from "lucide-react"; // Import LogOut icon from lucide-react
-import { useCookies } from "react-cookie"; // Import useCookies hook
+import { UserCircle2, LogOut } from "lucide-react"; 
+import { useCookies } from "react-cookie";
+import { useState } from "react";
+import dynamic from "next/dynamic";
+
+const CircularBackdrop = dynamic(() => import("../ui/assets/CircularBackdrop"), {
+  ssr: false,
+});
 
 interface HeaderProps {
-  isProtected?: boolean; 
+  isProtected?: boolean;
 }
 
 const Header = ({ isProtected = false }: HeaderProps) => {
   const router = useRouter();
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]); // Access cookies to handle logout
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
     removeCookie("token");
     router.push("/");
   };
 
+  const handleNavigate = (path: string) => {
+    setLoading(true);
+    setTimeout(() => {
+      router.push(path);
+    }, 1000); // simulate loading
+  };
+
   return (
-    <header className="bg-white w-full px-6 py-4 shadow-sm">
+    <header className="bg-white w-full px-6 py-4 shadow-sm relative">
+      {loading && <CircularBackdrop />}
       <nav className="container mx-auto flex justify-between items-center">
         <Link href={"/"} className="flex items-center gap-2 cursor-pointer">
           <img src="/logo.svg" alt="RegInvite logo" className="h-10" />
@@ -41,8 +56,8 @@ const Header = ({ isProtected = false }: HeaderProps) => {
           </div>
         ) : (
           <div className="flex items-center gap-4">
-            <Button variant="ghost" onClick={() => router.push("/login")}>Нэвтрэх</Button>
-            <Button onClick={() => router.push("/signup")}>Бүртгүүлэх</Button>
+            <Button variant="ghost" onClick={() => handleNavigate("/login")}>Нэвтрэх</Button>
+            <Button onClick={() => handleNavigate("/signup")}>Бүртгүүлэх</Button>
           </div>
         )}
       </nav>
