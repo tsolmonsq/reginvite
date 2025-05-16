@@ -11,7 +11,7 @@ interface PublicEventCardProps {
   location: string;
   startDate: string;
   endDate?: string;
-  imageUrl: string;
+  imagePath: string | null;
 }
 
 export default function PublicEventCard({
@@ -20,7 +20,7 @@ export default function PublicEventCard({
   location,
   startDate,
   endDate,
-  imageUrl,
+  imagePath,
 }: PublicEventCardProps) {
   const router = useRouter();
 
@@ -28,7 +28,7 @@ export default function PublicEventCard({
     <div className="rounded-xl border border-gray-200 shadow-sm overflow-hidden bg-white max-w-sm">
       <div className="relative h-[200px] w-full">
         <Image
-          src={imageUrl}
+          src={imagePath ? `${process.env.NEXT_PUBLIC_API_URL}/${imagePath}` : '/no_event_image.jpg'}
           alt={name}
           fill
           className="object-cover"

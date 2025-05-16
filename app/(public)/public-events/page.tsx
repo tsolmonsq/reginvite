@@ -40,7 +40,7 @@ export default function PublicEventsPage() {
             location={event.location}
             startDate={event.start_date}
             endDate={event.end_date}
-            imageUrl={event.image_path}
+            imagePath={event.image_path}
           />
         ))}
       </div>

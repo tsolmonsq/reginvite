@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "./ui/buttons/Button";
 import apiFetch from "@/lib/api";
+import HeroSection from "./sections/HeroSection";
 
 interface Event {
   id: number;
@@ -73,69 +74,83 @@ export default function ImageSlider(): JSX.Element {
   const currentEvent = events[currentIndex];
 
   const imageUrl = currentEvent?.image_path
-    ? `http://localhost:3002/uploads/${currentEvent.image_path}`
-    : "/default-image.jpg"; // fallback image
+    ? `${process.env.NEXT_PUBLIC_API_URL}${currentEvent.image_path}`
+    : "/default-image.jpg"; 
 
-  return (
-    <div
-      className="relative w-full mx-auto mt-4 overflow-hidden"
-      onMouseOver={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative h-[700px] mx-12 group">
-        <AnimatePresence custom={direction} mode="wait">
-          {currentEvent && (
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={variants}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={imageUrl}
-                alt={`Event ${currentEvent.name}`}
-                layout="fill"
-                objectFit="cover"
-                className="rounded-xl"
-              />
-              <div className="absolute inset-0 flex flex-col items-center justify-end text-center text-white bg-black/40 rounded-xl p-20">
-                <h2 className="text-4xl font-bold mb-4">{currentEvent.name}</h2>
-                <p className="text-xl mb-2">{new Date(currentEvent.start_date).toDateString()}</p>
-                <p className="text-lg mb-4">{currentEvent.location}</p>
-                <Button>Оролцох</Button>
-              </div>
-            </motion.div>
+    return (
+      <div
+        className="relative w-full mx-auto mt-4 overflow-hidden"
+        onMouseOver={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative h-[700px] mx-12 group">
+          {events.length === 0 ? (
+            <div>
+              <HeroSection/>
+            </div>
+          ) : (
+            <AnimatePresence custom={direction} mode="wait">
+              {currentEvent && (
+                <motion.div
+                  key={currentIndex}
+                  custom={direction}
+                  variants={variants}
+                  initial="initial"
+                  animate="animate"
+                  exit="exit"
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={imageUrl}
+                    alt={`Event ${currentEvent.name}`}
+                    layout="fill"
+                    objectFit="cover"
+                    className="rounded-xl"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-end text-center text-white bg-black/40 rounded-xl p-20">
+                    <h2 className="text-4xl font-bold mb-4">{currentEvent.name}</h2>
+                    <p className="text-xl mb-2">{new Date(currentEvent.start_date).toDateString()}</p>
+                    <p className="text-lg mb-4">{currentEvent.location}</p>
+                    <Button>Оролцох</Button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           )}
-        </AnimatePresence>
+        </div>
+    
+        {/* Navigation buttons */}
+        {events.length > 0 && (
+          <>
+            <button
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2"
+              onClick={prevSlide}
+            >
+              <ChevronLeft className="text-white w-8 h-8" />
+            </button>
+            <button
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2"
+              onClick={nextSlide}
+            >
+              <ChevronRight className="text-white w-8 h-8" />
+            </button>
+          </>
+        )}
+    
+        {/* Dots */}
+        {events.length > 0 && (
+          <div className="flex justify-center mt-4">
+            {events.map((_, index) => (
+              <div
+                key={index}
+                className={`h-4 w-4 mx-1 ${
+                  index === currentIndex ? "bg-[#A3A3A3]" : "bg-[#D9D9D9]"
+                } rounded-xl transition-all duration-500`}
+              ></div>
+            ))}
+          </div>
+        )}
       </div>
-
-      <button
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 p-2"
-        onClick={prevSlide}
-      >
-        <ChevronLeft className="text-white w-8 h-8" />
-      </button>
-      <button
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 p-2"
-        onClick={nextSlide}
-      >
-        <ChevronRight className="text-white w-8 h-8" />
-      </button>
-
-      <div className="flex justify-center mt-4">
-        {events.map((_, index) => (
-          <div
-            key={index}
-            className={`h-4 w-4 mx-1 ${
-              index === currentIndex ? "bg-[#A3A3A3]" : "bg-[#D9D9D9]"
-            } rounded-xl transition-all duration-500`}
-          ></div>
-        ))}
-      </div>
-    </div>
-  );
+    );    
 }

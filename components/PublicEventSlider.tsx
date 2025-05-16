@@ -89,28 +89,36 @@ export default function PublicEventSlider() {
         </button>
 
         <div className="w-full overflow-hidden px-8">
-          <AnimatePresence custom={direction} mode="wait">
-            <motion.div
-              key={startIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.4 }}
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
-            >
-              {visibleEvents.map((event, idx) => (
-                <PublicEventCard
-                  key={`${event.id}-${idx}`}
-                  {...event}
-                  startDate={event.start_date}
-                  endDate={event.end_date}
-                  imageUrl={`http://localhost:3002/uploads/${event.image_path}`}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
+        <div className="w-full overflow-hidden px-8">
+            {visibleEvents.length === 0 ? (
+              <div className="w-full h-70 flex items-center justify-center bg-gray-100 rounded-md text-gray-500 text-lg font-medium">
+                Хоосон байна.
+              </div>
+            ) : (
+              <AnimatePresence custom={direction} mode="wait">
+                <motion.div
+                  key={startIndex}
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.4 }}
+                  className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4"
+                >
+                  {visibleEvents.map((event, idx) => (
+                    <PublicEventCard
+                      key={`${event.id}-${idx}`}
+                      {...event}
+                      startDate={event.start_date}
+                      endDate={event.end_date}
+                      imagePath={`${process.env.NEXT_PUBLIC_API_URL}${event.image_path}`}
+                    />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+            )}
+          </div>
         </div>
 
         <button

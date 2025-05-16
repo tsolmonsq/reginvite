@@ -16,12 +16,6 @@ export default function HeroSection() {
           <p className="mt-4 text-lg text-primary-black">
             Арга хэмжээний урилга, бүртгэлийг онлайн шийдлээр хялбаршуулна.
           </p>
-
-          <div className="mt-8">
-            <Button>
-              Эхлэх →
-            </Button>
-          </div>
         </div>
 
         {/* Right image */}

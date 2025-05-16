@@ -9,8 +9,6 @@ type Props = {
   event: EventData;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
 const EventCard: React.FC<Props> = ({ event }) => {
   const router = useRouter();
 
@@ -20,7 +18,7 @@ const EventCard: React.FC<Props> = ({ event }) => {
       className="cursor-pointer bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition duration-200"
     >
       <Image
-        src={event.image_path ? `${API_URL}/${event.image_path}` : '/no_event_image.jpg'}
+        src={event.image_path ? `${process.env.NEXT_PUBLIC_API_URL}/${event.image_path}` : '/no_event_image.jpg'}
         alt={event.name}
         width={400}
         height={250}
