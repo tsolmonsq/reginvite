@@ -14,8 +14,10 @@ export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
-  const [tab, setTab] = useState("Individual"); 
-  const [organizationName, setOrganizationName] = useState(""); 
+  const [tab, setTab] = useState("Individual");
+  const [organizationName, setOrganizationName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [role, setRole] = useState("user"); 
 
   useEffect(() => setHasMounted(true), []);
 
@@ -28,15 +30,17 @@ export default function SignUpPage() {
     }
 
     try {
-      await apiFetch("/auth/signup", {
+      await apiFetch("/user/register", {
         method: "POST",
         body: JSON.stringify({
           email,
           password,
           first_name: firstName,
           last_name: lastName,
-          organization_name: tab === "Organization" ? organizationName : undefined, 
-          is_organization: tab === "Organization", 
+          organization_name: tab === "Organization" ? organizationName : undefined,
+          is_organization: tab === "Organization",
+          phone_number: phoneNumber,
+          role,
         }),
       });
 
@@ -62,7 +66,7 @@ export default function SignUpPage() {
           <h1 className="text-2xl font-semibold mt-4">Бүртгүүлэх</h1>
         </div>
 
-        {/* Tab Navigation with Rounded Borders and Active Tab Style */}
+        {/* Tab Navigation */}
         <div className="mb-6 flex justify-center space-x-4">
           <button
             className={`px-6 py-2 text-lg font-medium rounded-full transition duration-300 ${
@@ -83,7 +87,6 @@ export default function SignUpPage() {
         </div>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Conditional Rendering Based on Tab */}
           {tab === "Individual" ? (
             <>
               <input
@@ -134,6 +137,15 @@ export default function SignUpPage() {
             </>
           )}
 
+          <input
+            type="tel"
+            placeholder="Утасны дугаар"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            required
+          />
+
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
@@ -151,6 +163,7 @@ export default function SignUpPage() {
               {hasMounted && (showPassword ? <EyeOff size={18} /> : <Eye size={18} />)}
             </button>
           </div>
+
           <div className="relative">
             <input
               type={showConfirmPassword ? "text" : "password"}

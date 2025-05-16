@@ -24,11 +24,13 @@ export default function PublicEventCard({
 }: PublicEventCardProps) {
   const router = useRouter();
 
+  console.log("<<<LOG", imagePath)
+
   return (
     <div className="rounded-xl border border-gray-200 shadow-sm overflow-hidden bg-white max-w-sm">
       <div className="relative h-[200px] w-full">
         <Image
-          src={imagePath ? `${process.env.NEXT_PUBLIC_API_URL}/${imagePath}` : '/no_event_image.jpg'}
+          src={imagePath ? imagePath : '/no_event_image.jpg'}
           alt={name}
           fill
           className="object-cover"

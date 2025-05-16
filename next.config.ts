@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ['reginvite-backend.onrender.com', 'hatrabbits.com', 'localhost'],
+    domains: ['reginvite-new-backend.onrender.com', 'hatrabbits.com', 'localhost'],
     remotePatterns: [
       {
         protocol: 'http',
